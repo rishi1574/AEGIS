@@ -1,21 +1,11 @@
-import time
-from backend.services.rl_controller import RLController
-from blue_team.models.ensemble import EnsembleModel
+"""Adversarial loop — convenience module entry point."""
+from scripts.run_adversarial_loop import run_loop
 
-def run_loop(iterations=5):
-    print("Starting Adversarial Loop...")
-    blue_team = EnsembleModel()
-    red_team = RLController()
-    
-    for i in range(iterations):
-        print(f"--- Iteration {i+1} ---")
-        print("Red Team attacking...")
-        time.sleep(1)
-        print("Blue Team evaluating and updating weights...")
-        time.sleep(1)
-        print(f"Iteration {i+1} complete. Bypass rate: {max(0, 0.15 - i*0.02):.2f}")
-    
-    print("Adversarial Loop Finished.")
+
+def run(iterations=5):
+    """Run the adversarial evolution loop."""
+    return run_loop(iterations=iterations)
+
 
 if __name__ == "__main__":
-    run_loop(3)
+    run(3)

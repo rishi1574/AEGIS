@@ -62,8 +62,8 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
             <Tooltip
               contentStyle={{ background: "#1a2235", border: "1px solid #1e293b", borderRadius: 8, fontSize: 12 }}
               labelStyle={{ color: "#94a3b8" }}
-              formatter={(value: number, name: string) => [
-                `${(value * 100).toFixed(1)}%`,
+              formatter={(value: any, name: any) => [
+                `${(Number(value) * 100).toFixed(1)}%`,
                 name === "blue_accuracy" ? "🛡️ Blue Team Accuracy" : "🔴 Red Team Bypass"
               ]}
             />
