@@ -5,6 +5,7 @@ interface WSMessage {
   type: string;
   data?: any;
   message?: string;
+  [key: string]: any;
 }
 
 export function useWebSocket(path: string = "/ws/live-feed") {
@@ -16,7 +17,8 @@ export function useWebSocket(path: string = "/ws/live-feed") {
   useEffect(() => {
     // Dynamically get the current host (works in Cloud IDEs)
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const url = `${protocol}//${window.location.host}${path}`;
+    const host = window.location.hostname;
+    const url = `${protocol}//${host}:8000${path}`;
     
     const socket = new WebSocket(url);
     socket.onopen = () => setConnected(true);

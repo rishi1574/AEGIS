@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
 
-const API_BASE = ""; // Rely on Next.js rewrites
+const API_BASE = typeof window !== 'undefined' ? `http://${window.location.hostname}:8000` : "http://127.0.0.1:8000";
 
 export function useApi() {
   const [loading, setLoading] = useState(false);
