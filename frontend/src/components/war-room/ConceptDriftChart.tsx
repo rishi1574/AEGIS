@@ -32,13 +32,13 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
   }, [liveData]);
 
   return (
-    <div className="glass-card h-full flex flex-col">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+    <div className="glass-card bg-white shadow-sm h-full flex flex-col">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
         <Activity className="w-5 h-5 text-aegis-amber" />
         <h2 className="text-sm font-semibold text-aegis-amber uppercase tracking-wider">
           Adversarial Co-Evolution
         </h2>
-        <span className="ml-auto text-[10px] text-aegis-text-muted font-mono">
+        <span className="ml-auto text-[10px] text-slate-500 font-mono">
           {data.length} iterations
         </span>
       </div>
@@ -64,7 +64,7 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
               labelStyle={{ color: "#94a3b8" }}
               formatter={(value: any, name: any) => [
                 `${(Number(value) * 100).toFixed(1)}%`,
-                name === "blue_accuracy" ? "🛡️ Blue Team Accuracy" : "🔴 Red Team Bypass"
+                name === "blue_accuracy" ? " Blue Team Accuracy" : " Red Team Bypass"
               ]}
             />
             <Area type="monotone" dataKey="blue_accuracy" stroke="#3b82f6" strokeWidth={2}

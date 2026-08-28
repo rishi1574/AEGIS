@@ -17,22 +17,48 @@ from red_team.agents.pig_butchering_agent import PigButcheringAgent
 from red_team.agents.model_poisoning_agent import ModelPoisoningAgent
 from red_team.agents.supply_chain_bec_agent import SupplyChainBECAgent
 from red_team.agents.adversarial_document_agent import AdversarialDocumentAgent
+from red_team.agents.surrogate_evasion_agent import SurrogateEvasionAgent
+from red_team.agents.mislead_shap_agent import MisleadShapAgent
+from red_team.agents.tabular_epsilon_agent import TabularEpsilonAgent
+from red_team.agents.ctgan_mimicry_agent import CTGANMimicryAgent
+from red_team.agents.label_poisoning_agent import LabelPoisoningAgent
+from red_team.agents.concept_drift_agent import ConceptDriftAgent
+from red_team.agents.graph_poisoning_agent import GraphPoisoningAgent
+from red_team.agents.temporal_fuzzing_agent import TemporalFuzzingAgent
+from red_team.agents.marl_collusion_agent import MARLCollusionAgent
+from red_team.agents.boundary_probe_agent import BoundaryProbeAgent
+from red_team.agents.backdoor_injection_agent import BackdoorInjectionAgent
+from red_team.agents.nlp_payload_agent import NLPPayloadAgent
+from red_team.agents.ensemble_evasion_agent import EnsembleEvasionAgent
 from red_team.simulator.india_specific_config import PERSONAS
 
-# All 12 attack types with their weights (probability of selection)
+# All 25 attack types with their weights (probability of selection)
 FRAUD_TYPES = {
-    "synthetic_id":       {"weight": 0.12, "class": SyntheticIDAgent},
-    "deepfake_ato":       {"weight": 0.10, "class": DeepfakeATOAgent},
-    "adversarial_doc":    {"weight": 0.06, "class": AdversarialDocumentAgent},
-    "txn_fuzzing":        {"weight": 0.12, "class": TxnFuzzingAgent},
-    "api_exploit":        {"weight": 0.08, "class": APIExploitAgent},
-    "merchant_collusion": {"weight": 0.10, "class": MerchantCollusionAgent},
-    "vishing":            {"weight": 0.12, "class": VishingAgent},
-    "pig_butchering":     {"weight": 0.10, "class": PigButcheringAgent},
-    "digital_arrest":     {"weight": 0.08, "class": DigitalArrestAgent},
-    "agentic_hijack":     {"weight": 0.06, "class": AgenticHijackAgent},
-    "model_poisoning":    {"weight": 0.04, "class": ModelPoisoningAgent},
+    "synthetic_id":       {"weight": 0.05, "class": SyntheticIDAgent},
+    "deepfake_ato":       {"weight": 0.05, "class": DeepfakeATOAgent},
+    "adversarial_doc":    {"weight": 0.05, "class": AdversarialDocumentAgent},
+    "txn_fuzzing":        {"weight": 0.05, "class": TxnFuzzingAgent},
+    "api_exploit":        {"weight": 0.04, "class": APIExploitAgent},
+    "merchant_collusion": {"weight": 0.05, "class": MerchantCollusionAgent},
+    "vishing":            {"weight": 0.05, "class": VishingAgent},
+    "pig_butchering":     {"weight": 0.05, "class": PigButcheringAgent},
+    "digital_arrest":     {"weight": 0.04, "class": DigitalArrestAgent},
+    "agentic_hijack":     {"weight": 0.03, "class": AgenticHijackAgent},
+    "model_poisoning":    {"weight": 0.03, "class": ModelPoisoningAgent},
     "supply_chain_bec":   {"weight": 0.02, "class": SupplyChainBECAgent},
+    "surrogate_evasion":  {"weight": 0.05, "class": SurrogateEvasionAgent},
+    "mislead_shap":       {"weight": 0.04, "class": MisleadShapAgent},
+    "tabular_epsilon":    {"weight": 0.04, "class": TabularEpsilonAgent},
+    "ctgan_mimicry":      {"weight": 0.05, "class": CTGANMimicryAgent},
+    "label_poisoning":    {"weight": 0.03, "class": LabelPoisoningAgent},
+    "concept_drift":      {"weight": 0.05, "class": ConceptDriftAgent},
+    "graph_poisoning":    {"weight": 0.03, "class": GraphPoisoningAgent},
+    "temporal_fuzzing":   {"weight": 0.04, "class": TemporalFuzzingAgent},
+    "marl_collusion":     {"weight": 0.04, "class": MARLCollusionAgent},
+    "boundary_probe":     {"weight": 0.05, "class": BoundaryProbeAgent},
+    "backdoor_injection": {"weight": 0.03, "class": BackdoorInjectionAgent},
+    "nlp_payload":        {"weight": 0.04, "class": NLPPayloadAgent},
+    "ensemble_evasion":   {"weight": 0.05, "class": EnsembleEvasionAgent},
 }
 
 
@@ -85,6 +111,20 @@ class TransactionGenerator:
     def _create_fraud_agent(self, fraud_type: str, account: Account,
                              attack_dates: List[datetime]):
         """Create a fraud agent, applying any mutation params."""
+        agent_class = FRAUD_TYPES.get(fraud_type, {}).get("class")
+        
+        # New theoretical agents only take account in their constructor
+        new_theoretical_types = [
+            "surrogate_evasion", "mislead_shap", "tabular_epsilon", "ctgan_mimicry", 
+            "label_poisoning", "concept_drift", "graph_poisoning", "temporal_fuzzing",
+            "marl_collusion", "boundary_probe", "backdoor_injection", "nlp_payload",
+            "ensemble_evasion"
+        ]
+        
+        if fraud_type in new_theoretical_types:
+            return agent_class(account)
+            
+        # Legacy agents have varying constructor signatures
         if fraud_type == "synthetic_id":
             return SyntheticIDAgent(account, attack_dates[0])
         elif fraud_type == "deepfake_ato":

@@ -20,7 +20,7 @@ export default function ThreatIntelFeed() {
     <div className="space-y-1.5">
       <div className="flex items-center gap-2 mb-2">
         <Globe className="w-4 h-4 text-aegis-purple" />
-        <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider">Threat Intel (Recorded Future)</p>
+        <p className="text-[10px] text-slate-500 uppercase tracking-wider">Threat Intel (Recorded Future)</p>
       </div>
       <AnimatePresence>
         {DEMO_ALERTS.map((alert, i) => (
@@ -29,16 +29,16 @@ export default function ThreatIntelFeed() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.15 }}
-            className="flex items-start gap-2 p-2 rounded-lg bg-aegis-surface border border-aegis-border"
+            className="flex items-start gap-2 p-2 rounded-lg bg-white border border-slate-200"
           >
             <ShieldAlert className="w-3.5 h-3.5 mt-0.5 text-aegis-amber shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] text-aegis-text leading-tight">{alert.message}</p>
+              <p className="text-[11px] text-slate-800 leading-tight">{alert.message}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className={`text-[9px] px-1.5 py-0.5 rounded ${severityColor[alert.severity]}`}>
                   {alert.severity.toUpperCase()}
                 </span>
-                <span className="text-[9px] text-aegis-text-muted">{alert.time}</span>
+                <span className="text-[9px] text-slate-500">{alert.time}</span>
               </div>
             </div>
           </motion.div>

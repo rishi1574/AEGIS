@@ -1,43 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
-/* Glassmorphism card */
-.glass-card {
-  background: rgba(26, 34, 53, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
-  border-radius: 12px;
+body {
+  background-color: theme('colors.aegis.bg');
+  color: theme('colors.aegis.text');
 }
 
-/* Glowing borders */
+/* Minimalist card */
+.glass-card {
+  background: white;
+  border: 1px solid theme('colors.aegis.border');
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Accent borders */
 .glow-red { 
-  box-shadow: 0 0 8px #ef444440, inset 0 0 8px #ef444410;
-  border-color: rgba(239, 68, 68, 0.3);
+  border-top: 3px solid theme('colors.aegis.red');
 }
 .glow-blue { 
-  box-shadow: 0 0 8px #3b82f640, inset 0 0 8px #3b82f610;
-  border-color: rgba(59, 130, 246, 0.3);
+  border-top: 3px solid theme('colors.aegis.blue');
 }
 .glow-green { 
-  box-shadow: 0 0 8px #22c55e40, inset 0 0 8px #22c55e10;
-  border-color: rgba(34, 197, 94, 0.3);
+  border-top: 3px solid theme('colors.aegis.green');
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Grid background */
+/* Grid background - removed for minimal look */
 .grid-bg {
-  background-size: 30px 30px;
-  background-image:
-    linear-gradient(to right, rgba(30,41,59,0.3) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(30,41,59,0.3) 1px, transparent 1px);
+  background-image: none;
 }
 
 /* Status indicators */
@@ -46,56 +44,26 @@
   border-radius: 50%;
   display: inline-block;
 }
-.status-dot.active { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
-.status-dot.warning { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
-.status-dot.danger { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+.status-dot.active { background: #10b981; }
+.status-dot.warning { background: #f59e0b; }
+.status-dot.danger { background: #eb3c00; }
 
-/* Scan line effect for header */
-@keyframes scan-line {
-  0% { top: -2px; opacity: 0; }
-  50% { opacity: 0.1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.scan-effect {
-  position: relative;
-}
-
-.scan-effect::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
-  animation: scan-line 4s linear infinite;
-}
-
-/* Pulse glow animation for active attacks */
-@keyframes pulse-glow-red {
-  0%, 100% { box-shadow: 0 0 5px #ef4444, 0 0 10px #ef444440; }
-  50% { box-shadow: 0 0 20px #ef4444, 0 0 40px #ef444460; }
+/* Pulse animation for active attacks */
+@keyframes pulse-red {
+  0%, 100% { background-color: rgba(235, 60, 0, 0.05); }
+  50% { background-color: rgba(235, 60, 0, 0.15); }
 }
 
 .attacking {
-  animation: pulse-glow-red 1.5s ease-in-out infinite;
-}
-
-/* Neon text glow */
-.neon-red {
-  text-shadow: 0 0 10px #ef444480, 0 0 20px #ef444440;
-}
-.neon-blue {
-  text-shadow: 0 0 10px #3b82f680, 0 0 20px #3b82f640;
-}
-.neon-green {
-  text-shadow: 0 0 10px #22c55e80, 0 0 20px #22c55e40;
+  animation: pulse-red 1.5s ease-in-out infinite;
+  border-color: theme('colors.aegis.red');
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #06b6d4, #a855f7);
+  background: linear-gradient(135deg, #1a1f71, #f97316, #eb3c00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+

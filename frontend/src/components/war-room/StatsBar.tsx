@@ -11,17 +11,17 @@ export default function StatsBar({ metrics, connected, liveData }: { metrics: an
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-aegis-surface/90 backdrop-blur-md border-t border-aegis-border px-4 py-1.5">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-4 py-1.5">
       <div className="flex items-center justify-center gap-6">
         {stats.map((s) => (
           <div key={s.label} className="flex items-center gap-1.5 text-xs">
-            <span className="text-aegis-text-muted">{s.label}:</span>
-            <span className="font-mono font-semibold text-aegis-text">{s.value}</span>
+            <span className="text-slate-500">{s.label}:</span>
+            <span className="font-mono font-semibold text-slate-800">{s.value}</span>
           </div>
         ))}
         <div className="flex items-center gap-1.5 text-xs">
           <span className={`status-dot ${connected ? "active" : "danger"}`} />
-          <span className="text-aegis-text-muted">{connected ? "Connected" : "Disconnected"}</span>
+          <span className="text-slate-500">{connected ? "Connected" : "Disconnected"}</span>
         </div>
       </div>
     </div>

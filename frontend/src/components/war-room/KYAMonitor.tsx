@@ -14,7 +14,7 @@ export default function KYAMonitor() {
     <div className="space-y-1.5">
       <div className="flex items-center gap-2 mb-2">
         <Bot className="w-4 h-4 text-aegis-purple" />
-        <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider">Know Your Agent (AP4M)</p>
+        <p className="text-[10px] text-slate-500 uppercase tracking-wider">Know Your Agent (AP4M)</p>
       </div>
       {DEMO_EVENTS.map((evt, i) => (
         <motion.div
@@ -29,15 +29,15 @@ export default function KYAMonitor() {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="font-mono font-semibold text-aegis-text">{evt.agent}</span>
+            <span className="font-mono font-semibold text-slate-800">{evt.agent}</span>
             {evt.status === "blocked" ? (
               <ShieldX className="w-3.5 h-3.5 text-red-400" />
             ) : (
               <ShieldCheck className="w-3.5 h-3.5 text-green-400" />
             )}
           </div>
-          <p className="text-aegis-text-muted mt-0.5">{evt.action}</p>
-          <p className="text-[9px] text-aegis-text-muted/70 mt-0.5 italic">{evt.reason}</p>
+          <p className="text-slate-500 mt-0.5">{evt.action}</p>
+          <p className="text-[9px] text-slate-500/70 mt-0.5 italic">{evt.reason}</p>
         </motion.div>
       ))}
     </div>

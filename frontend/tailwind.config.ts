@@ -6,33 +6,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cybersecurity dark theme palette
+        // Minimalist Mastercard-inspired light theme
         aegis: {
-          bg: "#0a0e17",
-          surface: "#111827",
-          card: "#1a2235",
-          border: "#1e293b",
-          "border-active": "#3b82f6",
-          text: "#e2e8f0",
-          "text-muted": "#94a3b8",
-          // Red Team colors
-          red: "#ef4444",
-          "red-glow": "#dc262640",
-          "red-bg": "#7f1d1d20",
-          // Blue Team colors
-          blue: "#3b82f6",
-          "blue-glow": "#3b82f640",
-          "blue-bg": "#1e3a5f20",
+          bg: "#f8fafc",
+          surface: "#ffffff",
+          card: "#ffffff",
+          border: "#e2e8f0",
+          "border-active": "#f97316", // Orange accent
+          text: "#0f172a",
+          "text-muted": "#64748b",
+          // Red Team colors (Orange/Red)
+          red: "#eb3c00",
+          "red-glow": "#eb3c0020",
+          "red-bg": "#eb3c0010",
+          // Blue Team colors (Mastercard Blue)
+          blue: "#1a1f71",
+          "blue-glow": "#1a1f7120",
+          "blue-bg": "#1a1f7110",
           // Accent
-          green: "#22c55e",
+          green: "#10b981",
           amber: "#f59e0b",
-          purple: "#a855f7",
+          purple: "#8b5cf6",
           cyan: "#06b6d4",
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["Outfit", "system-ui", "sans-serif"],
+        mono: ["Inter", "monospace"],
       },
       animation: {
         "pulse-slow": "pulse 3s ease-in-out infinite",
@@ -44,12 +44,12 @@ const config: Config = {
       },
       keyframes: {
         "glow-red": {
-          "0%, 100%": { boxShadow: "0 0 5px #ef4444, 0 0 10px #ef444440" },
-          "50%": { boxShadow: "0 0 15px #ef4444, 0 0 30px #ef444460" },
+          "0%, 100%": { boxShadow: "0 0 5px #eb3c00, 0 0 10px #eb3c0020" },
+          "50%": { boxShadow: "0 0 15px #eb3c00, 0 0 20px #eb3c0040" },
         },
         "glow-blue": {
-          "0%, 100%": { boxShadow: "0 0 5px #3b82f6, 0 0 10px #3b82f640" },
-          "50%": { boxShadow: "0 0 15px #3b82f6, 0 0 30px #3b82f660" },
+          "0%, 100%": { boxShadow: "0 0 5px #1a1f71, 0 0 10px #1a1f7120" },
+          "50%": { boxShadow: "0 0 15px #1a1f71, 0 0 20px #1a1f7140" },
         },
         "scan-line": {
           "0%": { transform: "translateY(-100%)" },
@@ -65,7 +65,7 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        "grid-pattern": "linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)",
+        "grid-pattern": "none",
       },
     },
   },

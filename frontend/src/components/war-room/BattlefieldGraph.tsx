@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useEffect, useState, useMemo } from "react";
-import { Network, Zap } from "lucide-react";
+import { Network, Info } from "lucide-react";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 // Simple canvas-based force graph (no heavy 3D dependency needed initially)
 // Replace with react-force-graph-2d when backend is connected
@@ -72,20 +73,20 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
         if (!src || !tgt) return;
 
         ctx.beginPath();
-        ctx.strokeStyle = e.isFraud ? "#ef444480" : "#3b82f620";
-        ctx.lineWidth = e.isFraud ? 2 : 0.5;
+        ctx.strokeStyle = e.isFraud ? "#ef4444" : "#cbd5e1"; // Red for fraud, slate-300 for normal
+        ctx.lineWidth = e.isFraud ? 1.5 : 0.5;
         ctx.moveTo(src.x, src.y);
         ctx.lineTo(tgt.x, tgt.y);
         ctx.stroke();
 
-        // Animated particle on fraud edges
+        // Animated particle on fraud edges (simple solid color)
         if (e.isFraud) {
           const progress = (t * 0.02) % 1;
           const px = src.x + (tgt.x - src.x) * progress;
           const py = src.y + (tgt.y - src.y) * progress;
           ctx.beginPath();
           ctx.fillStyle = "#ef4444";
-          ctx.arc(px, py, 3, 0, Math.PI * 2);
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -98,18 +99,10 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
 
         ctx.beginPath();
         const color = n.type === "mule" ? "#ef4444" :
-                      n.type === "merchant" ? "#f59e0b" : "#3b82f6";
+                      n.type === "merchant" ? "#f59e0b" : "#64748b"; // Red, Amber, Slate
         ctx.fillStyle = color;
         ctx.arc(x, y, n.type === "mule" ? 6 : 4, 0, Math.PI * 2);
         ctx.fill();
-
-        // Glow for mule nodes
-        if (n.type === "mule") {
-          ctx.beginPath();
-          ctx.fillStyle = "#ef444430";
-          ctx.arc(x, y, 12 + Math.sin(t * 0.05) * 3, 0, Math.PI * 2);
-          ctx.fill();
-        }
       });
 
       t++;
@@ -121,14 +114,17 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
   }, [graphData]);
 
   return (
-    <div className="glass-card h-full flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
-        <Network className="w-5 h-5 text-aegis-amber" />
-        <h2 className="text-sm font-semibold text-aegis-amber uppercase tracking-wider">
+    <div className="bg-white border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden rounded-xl">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+        <Network className="w-5 h-5 text-slate-800" />
+        <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Transaction Network
         </h2>
+        <Tooltip content="Live visualization of transactions and anomalies">
+          <Info className="w-4 h-4 text-slate-400 cursor-help ml-1" />
+        </Tooltip>
         <div className="ml-auto flex items-center gap-3 text-[10px]">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> Normal</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-500" /> Normal</span>
           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Fraud</span>
           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> Merchant</span>
         </div>

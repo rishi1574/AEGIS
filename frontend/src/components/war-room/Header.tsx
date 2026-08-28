@@ -1,61 +1,75 @@
 "use client";
-import { Shield, Wifi, WifiOff, Zap } from "lucide-react";
+import { Shield, Wifi, WifiOff, Activity, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Header({ connected }: { connected: boolean }) {
-  return (
-    <header className="relative flex items-center justify-between px-4 py-2 border-b border-aegis-border bg-aegis-surface/80 backdrop-blur-md scan-effect overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-red-500/5 pointer-events-none" />
+  const [time, setTime] = useState("");
 
-      <div className="flex items-center gap-3 relative z-10">
+  useEffect(() => {
+    setTime(new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }));
+    const interval = setInterval(() => {
+      setTime(new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <header className="flex items-center justify-between px-6 py-3 border-b border-aegis-border bg-white shadow-sm z-50 relative">
+      <div className="flex items-center gap-4">
         <motion.div
-          className="relative"
           animate={{ rotate: [0, 5, -5, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Shield className="w-8 h-8 text-aegis-blue" />
-          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-aegis-green rounded-full animate-pulse" />
+          {/* Logo container with Mastercard colors */}
+          <div className="flex -space-x-2">
+            <div className="w-8 h-8 rounded-full bg-aegis-red opacity-90 mix-blend-multiply" />
+            <div className="w-8 h-8 rounded-full bg-aegis-amber opacity-90 mix-blend-multiply" />
+          </div>
         </motion.div>
         <div>
-          <h1 className="text-lg font-bold tracking-tight">
-            <span className="gradient-text">AEGIS</span>
-            <span className="text-aegis-text-muted font-normal ml-2">— Adversarial War Room</span>
+          <h1 className="text-xl font-bold tracking-tight text-aegis-text">
+            AEGIS <span className="font-medium text-aegis-text-muted ml-1">Command Center</span>
           </h1>
-          <p className="text-xs text-aegis-text-muted">
-            Mastercard Innovation Challenge 2026 • AI Defense Lab
+          <p className="text-[11px] font-medium text-aegis-text-muted uppercase tracking-wider">
+            Mastercard Innovation Challenge 2026
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 relative z-10">
-        {/* Active Attack Indicator */}
+      <div className="flex items-center gap-6">
+        {/* Environment Dropdown */}
+        <div className="relative flex items-center bg-slate-50 border border-slate-200 rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors">
+          <span className="w-2 h-2 rounded-full bg-aegis-blue mr-2"></span>
+          Federated Sandbox
+          <ChevronDown className="w-4 h-4 ml-2 text-slate-400" />
+        </div>
+
+        {/* Threat Level */}
         <motion.div
-          className="flex items-center gap-1.5 text-xs"
-          animate={connected ? { opacity: [1, 0.5, 1] } : {}}
+          className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-700 border border-red-100"
+          animate={connected ? { scale: [1, 1.02, 1] } : {}}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <Zap className="w-3.5 h-3.5 text-aegis-amber" />
-          <span className="text-aegis-amber font-mono text-[10px]">
-            ADVERSARIAL LOOP ACTIVE
-          </span>
+          <Activity className="w-4 h-4" />
+          THREAT LEVEL: CRITICAL
         </motion.div>
 
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex items-center gap-2 text-xs font-medium bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
           {connected ? (
             <>
-              <Wifi className="w-4 h-4 text-aegis-green" />
-              <span className="text-aegis-green neon-green font-semibold">LIVE</span>
+              <Wifi className="w-3.5 h-3.5 text-aegis-green" />
+              <span className="text-aegis-green">SYSTEM LIVE</span>
             </>
           ) : (
             <>
-              <WifiOff className="w-4 h-4 text-aegis-red" />
-              <span className="text-aegis-red">OFFLINE</span>
+              <WifiOff className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-slate-500">OFFLINE</span>
             </>
           )}
         </div>
-        <div className="text-xs text-aegis-text-muted font-mono">
-          {new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
+        <div className="text-xs text-slate-500 font-mono font-medium min-w-[150px] text-right">
+          {time}
         </div>
       </div>
     </header>

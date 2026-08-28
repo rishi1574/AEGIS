@@ -39,26 +39,25 @@ async def metrics():
     return data_service.get_metrics()
 
 
+from backend.services.federated_simulator import federated_coordinator
+
 @router.get("/federated-comparison")
 async def federated():
     """Return federated learning comparison data."""
-    m = data_service.get_metrics()
-    base_f1 = m.get("f1_score", 0.93)
-    base_auc = m.get("auc_roc", 0.97)
+    # Run one round of federated simulation per request (or you can run it in a background loop)
+    fed_data = federated_coordinator.aggregate_weights()
     
     return {
+        "round": fed_data["round"],
         "banks": [
-            {"name": "Bank A (HDFC)", "f1": round(base_f1 * 0.88, 2),
-             "auc": round(base_auc * 0.92, 2), "txn_count": 35000},
-            {"name": "Bank B (ICICI)", "f1": round(base_f1 * 0.85, 2),
-             "auc": round(base_auc * 0.89, 2), "txn_count": 30000},
-            {"name": "Bank C (SBI)", "f1": round(base_f1 * 0.90, 2),
-             "auc": round(base_auc * 0.94, 2), "txn_count": 35000},
+            {"name": node["name"], "f1": node["accuracy"],
+             "auc": min(0.99, node["accuracy"] + 0.05), "updates": node["updates"], "status": node["status"]}
+            for node in fed_data["nodes"]
         ],
         "federated": {
-            "f1": round(base_f1, 2),
-            "auc": round(base_auc, 2),
-            "improvement": f"+{round((base_f1 - base_f1 * 0.88) / (base_f1 * 0.88) * 100, 1)}%"
+            "f1": fed_data["global_accuracy"],
+            "auc": min(0.999, fed_data["global_accuracy"] + 0.03),
+            "improvement": f"+{round((fed_data['global_accuracy'] - fed_data['nodes'][0]['accuracy']) / fed_data['nodes'][0]['accuracy'] * 100, 2)}%"
         }
     }
 

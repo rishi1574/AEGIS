@@ -20,3 +20,24 @@ __all__ = [
     "MerchantCollusionAgent", "APIExploitAgent", "PigButcheringAgent",
     "ModelPoisoningAgent", "SupplyChainBECAgent", "AdversarialDocumentAgent",
 ]
+from .surrogate_evasion_agent import SurrogateEvasionAgent
+from .mislead_shap_agent import MisleadShapAgent
+from .tabular_epsilon_agent import TabularEpsilonAgent
+from .ctgan_mimicry_agent import CTGANMimicryAgent
+from .label_poisoning_agent import LabelPoisoningAgent
+from .concept_drift_agent import ConceptDriftAgent
+from .graph_poisoning_agent import GraphPoisoningAgent
+from .temporal_fuzzing_agent import TemporalFuzzingAgent
+from .marl_collusion_agent import MARLCollusionAgent
+from .boundary_probe_agent import BoundaryProbeAgent
+from .backdoor_injection_agent import BackdoorInjectionAgent
+from .nlp_payload_agent import NLPPayloadAgent
+from .ensemble_evasion_agent import EnsembleEvasionAgent
+
+__all__.extend([
+    "SurrogateEvasionAgent", "MisleadShapAgent", "TabularEpsilonAgent",
+    "CTGANMimicryAgent", "LabelPoisoningAgent", "ConceptDriftAgent",
+    "GraphPoisoningAgent", "TemporalFuzzingAgent", "MARLCollusionAgent",
+    "BoundaryProbeAgent", "BackdoorInjectionAgent", "NLPPayloadAgent",
+    "EnsembleEvasionAgent"
+])
