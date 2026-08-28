@@ -253,7 +253,7 @@ class BlueTeamAnalyzer:
 
     def increase_sensitivity(self, amount: float = 0.06):
         """Gradually increase detection sensitivity as more data is observed."""
-        self.sensitivity = min(1.0, self.sensitivity + amount)
+        self.sensitivity = min(0.95, self.sensitivity + amount)
 
 
 class BattleSimulator:
@@ -294,6 +294,9 @@ class BattleSimulator:
         self.red_team_total_attempts = 0
         self.red_team_evaded = 0
         self.red_team_success_rate = 0.0
+        # Track recent window of attempts for smoother display
+        self._recent_results: List[bool] = []  # True=evaded, False=caught
+        self._recent_window = 20
 
         # Graph state — starts small, grows gradually
         self.graph_nodes: Dict[str, dict] = {}
@@ -310,6 +313,10 @@ class BattleSimulator:
         # Battle history
         self.battle_history: List[dict] = []
 
+        # Track mutation cycle number for oscillation
+        self._current_cycle = 0
+        self._last_phase = "IDLE"
+
     def reset(self, attack_type: str):
         """Reset battle state for a new attack."""
         self.__init__()
@@ -323,6 +330,8 @@ class BattleSimulator:
             self.phase = "IDLE"
             return
 
+        prev_phase = self._last_phase
+
         if self.tick <= 5:
             self.phase = "RECON"
         elif self.tick <= 15:
@@ -331,12 +340,41 @@ class BattleSimulator:
             self.phase = "CONTAINMENT"
         else:
             # After containment, alternate MUTATION and ADAPTATION
-            # Each cycle is 10 ticks. MUTATION proposes, ADAPTATION responds.
             cycle_tick = (self.tick - 26) % 20
             if cycle_tick < 10:
                 self.phase = "MUTATION"
             else:
                 self.phase = "ADAPTATION"
+
+        # Detect start of a NEW mutation cycle → Red gets a fresh surge
+        if self.phase == "MUTATION" and prev_phase == "ADAPTATION":
+            self._current_cycle += 1
+            self._on_new_mutation_cycle()
+
+        self._last_phase = self.phase
+
+    def _on_new_mutation_cycle(self):
+        """Called when Red Team enters a new MUTATION cycle after ADAPTATION.
+        Partially resets Blue's defenses (simulating Blue overfitting to previous 
+        mutation style) and gives Red a fresh strategy burst."""
+        # Blue Team "overfits" — partial sensitivity decay (it focused on old pattern)
+        self.blue_analyzer.sensitivity = max(
+            0.3, self.blue_analyzer.sensitivity * 0.65)
+        # Raise threshold slightly (Blue's specific counters become stale)
+        self.blue_analyzer.detection_threshold = min(
+            0.45, self.blue_analyzer.detection_threshold + 0.08)
+        # Decay Blue's evasion tactic awareness (old tactics may not repeat)
+        for k in self.blue_analyzer.known_evasion_tactics:
+            self.blue_analyzer.known_evasion_tactics[k] *= 0.5
+
+        # Red Team resets mutation params — trying fresh approach
+        self.mutation_params = {
+            "amount_multiplier": 1.0,
+            "velocity_shift_ms": 0,
+            "route_obfuscation": 0.0,
+        }
+        # Boost Red's exploration for this new cycle
+        self.red_policy.exploration_rate = min(0.8, self.red_policy.exploration_rate + 0.3)
 
     def _manage_graph_capacity(self):
         """Grow the max node limit gradually and evict oldest nodes if over limit."""
@@ -440,18 +478,39 @@ class BattleSimulator:
         self.graph_edges = tick_edges
         self.instance_log = tick_instances
 
-        # Calculate live metrics
+        # Track recent results from this tick's fraud instances
+        for inst in fraud_insts:
+            if inst.get("phase") not in ("IDLE",) and inst.get("attackVector") != "Normal Traffic":
+                self._recent_results.append(inst.get("isEvaded", False))
+        # Keep only last N results for a responsive window
+        self._recent_results = self._recent_results[-self._recent_window:]
+
+        # Calculate live metrics — use RECENT window for displayed rate
         if self.red_team_total_attempts > 0:
             self.red_team_success_rate = \
                 self.red_team_evaded / self.red_team_total_attempts
 
+        # Recent success rate (last N attempts) — more dynamic for charts
+        recent_rate = self.red_team_success_rate
+        if len(self._recent_results) > 0:
+            recent_rate = sum(1 for r in self._recent_results if r) / len(self._recent_results)
+
         self.battle_history.append({
             "tick": self.tick,
             "phase": self.phase,
-            "success_rate": self.red_team_success_rate,
+            "success_rate": recent_rate,
             "sensitivity": self.blue_analyzer.sensitivity,
             "detection_confidence": self.blue_analyzer.detection_confidence,
         })
+
+        # Compute LIVE blue team metrics from battle performance
+        # (not from the static model — these change with each tick)
+        blue_accuracy = 1.0 - recent_rate
+        blue_precision = max(0.5, blue_accuracy - 0.02) if self.tick > 5 else 0.5
+        blue_recall = max(0.4, self.blue_analyzer.sensitivity) if self.tick > 5 else 0.5
+        blue_f1 = (2 * blue_precision * blue_recall / (blue_precision + blue_recall)
+                   if (blue_precision + blue_recall) > 0 else 0)
+        blue_fpr = max(0, recent_rate * 0.3)  # False positive proxy
 
         return {
             "phase": self.phase,
@@ -474,11 +533,19 @@ class BattleSimulator:
             "adversarial_instances": tick_instances,
             "detected_attack_type": self.blue_analyzer.detected_attack,
             "detection_confidence": round(self.blue_analyzer.detection_confidence, 2),
-            "red_team_success_rate": round(self.red_team_success_rate, 4),
+            "red_team_success_rate": round(recent_rate, 4),
             "blue_team_sensitivity": round(self.blue_analyzer.sensitivity, 4),
             "mutation_generation": self.mutation_generation,
             "mutation_params": {k: round(v, 3)
                                 for k, v in self.mutation_params.items()},
+            "live_blue_metrics": {
+                "accuracy": round(blue_accuracy, 4),
+                "precision": round(blue_precision, 4),
+                "recall": round(blue_recall, 4),
+                "f1_score": round(blue_f1, 4),
+                "auc_roc": round(min(0.99, blue_accuracy + 0.02), 4),
+                "false_positive_rate": round(blue_fpr, 4),
+            },
         }
 
     # ──────────────────────────────────────────────
@@ -525,9 +592,9 @@ class BattleSimulator:
                 "nodeRole": f"Probe #{self.tick}: {sender[-6:]} → {receiver[-6:]}",
             })
 
-        red_msg = f"🔴 Injecting covert probes ({len(fraud_txns[:2])} txns). " \
+        red_msg = f"Injecting covert probes ({len(fraud_txns[:2])} txns). " \
                   f"Staying under the radar..."
-        blue_msg = "🛡️ Monitoring baseline traffic. " \
+        blue_msg = "Monitoring baseline traffic. " \
                    f"Observing {len(self.blue_analyzer.observed_signals)} signals..."
 
         return red_msg, blue_msg, instances, edges
@@ -585,7 +652,7 @@ class BattleSimulator:
                 "perturbedRisk": adjusted_risk,
                 "isEvaded": not is_caught,
                 "phase": "DETECTION",
-                "nodeRole": f"{'🚫 FLAGGED' if is_caught else '⚠️ Suspicious'}: "
+                "nodeRole": f"{'FLAGGED' if is_caught else 'Suspicious'}: "
                             f"{sender[-6:]}",
             })
 
@@ -595,19 +662,19 @@ class BattleSimulator:
                 self.blue_analyzer.detected_attack, DEFAULT_SIGNATURE
             )["description"]
             blue_msg = (
-                f"🛡️ Pattern match: {pattern_desc}. "
+                f"Pattern match: {pattern_desc}. "
                 f"Confidence: {self.blue_analyzer.detection_confidence*100:.0f}%. "
                 f"Blocked {caught_count} txns."
             )
         else:
             blue_msg = (
-                f"🛡️ Anomalies flagged — {caught_count} suspicious txns. "
+                f"Anomalies flagged — {caught_count} suspicious txns. "
                 f"Analyzing patterns... "
                 f"({len(self.blue_analyzer.observed_signals)} signals collected)"
             )
 
         red_msg = (
-            f"🔴 Continuing injection — {len(fraud_txns)} txns in pipeline. "
+            f"Continuing injection — {len(fraud_txns)} txns in pipeline. "
             f"Bypass rate: {self.red_team_success_rate*100:.0f}%"
         )
 
@@ -658,7 +725,7 @@ class BattleSimulator:
                 "perturbedRisk": adjusted_risk,
                 "isEvaded": not is_caught,
                 "phase": "CONTAINMENT",
-                "nodeRole": f"{'🚫 BLOCKED' if is_caught else '⚡ Slipped'}: "
+                "nodeRole": f"{'BLOCKED' if is_caught else 'Slipped'}: "
                             f"{sender[-6:]}",
             })
 
@@ -667,12 +734,12 @@ class BattleSimulator:
             if self.blue_analyzer.detected_attack else "Unknown"
         )
         red_msg = (
-            f"🔴 ⚠️ Success rate dropping to "
+            f"Success rate dropping to "
             f"{self.red_team_success_rate*100:.1f}%! "
             f"Preparing RL mutation strategy..."
         )
         blue_msg = (
-            f"🛡️ Containment active — {caught_count}/{len(fraud_txns[:4])} blocked. "
+            f"Containment active — {caught_count}/{len(fraud_txns[:4])} blocked. "
             f"Attack classified: {detected_label}. "
             f"Sensitivity: {self.blue_analyzer.sensitivity:.0%}"
         )
@@ -724,11 +791,11 @@ class BattleSimulator:
             receiver = str(txn.get("receiver_id", ""))
             original_risk = float(txn.get("risk_score", 0.8))
 
-            # Apply mutation effect on risk score
+            # Apply mutation effect on risk score — mutations are powerful
             evasion_power = (
-                abs(1.0 - self.mutation_params["amount_multiplier"]) * 0.25
-                + self.mutation_params["route_obfuscation"] * 0.2
-                + (self.mutation_params["velocity_shift_ms"] / 5000.0) * 0.15
+                abs(1.0 - self.mutation_params["amount_multiplier"]) * 0.4
+                + self.mutation_params["route_obfuscation"] * 0.35
+                + (self.mutation_params["velocity_shift_ms"] / 5000.0) * 0.25
             )
             perturbed_risk = max(0.01, original_risk - evasion_power)
 
@@ -780,18 +847,18 @@ class BattleSimulator:
                 "perturbedRisk": perturbed_risk,
                 "isEvaded": not is_caught,
                 "phase": "MUTATION",
-                "nodeRole": f"{'✅ EVADED' if not is_caught else '🚫 CAUGHT'}: "
+                "nodeRole": f"{'EVADED' if not is_caught else 'CAUGHT'}: "
                             f"{sender[-6:]} [{obf_label}]",
             })
 
         strategy_summary = self.red_policy.get_strategy_summary()
         red_msg = (
-            f"🔴 Mutation Gen-{self.mutation_generation}: "
+            f"Mutation Gen-{self.mutation_generation}: "
             f"{strategy_summary}. "
             f"Result: {evaded_count} evaded, {caught_count} caught"
         )
         blue_msg = (
-            f"🛡️ New variant detected! Blocked {caught_count}/"
+            f"New variant detected! Blocked {caught_count}/"
             f"{caught_count+evaded_count}. "
             f"Analyzing mutation pattern for countermeasures..."
         )
@@ -820,9 +887,9 @@ class BattleSimulator:
 
             # Red Team still using current mutations
             evasion_power = (
-                abs(1.0 - self.mutation_params["amount_multiplier"]) * 0.25
-                + self.mutation_params["route_obfuscation"] * 0.2
-                + (self.mutation_params["velocity_shift_ms"] / 5000.0) * 0.15
+                abs(1.0 - self.mutation_params["amount_multiplier"]) * 0.4
+                + self.mutation_params["route_obfuscation"] * 0.35
+                + (self.mutation_params["velocity_shift_ms"] / 5000.0) * 0.25
             )
             perturbed_risk = max(0.01, original_risk - evasion_power)
 
@@ -868,17 +935,17 @@ class BattleSimulator:
                 "perturbedRisk": adjusted_risk,
                 "isEvaded": not is_caught,
                 "phase": "ADAPTATION",
-                "nodeRole": f"{'⚡ Evading' if not is_caught else '🔒 Re-flagged'}: "
+                "nodeRole": f"{'Evading' if not is_caught else 'Re-flagged'}: "
                             f"{sender[-6:]} [Blue: {counter_str}]",
             })
 
         red_msg = (
-            f"🔴 Gen-{self.mutation_generation} being countered! "
+            f"Gen-{self.mutation_generation} being countered! "
             f"Success: {self.red_team_success_rate*100:.1f}%. "
             f"Need new strategy..."
         )
         blue_msg = (
-            f"🛡️ Adaptive countermeasures deployed. "
+            f"Adaptive countermeasures deployed. "
             f"Threshold: {self.blue_analyzer.detection_threshold:.2f}. "
             f"Blocked {caught_count}/{caught_count+evaded_count}. "
             f"Watching: {', '.join(k for k,v in self.blue_analyzer.known_evasion_tactics.items() if v > 0.2) or 'all dimensions'}"

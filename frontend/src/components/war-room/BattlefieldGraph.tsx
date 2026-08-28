@@ -29,6 +29,7 @@ interface GraphEdge {
 export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [clickedNode, setClickedNode] = useState<string | null>(null);
 
 
 
@@ -240,6 +241,23 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
         ctx.fill();
         ctx.stroke();
 
+        // Draw blocked indicator (red X + label) for nodes Blue Team has flagged
+        if (n.stats.blockedTxns > 0) {
+          const xSize = radius * 0.6;
+          ctx.beginPath();
+          ctx.strokeStyle = "#dc2626";
+          ctx.lineWidth = 2.5;
+          ctx.moveTo(nx - xSize, ny - xSize);
+          ctx.lineTo(nx + xSize, ny + xSize);
+          ctx.moveTo(nx + xSize, ny - xSize);
+          ctx.lineTo(nx - xSize, ny + xSize);
+          ctx.stroke();
+
+          ctx.fillStyle = "#dc2626";
+          ctx.font = "bold 8px sans-serif";
+          ctx.fillText(`BLOCKED (${n.stats.blockedTxns})`, nx - radius - 2, ny - radius - 4);
+        }
+
         if (hoveredNode === n.id || n.type === "merchant" || n.type === "mule" || n.type === "agent") {
           ctx.fillStyle = "#475569";
           ctx.font = "10px monospace";
@@ -288,16 +306,18 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
   };
 
   const hoveredNodeData = hoveredNode ? physicsNodes.current.get(hoveredNode) : null;
+  const clickedNodeData = clickedNode ? physicsNodes.current.get(clickedNode) : null;
+  const displayNodeData = clickedNodeData || hoveredNodeData;
 
   return (
-    <div className="bg-white border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden rounded-xl">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200 shrink-0">
-        <Network className="w-5 h-5 text-slate-800" />
+    <div className="bg-white border border-slate-200 shadow-sm h-full flex flex-col overflow-visible rounded-xl">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200 shrink-0 rounded-t-xl bg-white">
+        
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Transaction Network
         </h2>
-        <Tooltip content="Live topology mapping tracking multi-agent adversarial feedback loops">
-          <Info className="w-4 h-4 text-slate-400 cursor-help ml-1" />
+        <Tooltip content="Live topology mapping tracking multi-agent adversarial feedback loops. Nodes represent actors (accounts, merchants, mules), and edges represent financial transactions. Anomalies and RL policy interventions are highlighted in real-time.">
+          <Info className="w-4 h-4 text-slate-400 ml-1 hover:text-slate-600 transition-colors cursor-pointer" />
         </Tooltip>
         <div className="ml-auto flex items-center gap-4 text-[10px] text-slate-600">
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300" /> Account</span>
@@ -342,49 +362,56 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
 
         <canvas 
           ref={canvasRef} 
-          className="w-full h-full cursor-pointer" 
+          className="w-full h-full cursor-pointer rounded-b-xl" 
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoveredNode(null)}
+          onClick={() => setClickedNode(hoveredNode === clickedNode ? null : hoveredNode)}
         />
 
         <AnimatePresence>
-          {hoveredNodeData && (
+          {displayNodeData && (
             <motion.div
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.15 }}
-              className="absolute bg-white border border-slate-200 shadow-xl rounded-lg p-3 w-64 pointer-events-none z-50"
+              className="absolute bg-white border border-slate-200 shadow-xl rounded-lg p-3 w-64 z-[9999]"
               style={{
-                left: `calc(${(hoveredNodeData.x / 800) * 100}% + 20px)`,
-                top: `calc(${(hoveredNodeData.y / 400) * 100}% - 70px)`,
+                left: `calc(${(displayNodeData.x / 800) * 100}% + 20px)`,
+                top: `calc(${(displayNodeData.y / 400) * 100}% - 70px)`,
+                pointerEvents: clickedNodeData ? "auto" : "none"
               }}
             >
-              <div className="flex items-center gap-2 border-b border-slate-100 pb-2 mb-2">
-                <span className="text-xs font-semibold text-slate-800">Node ID: {hoveredNodeData.id}</span>
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                <span className="text-xs font-semibold text-slate-800">Node ID: {displayNodeData.id}</span>
+                {clickedNodeData && (
+                  <button onClick={() => setClickedNode(null)} className="text-slate-400 hover:text-slate-600">
+                    &times;
+                  </button>
+                )}
               </div>
               <div className="text-[11px] text-slate-600 mb-3">
-                Classification: <span className="font-semibold text-slate-800 uppercase tracking-wider">{hoveredNodeData.stats.type}</span>
+                Classification: <span className="font-semibold text-slate-800 uppercase tracking-wider">{displayNodeData.stats.type}</span>
               </div>
               
               <div className="grid grid-cols-3 gap-2 text-center text-[10px] p-2 bg-slate-50 rounded-md">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Total Txns</span>
-                  <span className="font-mono text-slate-900">{hoveredNodeData.stats.totalTxns}</span>
+                  <span className="font-mono text-slate-900">{displayNodeData.stats.totalTxns}</span>
                   <div className="flex justify-center text-blue-500">
                     <ArrowUp className="w-3 h-3" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Blocked</span>
-                  <span className="font-mono text-slate-900">{hoveredNodeData.stats.blockedTxns}</span>
+                  <span className="font-mono text-slate-900">{displayNodeData.stats.blockedTxns}</span>
                   <div className="flex justify-center text-red-500">
                     <ArrowDown className="w-3 h-3" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Risk Score</span>
-                  <span className="font-mono text-orange-600 font-bold">{hoveredNodeData.stats.riskScore}%</span>
+                  <span className="font-mono text-orange-600 font-bold">{displayNodeData.stats.riskScore}%</span>
                   <div className="flex justify-center text-orange-500">
                     <AlertTriangle className="w-3 h-3" />
                   </div>

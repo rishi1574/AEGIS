@@ -22,32 +22,32 @@ export default function Header({ connected }: { connected: boolean }) {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
           {/* Logo container with Mastercard colors */}
-          <div className="flex -space-x-2">
-            <div className="w-8 h-8 rounded-full bg-aegis-red opacity-90 mix-blend-multiply" />
-            <div className="w-8 h-8 rounded-full bg-aegis-amber opacity-90 mix-blend-multiply" />
+          <div className="flex -space-x-3">
+            <div className="w-8 h-8 rounded-full bg-[#EB001B] opacity-95 mix-blend-multiply" />
+            <div className="w-8 h-8 rounded-full bg-[#F79E1B] opacity-95 mix-blend-multiply" />
           </div>
         </motion.div>
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-aegis-text">
-            AEGIS <span className="font-medium text-aegis-text-muted ml-1">Command Center</span>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">
+            AEGIS <span className="font-medium text-slate-500 ml-1">Command Center</span>
           </h1>
-          <p className="text-[11px] font-medium text-aegis-text-muted uppercase tracking-wider">
+          <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">
             Mastercard Innovation Challenge 2026
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-5">
         {/* Environment Dropdown */}
-        <div className="relative flex items-center bg-slate-50 border border-slate-200 rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors">
-          <span className="w-2 h-2 rounded-full bg-aegis-blue mr-2"></span>
+        <div className="relative flex items-center bg-slate-100/80 border border-slate-200/60 rounded-lg px-3 py-1.5 text-sm font-semibold text-slate-700 cursor-pointer hover:bg-slate-200/50 transition-colors shadow-sm">
+          <Shield className="w-3.5 h-3.5 text-blue-600 mr-2" />
           Federated Sandbox
-          <ChevronDown className="w-4 h-4 ml-2 text-slate-400" />
+          <ChevronDown className="w-3.5 h-3.5 ml-2 text-slate-400" />
         </div>
 
         {/* Threat Level */}
         <motion.div
-          className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-700 border border-red-100"
+          className="flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg bg-red-100/80 text-red-700 border border-red-200 shadow-sm"
           animate={connected ? { scale: [1, 1.02, 1] } : {}}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -55,20 +55,23 @@ export default function Header({ connected }: { connected: boolean }) {
           THREAT LEVEL: CRITICAL
         </motion.div>
 
-        <div className="flex items-center gap-2 text-xs font-medium bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">
+        {/* System Status */}
+        <div className="flex items-center gap-2 text-xs font-bold bg-slate-100/80 border border-slate-200/60 px-3 py-1.5 rounded-lg shadow-sm">
           {connected ? (
             <>
-              <Wifi className="w-3.5 h-3.5 text-aegis-green" />
-              <span className="text-aegis-green">SYSTEM LIVE</span>
+              <Wifi className="w-4 h-4 text-emerald-600" />
+              <span className="text-emerald-700 tracking-wide">SYSTEM LIVE</span>
             </>
           ) : (
             <>
-              <WifiOff className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-slate-500">OFFLINE</span>
+              <WifiOff className="w-4 h-4 text-slate-400" />
+              <span className="text-slate-500 tracking-wide">OFFLINE</span>
             </>
           )}
         </div>
-        <div className="text-xs text-slate-500 font-mono font-medium min-w-[150px] text-right">
+
+        {/* Clock */}
+        <div className="text-xs text-slate-500 font-mono font-semibold min-w-[150px] text-right bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
           {time}
         </div>
       </div>

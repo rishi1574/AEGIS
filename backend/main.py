@@ -273,8 +273,12 @@ async def simulation_telemetry_loop():
                 "blue_team_sensitivity": battle_result["blue_team_sensitivity"] if battle_result else 0,
                 "mutation_generation": battle_result["mutation_generation"] if battle_result else 0,
                 "mutation_params": battle_result["mutation_params"] if battle_result else {},
+                "live_blue_metrics": battle_result.get("live_blue_metrics") if battle_result else None,
+                "mutation_cycle": battle_result.get("mutation_cycle", 0) if battle_result else 0,
             }
         }
+        # Store bypass rate on app state for federated endpoint
+        app.state._current_bypass_rate = bypass_rate
         await manager.broadcast(payload)
 
 

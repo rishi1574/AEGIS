@@ -53,7 +53,7 @@ export default function BlueTeamConsole({
   return (
     <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full flex flex-col overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-        <ShieldCheck className="w-5 h-5 text-slate-800" />
+        
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Blue Team
         </h2>
@@ -76,9 +76,9 @@ export default function BlueTeamConsole({
               <Radar
                 name="Performance"
                 dataKey="value"
-                stroke="#1a1f71"
+                stroke="#3b82f6"
                 strokeWidth={2.5}
-                fill="#1a1f71"
+                fill="#3b82f6"
                 fillOpacity={0.2}
                 isAnimationActive={true}
                 animationDuration={800}
@@ -115,9 +115,8 @@ export default function BlueTeamConsole({
       </div>
 
       {/* Interception Log */}
-      <div className="border-t border-slate-200 p-2.5 max-h-36 overflow-y-auto">
+      <div className="border-t border-slate-200 p-2.5">
         <div className="flex items-center gap-2 mb-1.5">
-          <Eye className="w-4 h-4 text-slate-400" />
           <p className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
             Live Interceptions
           </p>

@@ -34,7 +34,7 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
   return (
     <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full flex flex-col">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-        <Activity className="w-5 h-5 text-slate-800" />
+        
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Adversarial Co-Evolution
         </h2>

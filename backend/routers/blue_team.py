@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 from backend.services.data_service import data_service
@@ -28,22 +28,25 @@ async def metrics():
 from backend.services.federated_simulator import federated_coordinator
 
 @router.get("/federated-comparison")
-async def federated():
-    """Return federated learning comparison data."""
-    # Run one round of federated simulation per request (or you can run it in a background loop)
-    fed_data = federated_coordinator.aggregate_weights()
+async def federated(request: Request):
+    """Return federated learning comparison data tied to live battle state."""
+    # Get current bypass rate from the live battle
+    bypass_rate = getattr(request.app.state, "_current_bypass_rate", 0.05)
+    fed_data = federated_coordinator.aggregate_weights(
+        current_bypass_rate=bypass_rate)
     
     return {
         "round": fed_data["round"],
         "banks": [
             {"name": node["name"], "f1": node["accuracy"],
-             "auc": min(0.99, node["accuracy"] + 0.05), "updates": node["updates"], "status": node["status"]}
+             "auc": min(0.99, node["accuracy"] + 0.05),
+             "updates": node["updates"], "status": node["status"]}
             for node in fed_data["nodes"]
         ],
         "federated": {
             "f1": fed_data["global_accuracy"],
             "auc": min(0.999, fed_data["global_accuracy"] + 0.03),
-            "improvement": f"+{round((fed_data['global_accuracy'] - fed_data['nodes'][0]['accuracy']) / fed_data['nodes'][0]['accuracy'] * 100, 2)}%"
+            "improvement": fed_data.get("improvement", "+5.0%"),
         }
     }
 

@@ -21,6 +21,15 @@ const LAYER_COLORS: Record<string, string> = {
   emerging: "text-cyan-700 bg-cyan-50 border-cyan-200",
 };
 
+const ATTACK_DEFINITIONS: Record<string, string> = {
+  synthetic_identity_injection: "Creates fake personas combining real and fake info to bypass KYC.",
+  distributed_smurfing: "Breaks large transactions into small amounts across many mule accounts.",
+  llm_prompt_injection: "Manipulates the AI fraud detection model by embedding hidden instructions.",
+  adversarial_noise: "Adds imperceptible noise to transaction patterns to misclassify fraud as legitimate.",
+  social_engineering: "Manipulates human behavior to extract sensitive information or authorize transactions.",
+  account_takeover: "Gains unauthorized access to user accounts to perform fraudulent activities.",
+};
+
 const getLayerIcon = (layer: string, className: string = "w-3 h-3") => {
   switch (layer) {
     case "identity": return <IdCard className={className} />;
@@ -85,7 +94,7 @@ export default function RedTeamConsole({
     <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full flex flex-col min-h-0 overflow-hidden relative">
       {/* Header */}
       <div className="flex items-center gap-2 px-5 py-4 border-b border-slate-200 bg-slate-50 relative z-10 shrink-0">
-        <Crosshair className="w-5 h-5 text-slate-800" />
+        
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Red Team Intelligence
         </h2>
@@ -142,11 +151,9 @@ export default function RedTeamConsole({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-slate-800">{atk.name}</span>
-                  {atk.description && (
-                    <Tooltip content={atk.description}>
-                      <Info className="w-3.5 h-3.5 text-slate-400" />
-                    </Tooltip>
-                  )}
+                  <Tooltip content={ATTACK_DEFINITIONS[atk.id] || `Adversarial vector targeting the ${atk.layer} layer to evade detection.`}>
+                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer" />
+                  </Tooltip>
                 </div>
                 {launching === atk.id ? (
                   <Zap className="w-4 h-4 text-red-500 animate-pulse" />
@@ -175,7 +182,7 @@ export default function RedTeamConsole({
               </div>
               {atk.description && (
                 <p className="text-[11px] text-slate-500 mt-2 leading-relaxed line-clamp-2">
-                  {atk.description}
+                  <strong className="font-semibold text-slate-600">Method:</strong> {atk.description}
                 </p>
               )}
             </motion.button>
@@ -188,8 +195,8 @@ export default function RedTeamConsole({
         ref={logEndRef}
         className="border-t border-slate-200 p-3 pb-5 bg-white h-36 shrink-0 overflow-y-auto relative z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
       >
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5 sticky top-0 bg-white z-20 pb-1">
-          <Activity className="w-3.5 h-3.5" /> Agent Activity Log
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5 sticky top-0 bg-white z-30 py-1">
+          Agent Activity Log
         </p>
         <div className="space-y-1 font-mono text-[11px]">
           <AnimatePresence>

@@ -118,19 +118,19 @@ export default function WarRoom() {
         </div>
 
         {/* Bottom Row: Charts + Intel */}
-        <div className="grid grid-cols-12 gap-3 shrink-0 min-h-[260px] pb-6">
-          <div className="col-span-4">
+        <div className="grid grid-cols-12 gap-3 shrink-0 min-h-[260px] pb-6 mt-6">
+          <div className="col-span-4 h-full max-h-[340px]">
             <ConceptDriftChart liveData={lastMessage?.data} />
           </div>
-          <div className="col-span-3 tour-federated">
+          <div className="col-span-3 tour-federated h-full max-h-[340px]">
             <FederatedComparison data={federated} />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-2 h-full max-h-[340px]">
             <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full p-3 overflow-y-auto">
               <ThreatIntelFeed liveData={lastMessage?.data} />
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 h-full max-h-[340px]">
             <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full p-3 overflow-y-auto">
               <KYAMonitor liveData={lastMessage?.data} />
             </div>

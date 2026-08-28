@@ -35,7 +35,7 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
   return (
     <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full flex flex-col">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-        <Globe className="w-5 h-5 text-slate-800" />
+        
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Federated Intelligence
         </h2>
@@ -48,7 +48,7 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
           </span>
         )}
       </div>
-      <div className="flex-1 p-4 space-y-3">
+      <div className="flex-1 p-4 space-y-3 overflow-y-auto">
         {/* Individual Banks */}
         <div className="space-y-3">
           {d.banks.map((bank, i) => (

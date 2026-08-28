@@ -34,7 +34,7 @@ export default function ThreatIntelFeed({ liveData }: { liveData?: any }) {
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex items-center gap-2 mb-2 shrink-0">
-        <Globe className="w-4 h-4 text-slate-800" />
+        
         <p className="text-[10px] text-slate-800 uppercase tracking-wider font-bold">Threat Intel (Recorded Future)</p>
       </div>
       <div className="flex-1 overflow-y-auto pr-1 space-y-1.5 min-h-0">

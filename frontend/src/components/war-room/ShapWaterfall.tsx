@@ -27,13 +27,20 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
     graph_centrality: "Network Mule Centrality",
     amount_log: "Log-Transformed Volume Anomaly",
     time_of_day: "Temporal Behavioral Deviation",
+    // Custom shorter mappings for long feature names
+    avg_monthly_transaction_count: "Avg Monthly Txns",
+    avg_monthlytransactioncount: "Avg Monthly Txns",
+    amount_vs_income_ratio: "Amount/Income Ratio",
+    amount_vsincome_ratio: "Amount/Income Ratio",
+    transactionchannel: "Transaction Channel",
+    transaction_channel: "Transaction Channel",
   };
 
   const data = Object.entries(shapValues)
     .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
     .slice(0, 6)
     .map(([feature, value]) => ({
-      feature: featureMap[feature] || feature.replace(/_/g, " ").replace(/enc$/, "").toUpperCase(),
+      feature: featureMap[feature.toLowerCase()] || feature.replace(/_/g, " ").replace(/enc$/, "").toUpperCase(),
       value: Number(value.toFixed(4)),
     }));
 
@@ -41,7 +48,6 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-1">
         <p className="text-[10px] text-slate-800 font-bold uppercase tracking-wider flex items-center gap-1.5">
-          <Brain className="w-3 h-3 text-slate-800" />
           SHAP EXPLANATION
         </p>
         <span className="text-[9px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200">
@@ -50,10 +56,10 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
       </div>
       <div className="flex-1 min-h-0 relative -ml-4 mt-2">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{ left: 80, right: 10, top: 0, bottom: 0 }}>
+          <BarChart data={data} layout="vertical" margin={{ left: 110, right: 10, top: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#eaebf0" horizontal={false} />
             <XAxis type="number" tick={{ fontSize: 9, fill: "#64748b" }} axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} />
-            <YAxis type="category" dataKey="feature" tick={{ fontSize: 9, fill: "#64748b" }} width={80} axisLine={false} tickLine={false} />
+            <YAxis type="category" dataKey="feature" tick={{ fontSize: 9, fill: "#64748b" }} width={110} axisLine={false} tickLine={false} />
             <Tooltip
               cursor={{ fill: '#f8fafc' }}
               contentStyle={{ background: "#ffffff", border: "1px solid #eaebf0", borderRadius: 8, fontSize: 11, boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
