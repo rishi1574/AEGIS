@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { AlertTriangle, ShieldAlert, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -9,7 +10,15 @@ const DEMO_ALERTS = [
   { id: 4, type: "apt", message: "FIN7 TTPs observed in card-not-present attacks", time: "1h ago", severity: "medium" },
 ];
 
-export default function ThreatIntelFeed() {
+export default function ThreatIntelFeed({ liveData }: { liveData?: any }) {
+  const [alerts, setAlerts] = useState<any[]>(DEMO_ALERTS);
+
+  useEffect(() => {
+    if (liveData?.threat_intel) {
+      setAlerts((prev) => [liveData.threat_intel, ...prev].slice(0, 15));
+    }
+  }, [liveData]);
+
   const severityColor: Record<string, string> = {
     critical: "text-red-400 bg-red-400/10",
     high: "text-amber-400 bg-amber-400/10",
@@ -23,7 +32,7 @@ export default function ThreatIntelFeed() {
         <p className="text-[10px] text-slate-500 uppercase tracking-wider">Threat Intel (Recorded Future)</p>
       </div>
       <AnimatePresence>
-        {DEMO_ALERTS.map((alert, i) => (
+        {alerts.map((alert, i) => (
           <motion.div
             key={alert.id}
             initial={{ opacity: 0, x: 10 }}

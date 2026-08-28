@@ -1,6 +1,7 @@
 "use client";
+import { useState, useEffect } from "react";
 import { Bot, ShieldCheck, ShieldX } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DEMO_EVENTS = [
   { id: 1, agent: "ShopBot-A42", action: "Purchase ₹29.99 BT Speaker", status: "allowed", reason: "Within spending limit" },
@@ -9,14 +10,23 @@ const DEMO_EVENTS = [
   { id: 4, agent: "TravelBot-R8", action: "Book flight ₹12,400", status: "allowed", reason: "Matches user intent profile" },
 ];
 
-export default function KYAMonitor() {
+export default function KYAMonitor({ liveData }: { liveData?: any }) {
+  const [events, setEvents] = useState<any[]>(DEMO_EVENTS);
+
+  useEffect(() => {
+    if (liveData?.kya_event) {
+      setEvents((prev) => [liveData.kya_event, ...prev].slice(0, 15));
+    }
+  }, [liveData]);
+
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2 mb-2">
         <Bot className="w-4 h-4 text-aegis-purple" />
         <p className="text-[10px] text-slate-500 uppercase tracking-wider">Know Your Agent (AP4M)</p>
       </div>
-      {DEMO_EVENTS.map((evt, i) => (
+      <AnimatePresence>
+      {events.map((evt, i) => (
         <motion.div
           key={evt.id}
           initial={{ opacity: 0, y: 5 }}
@@ -40,6 +50,7 @@ export default function KYAMonitor() {
           <p className="text-[9px] text-slate-500/70 mt-0.5 italic">{evt.reason}</p>
         </motion.div>
       ))}
+      </AnimatePresence>
     </div>
   );
 }

@@ -7,5 +7,5 @@ class RLController:
         pass
         
     def get_action(self, campaign_id: str, state: list) -> list:
-        # Fallback random mutation if model not loaded
-        return [0.01, 0.0] # e.g. amount_mutation, time_shift
+        # Deterministic zero-vector fallback if model not loaded
+        return [0.0, 0.0] # e.g. amount_mutation, time_shift

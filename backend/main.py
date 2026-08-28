@@ -93,35 +93,82 @@ async def simulation_telemetry_loop():
 
         if active_attack:
             attack_name = attack_names.get(active_attack, active_attack)
-            red_msg = f"🔴 RL Agent mutated [{attack_name}] vector by {random.uniform(1.5, 8.0):.1f}%"
-            bypass_rate = min(0.95, bypass_rate + random.uniform(0.01, 0.05))
-        elif random.random() > 0.3:
-            ftype = random.choice(list(attack_names.values()))
-            red_msg = f"🔴 Probing [{ftype}] — mutation #{random.randint(1, 999)}"
+            # Use real data sample for the red team simulation log if available
+            recent = data_service.get_interceptions(limit=100)
+            if recent:
+                target = random.choice(recent)
+                red_msg = f"🔴 Simulating {attack_name} vs Receiver {target.get('receiver_id', 'Unknown')[-4:]} (Amt: ₹{target.get('amount_inr', 0)})"
+            else:
+                red_msg = f"🔴 Initiating {attack_name} simulation..."
         else:
             red_msg = None
 
-        # Blue team log
-        if random.random() > 0.25:
-            score = random.uniform(0.65, 0.99)
-            model_type = random.choice(["XGBoost", "Graph Detector", "Temporal Analyzer", "Ensemble"])
-            action = "BLOCKED" if score > 0.7 else "FLAGGED"
-            blue_msg = f"🛡️ {model_type} {action} anomalous sequence (Score: {score:.2f})"
-            fraud_detected += random.randint(1, 3)
-        else:
-            blue_msg = None
+        # Blue team log - pull from actual interception records
+        blue_msg = None
+        if random.random() > 0.4:
+            recent = data_service.get_interceptions(limit=50)
+            if recent:
+                intercept = random.choice(recent)
+                blue_msg = f"🛡️ Ensembled Blocked: {intercept.get('fraud_type', 'Suspicious').replace('_', ' ')} (Txn: {intercept.get('transaction_id')}, Risk: {intercept.get('risk_score', 0):.2f})"
+                fraud_detected += 1
 
         generations += 1
         
-        # Slowly evolve metrics (simulate the loop progressing)
-        if not active_attack:
-            bypass_rate = max(0.01, bypass_rate - random.uniform(0.001, 0.01))
-        drift_score += random.uniform(-0.02, 0.03)
-        drift_score = max(0.0, min(drift_score, 1.0))
-
-        # Advance through real data slowly
+        # Advance through real adversarial iterations
         if generations % 15 == 0 and current_iter_idx < len(real_bypass) - 1:
             current_iter_idx += 1
+            bypass_rate = real_bypass[current_iter_idx]
+            if current_iter_idx < len(real_accuracy):
+                drift_score = 1.0 - real_accuracy[current_iter_idx]
+            
+        # Threat Intel Event based on actual active attack
+        threat_intel = None
+        if active_attack and random.random() > 0.8:
+            intel_mapping = {
+                "synthetic_id_bustout": {"type": "darkweb", "msg": "Mass synthetic identities detected on darkweb forum", "sev": "high"},
+                "deepfake_ato": {"type": "apt", "msg": "Deepfake voice cloning service spotted on Genesis Market", "sev": "critical"},
+                "txn_fuzzing": {"type": "botnet", "msg": "High-velocity API probing detected from known botnet IPs", "sev": "medium"},
+                "digital_arrest": {"type": "mule", "msg": "New 'Digital Arrest' scam call center identified in Node 4", "sev": "high"},
+                "merchant_collusion": {"type": "magecart", "msg": "Anomalous merchant chargebacks detected in APAC", "sev": "medium"},
+            }
+            if active_attack in intel_mapping:
+                choice = intel_mapping[active_attack]
+                threat_intel = {
+                    "id": random.randint(1000, 9999),
+                    "type": choice["type"],
+                    "message": choice["msg"],
+                    "time": "Just now",
+                    "severity": choice["sev"]
+                }
+            else:
+                threat_intel = {
+                    "id": random.randint(1000, 9999),
+                    "type": "apt",
+                    "message": f"Signatures matching {attack_names.get(active_attack, active_attack)} detected",
+                    "time": "Just now",
+                    "severity": "medium"
+                }
+
+        # Know Your Agent (KYA) Event from real intercepted transactions
+        kya_event = None
+        if random.random() > 0.7:
+            recent_interceptions = data_service.get_interceptions(limit=20)
+            if recent_interceptions:
+                intercept = random.choice(recent_interceptions)
+                kya_event = {
+                    "id": intercept.get("transaction_id"),
+                    "agent": f"Agent-{intercept.get('sender_id', 'Unknown')[-4:]}",
+                    "action": f"Txn of ₹{intercept.get('amount_inr', 0)}",
+                    "status": "blocked" if intercept.get("recommended_action") == "BLOCKED" else "allowed",
+                    "reason": f"Flagged: {intercept.get('fraud_type', 'Suspicious')}"
+                }
+
+        # Dynamic SHAP Explanation from real models
+        shap_explanation = None
+        if random.random() > 0.85:
+            real_shaps = data_service.get_sample_shap()
+            if real_shaps:
+                shap_explanation = random.choice(real_shaps)
             
         payload = {
             "type": "telemetry_update",
@@ -135,6 +182,9 @@ async def simulation_telemetry_loop():
                 "blue_team_log": blue_msg,
                 "system_hardness": round((1.0 - bypass_rate) * 100, 1),
                 "active_attack": active_attack,
+                "threat_intel": threat_intel,
+                "kya_event": kya_event,
+                "shap_explanation": shap_explanation
             }
         }
         await manager.broadcast(payload)

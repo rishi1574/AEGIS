@@ -1,26 +1,27 @@
-import random
 import time
-import asyncio
+import hashlib
+from backend.services.data_service import data_service
 
 class FederatedBankNode:
     def __init__(self, name: str, data_volume: int):
         self.name = name
         self.data_volume = data_volume
-        self.local_accuracy = random.uniform(0.70, 0.85)
+        # Deterministic variance offset derived from node name
+        name_hash = int(hashlib.md5(name.encode()).hexdigest(), 16)
+        self.offset = (name_hash % 100) / 10000.0  # E.g., 0.00xx penalty
+        self.local_accuracy = 0.8
         self.gradient_updates_sent = 0
-        self.status = "SYNCING"
+        self.status = "SYNCED"
 
-    def train_local(self, new_attacks_detected: int):
-        # Simulate local learning on new attacks
-        improvement = random.uniform(0.001, 0.015) * (new_attacks_detected / 10.0)
-        self.local_accuracy = min(0.99, self.local_accuracy + improvement)
-        self.gradient_updates_sent += 1
-        return {
-            "name": self.name,
-            "accuracy": round(self.local_accuracy, 4),
-            "gradients": self.gradient_updates_sent,
-            "status": "UPDATED" if random.random() > 0.3 else "COMPUTING"
-        }
+    def update_local(self, global_acc: float, current_round: int):
+        # Local model is slightly behind global model deterministically
+        self.local_accuracy = max(0.5, global_acc - self.offset - 0.002)
+        
+        # Deterministic status based on current round to simulate staggered updates
+        round_hash = int(hashlib.md5(f"{current_round}_{self.name}".encode()).hexdigest(), 16)
+        self.status = "UPDATED" if (round_hash % 100) > 30 else "COMPUTING"
+        if self.status == "UPDATED":
+            self.gradient_updates_sent += 1
 
 class FederatedCoordinator:
     def __init__(self):
@@ -29,26 +30,21 @@ class FederatedCoordinator:
             FederatedBankNode("Retail Bank (EMEA)", 850000),
             FederatedBankNode("Digital Bank (NAM)", 2100000)
         ]
-        self.global_model_accuracy = 0.88
         self.round = 1
 
     def aggregate_weights(self):
-        # Federated Averaging (FedAvg) simulation
-        total_volume = sum(n.data_volume for n in self.nodes)
-        weighted_acc = sum(n.local_accuracy * (n.data_volume / total_volume) for n in self.nodes)
+        # Pull actual global model accuracy from the real evaluation results
+        metrics = data_service.get_metrics()
+        real_global_acc = metrics.get("f1_score", 0.938)
         
-        # The global model benefits from the ensemble effect, adding a small boost
-        self.global_model_accuracy = min(0.998, weighted_acc + 0.02)
         self.round += 1
         
-        # Propagate back to nodes
         for n in self.nodes:
-            n.local_accuracy = min(0.99, self.global_model_accuracy - random.uniform(0.005, 0.015))
-            n.status = "SYNCED"
+            n.update_local(real_global_acc, self.round)
 
         return {
             "round": self.round,
-            "global_accuracy": round(self.global_model_accuracy, 4),
+            "global_accuracy": round(real_global_acc, 4),
             "nodes": [
                 {
                     "name": n.name,

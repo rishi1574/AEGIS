@@ -44,13 +44,16 @@ export default function WarRoom() {
     return () => clearInterval(fedInterval);
   }, [get]);
 
-  // Update hardness from live telemetry
+  // Update hardness and SHAP from live telemetry
   useEffect(() => {
     if (lastMessage?.data?.system_hardness) {
       setHardness((prev: any) => ({
         ...prev,
         score: lastMessage.data.system_hardness,
       }));
+    }
+    if (lastMessage?.data?.shap_explanation) {
+      setShapData(lastMessage.data.shap_explanation);
     }
   }, [lastMessage]);
 
@@ -115,12 +118,12 @@ export default function WarRoom() {
         </div>
         <div className="col-span-2">
           <div className="glass-card h-full p-3 overflow-y-auto">
-            <ThreatIntelFeed />
+            <ThreatIntelFeed liveData={lastMessage?.data} />
           </div>
         </div>
         <div className="col-span-3">
           <div className="glass-card h-full p-3 overflow-y-auto">
-            <KYAMonitor />
+            <KYAMonitor liveData={lastMessage?.data} />
           </div>
         </div>
       </div>
