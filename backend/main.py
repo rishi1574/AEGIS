@@ -1,4 +1,4 @@
-"""AEGIS Backend — FastAPI + WebSocket with real data integration."""
+"""VANGUARD Backend — FastAPI + WebSocket with real data integration."""
 import json
 import asyncio
 import random
@@ -12,7 +12,7 @@ from backend.services.rl_controller import BattleSimulator
 
 battle_simulator = BattleSimulator()
 
-app = FastAPI(title="AEGIS API", version="1.0.0",
+app = FastAPI(title="VANGUARD API", version="1.0.0",
               description="Adversarial Evolution & Generative Intelligence Shield")
 app.add_middleware(CORSMiddleware, allow_origins=Config.CORS_ORIGINS,
                    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
@@ -294,7 +294,7 @@ async def startup_event():
 async def health():
     return {
         "status": "healthy",
-        "service": "aegis-backend",
+        "service": "vanguard-backend",
         "data_loaded": data_service.is_loaded,
         "transactions": len(data_service.transactions_df) if data_service.transactions_df is not None else 0,
     }

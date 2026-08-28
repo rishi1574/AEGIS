@@ -1,6 +1,6 @@
 # 📊 Member C — Data/Research Lead & Strategist: Complete Guide
 
-> **Role:** Write the Pitch Deck, define the AEGIS USPs, explain the AI models (GNN, SHAP, Federated), and curate the training datasets.
+> **Role:** Write the Pitch Deck, define the VANGUARD USPs, explain the AI models (GNN, SHAP, Federated), and curate the training datasets.
 > **Your directories:** `docs/`, `data/`
 > **Do NOT touch:** `frontend/`, `backend/`, `red_team/` code
 > **Goal:** Prove to Mastercard that this is the best, most technically sound, and most innovative solution for 2026.
@@ -12,9 +12,9 @@
 You need to create a 10-15 slide pitch deck. Here is the exact structure and content to include.
 
 **Slide 1: Title & Hook**
-*   **Title:** Project AEGIS (Adversarial Evolution & Generative Intelligence Shield)
+*   **Title:** Project VANGUARD (Adversarial Evolution & Generative Intelligence Shield)
 *   **Subtitle:** Self-Healing Payment Security for the GenAI Era.
-*   **Hook:** By 2026, fraudsters aren't writing rules; they are using Agentic AI to probe networks at machine speed. Static defenses are obsolete. AEGIS fights AI with AI.
+*   **Hook:** By 2026, fraudsters aren't writing rules; they are using Agentic AI to probe networks at machine speed. Static defenses are obsolete. VANGUARD fights AI with AI.
 
 **Slide 2: The Problem (GenAI Fraud Landscape 2026)**
 *   **Speed:** Agentic Hijacking (AI agents making autonomous purchases).
@@ -22,7 +22,7 @@ You need to create a 10-15 slide pitch deck. Here is the exact structure and con
 *   **Sophistication:** Deepfake ATOs & Synthetic ID Bust-Outs.
 *   **The Flaw:** Current models (even ML) suffer from *Concept Drift*. They degrade as fraud evolves.
 
-**Slide 3: The AEGIS Solution (Red vs. Blue)**
+**Slide 3: The VANGUARD Solution (Red vs. Blue)**
 *   **Concept:** A continuous, closed-loop adversarial simulation.
 *   **Red Team Engine:** Autonomous AI agents generating novel fraud vectors (not just historical replays).
 *   **Blue Team Engine:** Real-time detection pipeline learning from the Red Team's zero-day attacks.
@@ -41,15 +41,15 @@ You need to create a 10-15 slide pitch deck. Here is the exact structure and con
 
 **Slide 6: USP 2 - Explainable AI (SHAP Waterfall)**
 *   Mastercard needs trust. Black-box models are unacceptable for compliance.
-*   AEGIS uses TreeExplainer (SHAP) to explain *exactly* why a transaction was blocked in real-time. (e.g., "Amount Z-Score + Mule Chain Depth").
+*   VANGUARD uses TreeExplainer (SHAP) to explain *exactly* why a transaction was blocked in real-time. (e.g., "Amount Z-Score + Mule Chain Depth").
 
 **Slide 7: USP 3 - Federated Mule Detection**
 *   Fraudsters use cross-bank mule networks. Bank A can't see Bank B's data.
-*   AEGIS implements Federated Learning: training a global model on local patterns without sharing PII, boosting detection of complex mule chains by 12.8%.
+*   VANGUARD implements Federated Learning: training a global model on local patterns without sharing PII, boosting detection of complex mule chains by 12.8%.
 
 **Slide 8: USP 4 - Protection for Agentic Commerce (AP4M)**
 *   As AI agents (AP4M) start buying things for humans, how do we know if the agent went rogue or was prompted-injected?
-*   AEGIS introduces "Know Your Agent" (KYA) monitoring.
+*   VANGUARD introduces "Know Your Agent" (KYA) monitoring.
 
 **Slide 9: The Tech Stack**
 *   **Simulation:** Python, NetworkX, Stable-Baselines3 (RL).
@@ -114,10 +114,10 @@ Document these for the team so Member A knows exactly what to simulate:
 ## 4. Implementation Steps (Run These)
 
 ### File 1: `docs/member_c_scripts/generate_pitch.py`
-Run this script to auto-generate the base PowerPoint presentation for Project AEGIS.
+Run this script to auto-generate the base PowerPoint presentation for Project VANGUARD.
 
 ```bash
-cd /Users/swarup/Mastercard_Innovation_Challenge_2026/aegis
+cd /Users/swarup/Mastercard_Innovation_Challenge_2026/vanguard
 source .venv/bin/activate
 python docs/member_c_scripts/generate_pitch.py
 ```
@@ -126,7 +126,7 @@ python docs/member_c_scripts/generate_pitch.py
 Run this script to automatically pull the features from the transaction schema and output a clean Markdown Data Dictionary.
 
 ```bash
-cd /Users/swarup/Mastercard_Innovation_Challenge_2026/aegis
+cd /Users/swarup/Mastercard_Innovation_Challenge_2026/vanguard
 source .venv/bin/activate
 python docs/member_c_scripts/extract_data_dictionary.py
 ```

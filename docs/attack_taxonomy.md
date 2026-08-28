@@ -1,4 +1,4 @@
-# AEGIS Attack Taxonomy
+# VANGUARD Attack Taxonomy
 
 1. **Synthetic ID Bust-out:** Long term trust building followed by massive credit extraction.
 2. **Deepfake ATO:** Using GenAI voice/video to bypass biometric authentication.

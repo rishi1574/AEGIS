@@ -12,7 +12,7 @@ def create_pitch_deck():
     slide = prs.slides.add_slide(title_slide_layout)
     title = slide.shapes.title
     subtitle = slide.placeholders[1]
-    title.text = "Project AEGIS"
+    title.text = "Project VANGUARD"
     subtitle.text = "Adversarial Evolution & Generative Intelligence Shield\nSelf-Healing Payment Security for the GenAI Era."
 
     # Slide 2: Problem
@@ -36,7 +36,7 @@ def create_pitch_deck():
     shapes = slide.shapes
     title_shape = shapes.title
     body_shape = shapes.placeholders[1]
-    title_shape.text = "The AEGIS Solution (Red vs. Blue)"
+    title_shape.text = "The VANGUARD Solution (Red vs. Blue)"
     tf = body_shape.text_frame
     tf.text = "Concept: A continuous, closed-loop adversarial simulation."
     p = tf.add_paragraph()

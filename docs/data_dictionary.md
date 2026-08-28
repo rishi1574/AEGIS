@@ -1,6 +1,6 @@
-# AEGIS Data Dictionary
+# VANGUARD Data Dictionary
 
-**Description:** AEGIS Transaction Schema — Single Source of Truth
+**Description:** VANGUARD Transaction Schema — Single Source of Truth
 
 ## Features
 
