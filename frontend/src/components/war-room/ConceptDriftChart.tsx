@@ -32,14 +32,14 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
   }, [liveData]);
 
   return (
-    <div className="glass-card bg-white shadow-sm h-full flex flex-col">
+    <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full flex flex-col">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-        <Activity className="w-5 h-5 text-aegis-amber" />
-        <h2 className="text-sm font-semibold text-aegis-amber uppercase tracking-wider">
+        <Activity className="w-5 h-5 text-slate-800" />
+        <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Adversarial Co-Evolution
         </h2>
-        <span className="ml-auto text-[10px] text-slate-500 font-mono">
-          {data.length} iterations
+        <span className="ml-auto text-[10px] text-slate-500 font-mono bg-slate-50 px-2 py-1 rounded border border-slate-200">
+          {data.length} ITERATIONS
         </span>
       </div>
       <div className="flex-1 p-3">
@@ -47,29 +47,30 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
           <AreaChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                <stop offset="5%" stopColor="#1a1f71" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#1a1f71" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                <stop offset="5%" stopColor="#d92d20" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#d92d20" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="iteration" tick={{ fontSize: 10, fill: "#94a3b8" }} />
-            <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} domain={[0, 1]}
-                   tickFormatter={(v: number) => `${(v*100).toFixed(0)}%`} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#eaebf0" />
+            <XAxis dataKey="iteration" tick={{ fontSize: 10, fill: "#64748b" }} axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} />
+            <YAxis tick={{ fontSize: 10, fill: "#64748b" }} domain={[0, 1]}
+                   tickFormatter={(v: number) => `${(v*100).toFixed(0)}%`} axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} />
             <Tooltip
-              contentStyle={{ background: "#1a2235", border: "1px solid #1e293b", borderRadius: 8, fontSize: 12 }}
-              labelStyle={{ color: "#94a3b8" }}
+              contentStyle={{ background: "#ffffff", border: "1px solid #eaebf0", borderRadius: 8, fontSize: 12, boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+              labelStyle={{ color: "#1e293b", fontWeight: "bold", marginBottom: "4px" }}
+              itemStyle={{ padding: "2px 0" }}
               formatter={(value: any, name: any) => [
                 `${(Number(value) * 100).toFixed(1)}%`,
                 name === "blue_accuracy" ? " Blue Team Accuracy" : " Red Team Bypass"
               ]}
             />
-            <Area type="monotone" dataKey="blue_accuracy" stroke="#3b82f6" strokeWidth={2}
+            <Area type="monotone" dataKey="blue_accuracy" stroke="#1a1f71" strokeWidth={2.5}
                   fillOpacity={1} fill="url(#blueGrad)" dot={false} />
-            <Area type="monotone" dataKey="red_bypass" stroke="#ef4444" strokeWidth={2}
+            <Area type="monotone" dataKey="red_bypass" stroke="#d92d20" strokeWidth={2.5}
                   fillOpacity={1} fill="url(#redGrad)" dot={false} />
           </AreaChart>
         </ResponsiveContainer>

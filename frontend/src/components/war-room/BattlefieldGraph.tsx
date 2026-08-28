@@ -1,6 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
-import { Network, Info, ArrowDown, ArrowUp, AlertTriangle } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { Network, Info, AlertTriangle, ArrowUp, ArrowDown } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -13,7 +13,7 @@ interface NodeStats {
 
 interface GraphNode {
   id: string;
-  type: "victim" | "mule" | "merchant" | "synthetic";
+  type: "victim" | "mule" | "merchant" | "synthetic" | "agent" | "account";
   x: number;
   y: number;
   stats: NodeStats;
@@ -23,78 +23,271 @@ interface GraphEdge {
   source: string;
   target: string;
   isFraud: boolean;
+  isFeedback?: boolean;
 }
 
 export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
-  const activeAttack = liveData?.active_attack || "default";
 
-  // Generate dynamic network topology based on the current attack
-  const { nodes, edges } = useMemo(() => {
-    let generatedNodes: GraphNode[] = [];
-    let generatedEdges: GraphEdge[] = [];
 
-    const createNode = (id: string, type: GraphNode["type"], x: number, y: number, txns: number, blocked: number, risk: number) => {
-      return { id, type, x, y, stats: { type: type.charAt(0).toUpperCase() + type.slice(1), totalTxns: txns, blockedTxns: blocked, riskScore: risk } };
+  // Track physics state across renders
+  const physicsNodes = useRef<Map<string, GraphNode & { vx: number; vy: number }>>(new Map());
+
+  // Ingest real transactions from backend
+  useEffect(() => {
+    if (!liveData?.transaction_graph) return;
+    
+    const { nodes: incomingNodes } = liveData.transaction_graph;
+    const incomingSet = new Set(incomingNodes.map((n: any) => n.id));
+    
+    // Add new nodes
+    incomingNodes.forEach((n: any) => {
+      if (!physicsNodes.current.has(n.id)) {
+        // Zone-based initial placement: accounts LEFT, merchants CENTER, mules RIGHT
+        let startX = 400;
+        if (n.type === "account" || n.type === "victim") startX = 150 + Math.random() * 100;
+        else if (n.type === "merchant") startX = 350 + Math.random() * 100;
+        else startX = 550 + Math.random() * 100; // mule, synthetic, agent
+
+        physicsNodes.current.set(n.id, {
+          id: n.id,
+          type: n.type,
+          x: startX,
+          y: 100 + Math.random() * 200,
+          vx: 0,
+          vy: 0,
+          stats: {
+            type: n.type.charAt(0).toUpperCase() + n.type.slice(1),
+            totalTxns: n.txn_count || 1,
+            blockedTxns: n.blocked_count || 0,
+            riskScore: Math.round((n.risk || 0) * 100),
+          }
+        });
+      } else {
+        // Update existing node stats with latest real data from backend
+        const existing = physicsNodes.current.get(n.id)!;
+        existing.stats.totalTxns = n.txn_count || existing.stats.totalTxns;
+        existing.stats.blockedTxns = n.blocked_count || existing.stats.blockedTxns;
+        existing.stats.riskScore = Math.round((n.risk || 0) * 100);
+      }
+    });
+
+    // Remove old nodes to prevent clutter
+    for (const key of physicsNodes.current.keys()) {
+      if (!incomingSet.has(key)) {
+        physicsNodes.current.delete(key);
+      }
+    }
+  }, [liveData?.transaction_graph]);
+
+  // Canvas Animation & Physics Render Loop
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const w = canvas.width = canvas.offsetWidth;
+    const h = canvas.height = canvas.offsetHeight;
+    const scaleX = w / 800;
+    const scaleY = h / 400;
+
+    let frame: number;
+    let t = 0;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+
+      const nodes = Array.from(physicsNodes.current.values());
+      const edges = liveData?.transaction_graph?.edges || [];
+
+      // PHYSICS ENGINE — higher repulsion + longer edges = more spacing
+      const repel = 3000;
+      const attract = 0.03;
+      const friction = 0.82;
+      const centerForce = 0.025;
+
+      // 1. Repulsion between all nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n1 = nodes[i];
+          const n2 = nodes[j];
+          const dx = n2.x - n1.x;
+          const dy = n2.y - n1.y;
+          let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const f = repel / (dist * dist);
+          n1.vx -= (dx / dist) * f;
+          n1.vy -= (dy / dist) * f;
+          n2.vx += (dx / dist) * f;
+          n2.vy += (dy / dist) * f;
+        }
+      }
+
+      // 2. Attraction along edges
+      edges.forEach((e: any) => {
+        const n1 = physicsNodes.current.get(e.source);
+        const n2 = physicsNodes.current.get(e.target);
+        if (!n1 || !n2) return;
+        const dx = n2.x - n1.x;
+        const dy = n2.y - n1.y;
+        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const diff = dist - 120; // Longer target edge length for spacing
+        const f = diff * attract;
+        n1.vx += (dx / dist) * f;
+        n1.vy += (dy / dist) * f;
+        n2.vx -= (dx / dist) * f;
+        n2.vy -= (dy / dist) * f;
+      });
+
+      // 3. Update Positions & Apply ZONE-BASED Center Gravity
+      // Accounts gravitate LEFT, merchants CENTER, mules/fraud RIGHT
+      // This creates a natural left-to-right "money flow" narrative
+      nodes.forEach((n) => {
+        let targetX = 400; // default center
+        if (n.type === "account" || n.type === "victim") targetX = 180;
+        else if (n.type === "merchant") targetX = 400;
+        else targetX = 620; // mule, synthetic, agent
+
+        n.vx += (targetX - n.x) * centerForce;
+        n.vy += (200 - n.y) * centerForce;
+        n.vx *= friction;
+        n.vy *= friction;
+        n.x += n.vx;
+        n.y += n.vy;
+        
+        // Keep within bounds with generous margins
+        n.x = Math.max(60, Math.min(740, n.x));
+        n.y = Math.max(60, Math.min(340, n.y));
+      });
+
+      // Draw Edges
+      edges.forEach((e: any) => {
+        const src = physicsNodes.current.get(e.source);
+        const tgt = physicsNodes.current.get(e.target);
+        if (!src || !tgt) return;
+
+        const sx = src.x * scaleX;
+        const sy = src.y * scaleY;
+        const tx = tgt.x * scaleX;
+        const ty = tgt.y * scaleY;
+
+        ctx.beginPath();
+        if (e.isFeedback) {
+          ctx.setLineDash([5, 5]);
+          ctx.strokeStyle = "#f97316"; // Orange dashed for RL feedback loop
+          ctx.lineWidth = 2;
+          ctx.moveTo(sx, sy);
+          ctx.quadraticCurveTo(sx + (tx - sx) / 2, sy - 80, tx, ty);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          
+          ctx.fillStyle = "#f97316";
+          ctx.font = "bold 10px sans-serif";
+          ctx.fillText("RL Policy Blocked", sx + (tx - sx) / 2 - 40, sy - 45);
+        } else {
+          ctx.strokeStyle = e.isFraud ? "#fca5a5" : "#e2e8f0";
+          ctx.lineWidth = 1.5;
+          ctx.moveTo(sx, sy);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+        }
+
+        // Animated particles traveling along the edge
+        const progress = (t * (e.isFeedback ? 0.015 : 0.025)) % 1;
+        let px, py;
+        if (e.isFeedback) {
+          const cx = sx + (tx - sx) / 2;
+          const cy = sy - 80;
+          px = (1 - progress) * (1 - progress) * sx + 2 * (1 - progress) * progress * cx + progress * progress * tx;
+          py = (1 - progress) * (1 - progress) * sy + 2 * (1 - progress) * progress * cy + progress * progress * ty;
+        } else {
+          px = sx + (tx - sx) * progress;
+          py = sy + (ty - sy) * progress;
+        }
+
+        ctx.beginPath();
+        ctx.fillStyle = e.isFeedback ? "#f97316" : e.isFraud ? "#ef4444" : "#94a3b8";
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw Nodes
+      nodes.forEach((n) => {
+        const nx = n.x * scaleX;
+        const ny = n.y * scaleY;
+
+        ctx.beginPath();
+        // Clear color mapping per node type
+        const color = n.type === "account" ? "#e2e8f0" : n.type === "victim" ? "#e2e8f0" : n.type === "mule" ? "#fca5a5" : n.type === "synthetic" ? "#f87171" : n.type === "merchant" ? "#93c5fd" : n.type === "agent" ? "#a78bfa" : "#60a5fa";
+        const border = n.type === "account" ? "#94a3b8" : n.type === "victim" ? "#94a3b8" : n.type === "mule" ? "#ef4444" : n.type === "synthetic" ? "#dc2626" : n.type === "merchant" ? "#3b82f6" : n.type === "agent" ? "#7c3aed" : "#3b82f6";
+        const radius = n.type === "mule" || n.type === "merchant" || n.type === "agent" ? 14 : 10;
+
+        if (hoveredNode === n.id) {
+          ctx.beginPath();
+          ctx.strokeStyle = "#f97316";
+          ctx.lineWidth = 3;
+          ctx.arc(nx, ny, radius + 6, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.strokeStyle = border;
+        ctx.lineWidth = 1.5;
+        ctx.arc(nx, ny, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        if (hoveredNode === n.id || n.type === "merchant" || n.type === "mule" || n.type === "agent") {
+          ctx.fillStyle = "#475569";
+          ctx.font = "10px monospace";
+          ctx.fillText(n.id, nx + radius + (hoveredNode === n.id ? 10 : 6), ny + 4);
+        }
+      });
+
+      t++;
+      frame = requestAnimationFrame(draw);
     };
 
-    if (activeAttack === "merchant_collusion") {
-      // Multiple mules targeting specific merchants
-      generatedNodes.push(createNode("MCH_801", "merchant", 650, 150, 450, 80, 8.5));
-      generatedNodes.push(createNode("MCH_802", "merchant", 650, 250, 320, 40, 9.2));
-      for (let i = 0; i < 8; i++) {
-        const mId = `MUL_${300 + i}`;
-        generatedNodes.push(createNode(mId, "mule", 200 + Math.random() * 200, 50 + Math.random() * 300, 15, 5, 7.8));
-        generatedEdges.push({ source: mId, target: Math.random() > 0.5 ? "MCH_801" : "MCH_802", isFraud: true });
+    draw();
+    return () => cancelAnimationFrame(frame);
+  }, [liveData?.transaction_graph, hoveredNode]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const scaleX = canvas.width / 800;
+    const scaleY = canvas.height / 400;
+
+    const nodes = Array.from(physicsNodes.current.values());
+    let found: string | null = null;
+    
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const n = nodes[i];
+      const nx = n.x * scaleX;
+      const ny = n.y * scaleY;
+      const radius = n.type === "mule" || n.type === "merchant" || n.type === "agent" ? 14 : 10;
+      
+      const dx = x - nx;
+      const dy = y - ny;
+      if (dx * dx + dy * dy <= (radius + 6) * (radius + 6)) {
+        found = n.id;
+        break;
       }
-    } else if (activeAttack === "synthetic_id_bustout") {
-      // Cluster of fake accounts orchestrating a bust-out on a single merchant
-      generatedNodes.push(createNode("MCH_999", "merchant", 600, 200, 1200, 450, 9.9));
-      for (let i = 0; i < 15; i++) {
-        const sId = `SYN_${900 + i}`;
-        generatedNodes.push(createNode(sId, "synthetic", 150 + Math.random() * 150, 50 + Math.random() * 300, 50, 50, 9.5));
-        generatedEdges.push({ source: sId, target: "MCH_999", isFraud: true });
-      }
-    } else {
-      // Default standard fraud funnel topology
-      generatedNodes = [
-        createNode("152", "mule", 400, 200, 85, 42, 8.9),
-        createNode("101", "victim", 100, 150, 12, 0, 1.2),
-        createNode("102", "victim", 150, 80, 24, 1, 1.5),
-        createNode("103", "victim", 220, 280, 8, 0, 0.8),
-        createNode("104", "victim", 300, 350, 35, 2, 2.1),
-        createNode("105", "victim", 280, 120, 15, 0, 1.1),
-        createNode("201", "merchant", 650, 120, 890, 12, 3.4),
-        createNode("202", "merchant", 700, 260, 450, 5, 2.8),
-        createNode("203", "mule", 550, 300, 45, 12, 7.5),
-      ];
-      generatedEdges = [
-        { source: "101", target: "152", isFraud: false },
-        { source: "102", target: "152", isFraud: false },
-        { source: "103", target: "152", isFraud: true },
-        { source: "105", target: "152", isFraud: false },
-        { source: "152", target: "201", isFraud: true },
-        { source: "152", target: "203", isFraud: true },
-        { source: "203", target: "202", isFraud: false },
-      ];
     }
+    
+    if (found !== hoveredNode) {
+      setHoveredNode(found);
+    }
+  };
 
-    return { nodes: generatedNodes, edges: generatedEdges };
-  }, [activeAttack]);
-
-  const connectedNodes = useMemo(() => {
-    if (!hoveredNode) return new Set<string>();
-    const connected = new Set<string>();
-    connected.add(hoveredNode);
-    edges.forEach((edge) => {
-      if (edge.source === hoveredNode) connected.add(edge.target);
-      if (edge.target === hoveredNode) connected.add(edge.source);
-    });
-    return connected;
-  }, [hoveredNode, edges]);
-
-  const hoveredNodeData = hoveredNode ? nodes.find((n) => n.id === hoveredNode) : null;
+  const hoveredNodeData = hoveredNode ? physicsNodes.current.get(hoveredNode) : null;
 
   return (
     <div className="bg-white border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden rounded-xl">
@@ -103,100 +296,56 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
         <h2 className="text-sm font-semibold text-slate-800 uppercase tracking-wider">
           Transaction Network
         </h2>
-        <Tooltip content="Live topology mapping of accounts, mules, and merchants">
+        <Tooltip content="Live topology mapping tracking multi-agent adversarial feedback loops">
           <Info className="w-4 h-4 text-slate-400 cursor-help ml-1" />
         </Tooltip>
         <div className="ml-auto flex items-center gap-4 text-[10px] text-slate-600">
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300" /> Victim</span>
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500 border border-blue-600" /> High-Risk (Mule/Merchant)</span>
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full border-2 border-orange-500 flex items-center justify-center"><div className="w-1 h-1 bg-slate-300 rounded-full" /></span> Selected</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300" /> Account</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-300 border border-blue-500" /> Merchant</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-300 border border-red-500" /> Mule</span>
         </div>
       </div>
 
       <div className="flex-1 relative bg-[#fafafa]">
-        {/* Active Attack Indicator overlay */}
-        {activeAttack !== "default" && (
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-red-500/10 border border-red-200 rounded-md text-red-700 text-xs font-semibold animate-pulse">
-            <AlertTriangle className="w-3.5 h-3.5" />
-            DETECTED TOPOLOGY: {activeAttack.replace(/_/g, ' ').toUpperCase()}
+        {/* Phase Indicator — driven by backend battle simulator, NOT the user click */}
+        {liveData?.battle_phase && liveData.battle_phase !== "IDLE" && (
+          <div className={`absolute top-4 left-4 z-10 flex flex-col gap-1 px-3 py-2 rounded-md shadow-sm border ${
+            liveData.battle_phase === "RECON" ? "bg-yellow-50 border-yellow-200" :
+            liveData.battle_phase === "DETECTION" ? "bg-orange-50 border-orange-200" :
+            liveData.battle_phase === "CONTAINMENT" ? "bg-blue-50 border-blue-200" :
+            liveData.battle_phase === "MUTATION" ? "bg-red-50 border-red-200" :
+            "bg-purple-50 border-purple-200"
+          }`}>
+            <div className={`flex items-center gap-2 text-xs font-semibold ${
+              liveData.battle_phase === "RECON" ? "text-yellow-700" :
+              liveData.battle_phase === "DETECTION" ? "text-orange-700" :
+              liveData.battle_phase === "CONTAINMENT" ? "text-blue-700" :
+              liveData.battle_phase === "MUTATION" ? "text-red-700 animate-pulse" :
+              "text-purple-700"
+            }`}>
+              <AlertTriangle className="w-3.5 h-3.5" />
+              PHASE: {liveData.battle_phase} (Tick {liveData.battle_tick || 0})
+            </div>
+            <div className="text-[10px] text-slate-600">
+              {liveData.battle_phase === "RECON" && "Red Team injecting covert transactions..."}
+              {liveData.battle_phase === "DETECTION" && (
+                liveData.detected_attack_type
+                  ? `Classified: ${liveData.detected_attack_type.replace(/_/g, " ").toUpperCase()} (${Math.round((liveData.detection_confidence || 0) * 100)}%)`
+                  : `Analyzing anomalies... (${Math.round((liveData.detection_confidence || 0) * 100)}% confidence)`
+              )}
+              {liveData.battle_phase === "CONTAINMENT" && `Blocking fraud — Success rate: ${Math.round((liveData.red_team_success_rate || 0) * 100)}%`}
+              {liveData.battle_phase === "MUTATION" && `Red Team mutating (Gen-${liveData.mutation_generation || 0})`}
+              {liveData.battle_phase === "ADAPTATION" && "Blue Team adapting to mutations..."}
+            </div>
           </div>
         )}
 
-        <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" className="w-full h-full">
-          {edges.map((edge, i) => {
-            const src = nodes.find((n) => n.id === edge.source)!;
-            const tgt = nodes.find((n) => n.id === edge.target)!;
-            if (!src || !tgt) return null;
-            
-            const isHoveredEdge = hoveredNode && (edge.source === hoveredNode || edge.target === hoveredNode);
-            const isFaded = hoveredNode && !isHoveredEdge;
-
-            return (
-              <line
-                key={i}
-                x1={src.x}
-                y1={src.y}
-                x2={tgt.x}
-                y2={tgt.y}
-                stroke={isHoveredEdge ? "#3b82f6" : (edge.isFraud && activeAttack !== 'default' ? "#fca5a5" : "#e2e8f0")}
-                strokeWidth={isHoveredEdge ? 2.5 : 1.5}
-                strokeOpacity={isFaded ? 0.2 : 1}
-                className="transition-all duration-300"
-              />
-            );
-          })}
-
-          {nodes.map((node) => {
-            const isHovered = hoveredNode === node.id;
-            const isFaded = hoveredNode && !connectedNodes.has(node.id);
-            
-            const fill = node.type === "victim" ? "#e2e8f0" : node.type === "synthetic" ? "#f87171" : "#60a5fa";
-            const border = node.type === "victim" ? "#94a3b8" : node.type === "synthetic" ? "#dc2626" : "#3b82f6";
-            const radius = node.type === "mule" || node.type === "merchant" ? 14 : 10;
-
-            return (
-              <g 
-                key={node.id} 
-                className="transition-all duration-300 cursor-pointer"
-                style={{ opacity: isFaded ? 0.15 : 1 }}
-                onMouseEnter={() => setHoveredNode(node.id)}
-                onMouseLeave={() => setHoveredNode(null)}
-              >
-                {isHovered && (
-                  <circle
-                    cx={node.x}
-                    cy={node.y}
-                    r={radius + 6}
-                    fill="transparent"
-                    stroke="#f97316"
-                    strokeWidth={3}
-                  />
-                )}
-                
-                <circle
-                  cx={node.x}
-                  cy={node.y}
-                  r={radius}
-                  fill={fill}
-                  stroke={border}
-                  strokeWidth={1.5}
-                />
-                
-                {(isHovered || node.type === "merchant" || node.type === "mule") && (
-                  <text
-                    x={node.x + radius + (isHovered ? 12 : 8)}
-                    y={node.y + 3}
-                    fontSize={11}
-                    fill="#475569"
-                    fontFamily="monospace"
-                  >
-                    {node.id}
-                  </text>
-                )}
-              </g>
-            );
-          })}
-        </svg>
+        <canvas 
+          ref={canvasRef} 
+          className="w-full h-full cursor-pointer" 
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setHoveredNode(null)}
+        />
 
         <AnimatePresence>
           {hoveredNodeData && (
@@ -205,37 +354,37 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.15 }}
-              className="absolute bg-white border border-slate-200 shadow-xl rounded-lg p-3 w-56 pointer-events-none z-50"
+              className="absolute bg-white border border-slate-200 shadow-xl rounded-lg p-3 w-64 pointer-events-none z-50"
               style={{
                 left: `calc(${(hoveredNodeData.x / 800) * 100}% + 20px)`,
                 top: `calc(${(hoveredNodeData.y / 400) * 100}% - 70px)`,
               }}
             >
               <div className="flex items-center gap-2 border-b border-slate-100 pb-2 mb-2">
-                <span className="text-xs font-semibold text-slate-800">Node: {hoveredNodeData.id}</span>
+                <span className="text-xs font-semibold text-slate-800">Node ID: {hoveredNodeData.id}</span>
               </div>
               <div className="text-[11px] text-slate-600 mb-3">
-                Classification: <span className="font-semibold text-slate-800">{hoveredNodeData.stats.type}</span>
+                Classification: <span className="font-semibold text-slate-800 uppercase tracking-wider">{hoveredNodeData.stats.type}</span>
               </div>
               
-              <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+              <div className="grid grid-cols-3 gap-2 text-center text-[10px] p-2 bg-slate-50 rounded-md">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Total Txns</span>
-                  <span className="font-mono">{hoveredNodeData.stats.totalTxns}</span>
+                  <span className="font-mono text-slate-900">{hoveredNodeData.stats.totalTxns}</span>
                   <div className="flex justify-center text-blue-500">
                     <ArrowUp className="w-3 h-3" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Blocked</span>
-                  <span className="font-mono">{hoveredNodeData.stats.blockedTxns}</span>
+                  <span className="font-mono text-slate-900">{hoveredNodeData.stats.blockedTxns}</span>
                   <div className="flex justify-center text-red-500">
                     <ArrowDown className="w-3 h-3" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-slate-500 font-semibold">Risk Score</span>
-                  <span className="font-mono">{hoveredNodeData.stats.riskScore}/10</span>
+                  <span className="font-mono text-orange-600 font-bold">{hoveredNodeData.stats.riskScore}%</span>
                   <div className="flex justify-center text-orange-500">
                     <AlertTriangle className="w-3 h-3" />
                   </div>

@@ -15,6 +15,7 @@ import ThreatIntelFeed from "@/components/war-room/ThreatIntelFeed";
 import KYAMonitor from "@/components/war-room/KYAMonitor";
 import AttackGenealogyTree from "@/components/war-room/AttackGenealogyTree";
 import SimulationTour from "@/components/war-room/SimulationTour";
+import AdversarialInstanceView from "@/components/war-room/AdversarialInstanceView";
 
 export default function WarRoom() {
   const { connected, lastMessage, messages, send } = useWebSocket();
@@ -65,65 +66,74 @@ export default function WarRoom() {
   };
 
   return (
-    <div className="min-h-screen bg-aegis-bg grid-bg">
+    <div className="h-screen bg-aegis-bg grid-bg flex flex-col overflow-hidden">
       <Header connected={connected} />
 
-      {/* Main 3-Column Layout */}
-      <div className="grid grid-cols-12 gap-3 p-3" style={{ height: "max(650px, calc(100vh - 120px))" }}>
-        {/* Left: Red Team */}
-        <div className="col-span-3 flex flex-col gap-3 min-h-0 tour-red-team">
-          <div className="flex-1 min-h-0">
-            <RedTeamConsole attacks={attacks} onLaunch={launchAttack} liveData={lastMessage?.data} />
-          </div>
-        </div>
-
-        {/* Center: Battlefield + System Hardness */}
-        <div className="col-span-5 flex flex-col gap-3 min-h-0 tour-transaction-network">
-          <div className="flex-1 min-h-0">
-            <BattlefieldGraph liveData={lastMessage?.data} />
-          </div>
-          {/* System Hardness + SHAP inline */}
-          <div className="grid grid-cols-2 gap-3 shrink-0" style={{ height: "140px" }}>
-            <div className="glass-card flex flex-col items-center justify-center p-3">
-              <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider mb-1">System Hardness</p>
-              <SystemHardnessDial score={hardness?.score || Math.round((lastMessage?.data?.system_hardness) || 68)} />
-            </div>
-            <div className="glass-card p-3 overflow-hidden">
-              <ShapWaterfall
-                shapValues={shapData?.features?.reduce((acc: any, f: any) => {
-                  acc[f.description || f.feature] = f.shap_value;
-                  return acc;
-                }, {}) || null}
-                transactionId={shapData?.transaction_id}
-              />
+      {/* Main Content Area */}
+      <div className="flex-1 min-h-0 flex flex-col gap-3 p-3 overflow-y-auto">
+        {/* Main 3-Column Layout */}
+        <div className="grid grid-cols-12 gap-3 min-h-[750px] flex-1">
+          {/* Left: Red Team */}
+          <div className="col-span-3 flex flex-col gap-3 min-h-0 tour-red-team">
+            <div className="flex-1 min-h-0">
+              <RedTeamConsole attacks={attacks} onLaunch={launchAttack} liveData={lastMessage?.data} />
             </div>
           </div>
-        </div>
 
-        {/* Right: Blue Team */}
-        <div className="col-span-4 flex flex-col gap-3 min-h-0 tour-blue-team">
-          <div className="flex-1 min-h-0">
-            <BlueTeamConsole metrics={metrics} liveData={lastMessage?.data} />
+          {/* Center: Battlefield + Instance View + System Hardness */}
+          <div className="col-span-6 flex flex-col gap-3 min-h-0 tour-transaction-network">
+            <div className="flex-1 min-h-0">
+              <BattlefieldGraph liveData={lastMessage?.data} />
+            </div>
+            
+            {/* Adversarial Instance View (Decision Boundary) */}
+            <div className="shrink-0 h-[180px]">
+              <AdversarialInstanceView liveData={lastMessage?.data} />
+            </div>
+
+            {/* System Hardness + SHAP inline */}
+            <div className="grid grid-cols-2 gap-3 shrink-0 h-[140px]">
+              <div className="bg-white border border-slate-200 shadow-sm rounded-xl flex flex-col items-center justify-center p-3">
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1 font-semibold">System Hardness</p>
+                <SystemHardnessDial score={hardness?.score || Math.round((lastMessage?.data?.system_hardness) || 68)} />
+              </div>
+              <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-3 overflow-hidden">
+                <ShapWaterfall
+                  shapValues={shapData?.features?.reduce((acc: any, f: any) => {
+                    acc[f.description || f.feature] = f.shap_value;
+                    return acc;
+                  }, {}) || null}
+                  transactionId={shapData?.transaction_id}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Blue Team */}
+          <div className="col-span-3 flex flex-col gap-3 min-h-0 tour-blue-team">
+            <div className="flex-1 min-h-0">
+              <BlueTeamConsole metrics={metrics} liveData={lastMessage?.data} />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Row: Charts + Intel */}
-      <div className="grid grid-cols-12 gap-3 px-3 pb-16" style={{ height: "240px" }}>
-        <div className="col-span-4">
-          <ConceptDriftChart liveData={lastMessage?.data} />
-        </div>
-        <div className="col-span-3 tour-federated">
-          <FederatedComparison data={federated} />
-        </div>
-        <div className="col-span-2">
-          <div className="glass-card h-full p-3 overflow-y-auto">
-            <ThreatIntelFeed liveData={lastMessage?.data} />
+        {/* Bottom Row: Charts + Intel */}
+        <div className="grid grid-cols-12 gap-3 shrink-0 min-h-[260px] pb-6">
+          <div className="col-span-4">
+            <ConceptDriftChart liveData={lastMessage?.data} />
           </div>
-        </div>
-        <div className="col-span-3">
-          <div className="glass-card h-full p-3 overflow-y-auto">
-            <KYAMonitor liveData={lastMessage?.data} />
+          <div className="col-span-3 tour-federated">
+            <FederatedComparison data={federated} />
+          </div>
+          <div className="col-span-2">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full p-3 overflow-y-auto">
+              <ThreatIntelFeed liveData={lastMessage?.data} />
+            </div>
+          </div>
+          <div className="col-span-3">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-xl h-full p-3 overflow-y-auto">
+              <KYAMonitor liveData={lastMessage?.data} />
+            </div>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
                     initial={{ width: 0 }}
                     animate={{ width: `${bank.f1 * 100}%` }}
                     transition={{ duration: 1, delay: i * 0.2 }}
-                    className="h-full bg-slate-400 rounded-full"
+                    className="h-full bg-aegis-blue rounded-full"
                   />
                 </div>
                 <span className="text-[11px] font-mono font-semibold w-12 text-right text-slate-600">
@@ -90,19 +90,19 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <span className="text-sm text-slate-800 font-bold flex items-center gap-1.5">
-              <Globe className="w-4 h-4" /> Global Model Aggregation
+              <Globe className="w-4 h-4 text-aegis-green" /> Global Model Aggregation
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-5 bg-slate-100 rounded-full overflow-hidden relative border border-slate-200 shadow-inner">
+            <div className="flex-1 h-5 bg-aegis-green-light/30 rounded-full overflow-hidden relative border border-aegis-green/20 shadow-inner">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${d.federated.f1 * 100}%` }}
                 transition={{ duration: 1.5, delay: 0.8 }}
-                className="h-full bg-slate-800 rounded-full"
+                className="h-full bg-aegis-green rounded-full shadow-[0_0_10px_rgba(2,122,72,0.4)]"
               />
             </div>
-            <span className="text-base font-mono font-bold text-slate-800 w-14 text-right">
+            <span className="text-base font-mono font-bold text-aegis-green w-14 text-right">
               {(d.federated.f1 * 100).toFixed(1)}%
             </span>
           </div>
@@ -114,10 +114,10 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
             key={d.round}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-2 mt-4 py-2 px-3 rounded-lg bg-slate-50 border border-slate-200 shadow-sm"
+            className="flex items-center justify-center gap-2 mt-4 py-2 px-3 rounded-lg bg-aegis-green-light/30 border border-aegis-green/20 shadow-sm"
           >
-            <ArrowUp className="w-4 h-4 text-slate-700" />
-            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
+            <ArrowUp className="w-4 h-4 text-aegis-green" />
+            <span className="text-xs font-semibold text-aegis-green uppercase tracking-wide">
               {d.federated.improvement} Network Advantage
             </span>
           </motion.div>

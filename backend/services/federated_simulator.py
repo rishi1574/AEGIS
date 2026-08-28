@@ -33,10 +33,17 @@ class FederatedCoordinator:
         self.round = 1
 
     def aggregate_weights(self):
-        # Pull actual global model accuracy from the real evaluation results
-        metrics = data_service.get_metrics()
-        real_global_acc = metrics.get("f1_score", 0.938)
+        # Pull dynamic accuracy from the adversarial concept drift history
+        drift_data = data_service.get_concept_drift_data()
+        accuracies = drift_data.get("blue_team_accuracy", [])
         
+        if not accuracies:
+            real_global_acc = 0.938
+        else:
+            # Map federated round to the actual simulated iteration
+            idx = min(self.round - 1, len(accuracies) - 1)
+            real_global_acc = accuracies[idx]
+            
         self.round += 1
         
         for n in self.nodes:

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tooltip } from "@/components/ui/Tooltip";
 
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+
 interface Metrics {
   accuracy: number;
   precision: number;
@@ -40,12 +42,12 @@ export default function BlueTeamConsole({
   // Slight jitter to feel alive
   const jitter = liveData ? (Math.random() * 0.01 - 0.005) : 0;
 
-  const bars = [
-    { label: "Accuracy", value: m.accuracy + jitter, color: "bg-blue-500", icon: <Target className="w-3 h-3" /> },
-    { label: "Precision", value: m.precision + jitter, color: "bg-cyan-500", icon: <Microscope className="w-3 h-3" /> },
-    { label: "Recall", value: m.recall + jitter, color: "bg-emerald-500", icon: <Search className="w-3 h-3" /> },
-    { label: "F1 Score", value: m.f1_score + jitter, color: "bg-violet-500", icon: <BarChart3 className="w-3 h-3" /> },
-    { label: "AUC-ROC", value: m.auc_roc + jitter, color: "bg-amber-500", icon: <Activity className="w-3 h-3" /> },
+  const radarData = [
+    { subject: 'Accuracy', value: Math.round((m.accuracy + jitter) * 100) },
+    { subject: 'Precision', value: Math.round((m.precision + jitter) * 100) },
+    { subject: 'Recall', value: Math.round((m.recall + jitter) * 100) },
+    { subject: 'F1 Score', value: Math.round((m.f1_score + jitter) * 100) },
+    { subject: 'AUC-ROC', value: Math.round((m.auc_roc + jitter) * 100) },
   ];
 
   return (
@@ -63,54 +65,50 @@ export default function BlueTeamConsole({
         </span>
       </div>
 
-      {/* Metrics Bars */}
-      <div className="p-3 space-y-2.5 flex-1 overflow-y-auto">
-        {bars.map((b, i) => (
-          <motion.div
-            key={b.label}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.1 }}
-          >
-            <div className="flex justify-between text-xs mb-0.5">
-              <span className="text-slate-500 flex items-center gap-1.5">
-                {b.icon} {b.label}
-              </span>
-              <span className="font-mono font-bold text-slate-800">
-                {(Math.min(1, Math.max(0, b.value)) * 100).toFixed(1)}%
-              </span>
-            </div>
-            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-              <motion.div
-                className={`h-full ${b.color} rounded-full`}
-                initial={{ width: 0 }}
-                animate={{
-                  width: `${Math.min(100, Math.max(0, b.value * 100))}%`,
-                }}
-                transition={{ duration: 1.5, delay: i * 0.15, ease: "easeOut" }}
+      {/* Metrics Radar Chart */}
+      <div className="p-3 flex-1 flex flex-col min-h-0">
+        <div className="flex-1 w-full relative min-h-[150px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+              <PolarGrid stroke="#eaebf0" />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 10, fontWeight: 500 }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+              <Radar
+                name="Performance"
+                dataKey="value"
+                stroke="#1a1f71"
+                strokeWidth={2.5}
+                fill="#1a1f71"
+                fillOpacity={0.2}
+                isAnimationActive={true}
+                animationDuration={800}
               />
-            </div>
-          </motion.div>
-        ))}
+              <RechartsTooltip 
+                contentStyle={{ borderRadius: '8px', border: '1px solid #eaebf0', fontSize: '11px', fontWeight: 'bold', boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+                itemStyle={{ color: '#1a1f71' }}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 gap-2 mt-3">
-          <div className="bg-white rounded-lg p-2.5 border border-slate-200">
+          <div className="bg-white rounded-lg p-2.5 border border-slate-200 shadow-sm">
             <p className="text-[9px] text-slate-500 uppercase flex items-center gap-1">
-              <Activity className="w-3 h-3" /> Latency
+              <Activity className="w-3 h-3 text-aegis-green" /> Latency
             </p>
             <p className="text-lg font-bold font-mono text-aegis-green">
               {(m.avg_inference_latency_ms + (liveData ? Math.random() * 5 - 2.5 : 0)).toFixed(0)}
-              <span className="text-xs font-normal text-slate-500">ms</span>
+              <span className="text-xs font-normal text-slate-500 ml-0.5">ms</span>
             </p>
           </div>
-          <div className="bg-white rounded-lg p-2.5 border border-slate-200">
+          <div className="bg-white rounded-lg p-2.5 border border-slate-200 shadow-sm">
             <p className="text-[9px] text-slate-500 uppercase flex items-center gap-1">
-              <TrendingDown className="w-3 h-3" /> FPR
+              <TrendingDown className="w-3 h-3 text-aegis-amber" /> FPR
             </p>
             <p className="text-lg font-bold font-mono text-aegis-amber">
               {((m.false_positive_rate + Math.abs(jitter / 2)) * 100).toFixed(2)}
-              <span className="text-xs font-normal text-slate-500">%</span>
+              <span className="text-xs font-normal text-slate-500 ml-0.5">%</span>
             </p>
           </div>
         </div>
@@ -119,8 +117,8 @@ export default function BlueTeamConsole({
       {/* Interception Log */}
       <div className="border-t border-slate-200 p-2.5 max-h-36 overflow-y-auto">
         <div className="flex items-center gap-2 mb-1.5">
-          <Eye className="w-4 h-4 text-aegis-blue" />
-          <p className="text-[9px] text-slate-500 uppercase tracking-wider">
+          <Eye className="w-4 h-4 text-slate-400" />
+          <p className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
             Live Interceptions
           </p>
         </div>
@@ -131,7 +129,7 @@ export default function BlueTeamConsole({
                 key={`blue-${i}`}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-slate-500"
+                className="text-slate-600"
               >
                 {entry}
               </motion.div>

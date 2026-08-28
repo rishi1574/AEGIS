@@ -2,9 +2,13 @@
 
 On startup, checks for pre-generated data in data/generated/.
 If found, loads transaction CSVs and adversarial results JSON.
-If not found, generates a small dataset on-the-fly.
+If not found, returns empty/null data clearly.
+
+Also lazily loads the trained XGBoost model for real-time prediction.
 """
 import json
+import time
+import pickle
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -34,6 +38,11 @@ class DataService:
         self.interceptions: List[Dict] = []
         self.is_loaded = False
         self.data_dir = Path("data/generated")
+
+        # Model state (lazy loaded)
+        self._model = None
+        self._model_loaded = False
+        self._inference_latencies: List[float] = []  # track real latencies
 
     def load(self):
         """Load pre-generated data from disk."""
@@ -65,7 +74,7 @@ class DataService:
                     "system_hardness_history": [],
                 }
 
-            # Extract metrics
+            # Extract metrics from real data only
             self.model_metrics = self.adversarial_results.get("final_metrics", {})
 
             # Build interception log from data
@@ -75,6 +84,77 @@ class DataService:
         except Exception as e:
             print(f"❌ Data loading error: {e}")
             self.is_loaded = False
+
+    def _load_model(self):
+        """Lazily load the trained XGBoost model from disk."""
+        if self._model_loaded:
+            return
+
+        model_path = self.data_dir / "xgboost_model.pkl"
+        if model_path.exists():
+            try:
+                with open(model_path, "rb") as f:
+                    data = pickle.load(f)
+                    self._model = data
+                self._model_loaded = True
+                print(f"📦 Model loaded from {model_path}")
+            except Exception as e:
+                print(f"⚠️ Failed to load model: {e}")
+                self._model_loaded = False
+        else:
+            print("⚠️ No model file found at", model_path)
+            self._model_loaded = False
+
+    def predict_single(self, txn_dict: dict) -> Dict:
+        """Run real prediction on a single transaction using the loaded model."""
+        self._load_model()
+
+        if not self._model_loaded or self._model is None:
+            return {
+                "risk_score": 0,
+                "is_fraud": False,
+                "confidence": 0,
+                "model_status": "not_loaded",
+                "model_breakdown": {},
+                "recommended_action": "ALLOW",
+                "attack_pattern_match": None,
+            }
+
+        try:
+            from blue_team.models.xgboost_baseline import XGBoostBaseline
+
+            xgb = XGBoostBaseline()
+            xgb.model = self._model["model"]
+            xgb.is_trained = self._model.get("is_trained", True)
+            xgb.feature_cols = self._model.get("feature_cols", [])
+
+            # Measure real inference latency
+            start_time = time.perf_counter()
+            result = xgb.predict_single(txn_dict)
+            latency_ms = (time.perf_counter() - start_time) * 1000
+
+            self._inference_latencies.append(latency_ms)
+            # Keep only last 100 latencies
+            if len(self._inference_latencies) > 100:
+                self._inference_latencies = self._inference_latencies[-100:]
+
+            result["model_status"] = "live"
+            result["inference_latency_ms"] = round(latency_ms, 2)
+            result["model_used"] = "xgboost_ensemble_v1"
+            result["attack_pattern_match"] = None
+
+            return result
+
+        except Exception as e:
+            return {
+                "risk_score": 0,
+                "is_fraud": False,
+                "confidence": 0,
+                "model_status": f"error: {str(e)}",
+                "model_breakdown": {},
+                "recommended_action": "ALLOW",
+                "attack_pattern_match": None,
+            }
 
     def _build_interception_log(self):
         """Build a log of intercepted fraud transactions."""
@@ -99,19 +179,42 @@ class DataService:
                 })
 
     def get_metrics(self) -> Dict:
-        """Return model performance metrics."""
+        """Return model performance metrics. Only from real data — no hardcoded fallbacks."""
         m = self.model_metrics
+
+        # If no real metrics, return zeros clearly labeled
+        if not m:
+            return {
+                "accuracy": 0,
+                "precision": 0,
+                "recall": 0,
+                "f1_score": 0,
+                "auc_roc": 0,
+                "false_positive_rate": 0,
+                "avg_inference_latency_ms": self._get_avg_latency(),
+                "total_predictions": 0,
+                "adversarial_iteration": 0,
+                "data_status": "no_data",
+            }
+
         return {
-            "accuracy": m.get("accuracy", 0.942),
-            "precision": m.get("precision", 0.917),
-            "recall": m.get("recall", 0.961),
-            "f1_score": m.get("f1", 0.938),
-            "auc_roc": m.get("auc", 0.973),
-            "false_positive_rate": m.get("fpr", 0.004),
-            "avg_inference_latency_ms": 34.2,
+            "accuracy": m.get("accuracy", 0),
+            "precision": m.get("precision", 0),
+            "recall": m.get("recall", 0),
+            "f1_score": m.get("f1", 0),
+            "auc_roc": m.get("auc", 0),
+            "false_positive_rate": m.get("fpr", 0),
+            "avg_inference_latency_ms": self._get_avg_latency(),
             "total_predictions": m.get("total_transactions", 0),
             "adversarial_iteration": len(self.adversarial_results.get("iterations", [])),
+            "data_status": "live",
         }
+
+    def _get_avg_latency(self) -> float:
+        """Return real average inference latency, or 0 if not measured."""
+        if self._inference_latencies:
+            return round(sum(self._inference_latencies) / len(self._inference_latencies), 2)
+        return 0
 
     def get_concept_drift_data(self) -> Dict:
         """Return per-iteration concept drift data for the chart."""
@@ -122,10 +225,10 @@ class DataService:
         return {
             "iterations": [i["iteration"] for i in iterations],
             "red_team_bypass_rate": [i.get("bypass_rate", 0) for i in iterations],
-            "blue_team_accuracy": [i.get("metrics", {}).get("accuracy", 0.9) for i in iterations],
-            "blue_team_f1": [i.get("metrics", {}).get("f1", 0.9) for i in iterations],
-            "blue_team_auc": [i.get("metrics", {}).get("auc", 0.95) for i in iterations],
-            "system_hardness": [i.get("system_hardness", 0.85) for i in iterations],
+            "blue_team_accuracy": [i.get("metrics", {}).get("accuracy", 0) for i in iterations],
+            "blue_team_f1": [i.get("metrics", {}).get("f1", 0) for i in iterations],
+            "blue_team_auc": [i.get("metrics", {}).get("auc", 0) for i in iterations],
+            "system_hardness": [i.get("system_hardness", 0) for i in iterations],
         }
 
     def get_system_hardness(self) -> Dict:

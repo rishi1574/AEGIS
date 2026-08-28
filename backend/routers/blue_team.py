@@ -12,25 +12,11 @@ class PredictReq(BaseModel):
 
 @router.post("/predict")
 async def predict(req: PredictReq):
-    """Predict fraud risk for a single transaction."""
+    """Predict fraud risk for a single transaction using the real trained model."""
     txn = req.transaction
-    # In production this would run through the ensemble model
-    # For the demo, return structured response
-    risk_score = 0.15
-    return {
-        "transaction_id": txn.get("transaction_id", "?"),
-        "risk_score": risk_score,
-        "is_fraud": risk_score > 0.5,
-        "confidence": max(risk_score, 1 - risk_score),
-        "model_used": "ensemble_v1",
-        "model_breakdown": {
-            "xgb_score": round(risk_score * 0.95, 4),
-            "temporal_score": round(risk_score * 0.8, 4),
-            "graph_score": round(risk_score * 0.6, 4),
-        },
-        "recommended_action": "BLOCK" if risk_score > 0.8 else "REVIEW" if risk_score > 0.5 else "ALLOW",
-        "attack_pattern_match": None,
-    }
+    result = data_service.predict_single(txn)
+    result["transaction_id"] = txn.get("transaction_id", "?")
+    return result
 
 
 @router.get("/metrics")

@@ -6,27 +6,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Minimalist Mastercard-inspired light theme
+        // Elite Enterprise Light Theme Palette
         aegis: {
-          bg: "#f8fafc",
+          bg: "#fafafb", // Ultra light gray/blue tint
           surface: "#ffffff",
           card: "#ffffff",
-          border: "#e2e8f0",
-          "border-active": "#f97316", // Orange accent
-          text: "#0f172a",
+          border: "#eaebf0",
+          "border-active": "#f15a22", // Mastercard primary orange
+          text: "#1e293b",
           "text-muted": "#64748b",
-          // Red Team colors (Orange/Red)
-          red: "#eb3c00",
-          "red-glow": "#eb3c0020",
-          "red-bg": "#eb3c0010",
-          // Blue Team colors (Mastercard Blue)
-          blue: "#1a1f71",
-          "blue-glow": "#1a1f7120",
-          "blue-bg": "#1a1f7110",
+          
+          // Red Team (Threat) Colors
+          red: {
+            DEFAULT: "#d92d20", // Deep sophisticated red
+            light: "#fee4e2",
+            glow: "#d92d2020",
+          },
+          
+          // Blue Team (Defense) Colors
+          blue: {
+            DEFAULT: "#1a1f71", // Authentic Mastercard Navy
+            light: "#e0e7ff",
+            glow: "#1a1f7120",
+          },
+          
+          // Success/Metrics Colors
+          green: {
+            DEFAULT: "#027a48", // Enterprise green
+            light: "#d1fadf",
+            glow: "#027a4820",
+          },
+          
+          // Warnings/Anomalies
+          amber: {
+            DEFAULT: "#b54708", // Deep amber
+            light: "#fef0c7",
+          },
+          
           // Accent
-          green: "#10b981",
-          amber: "#f59e0b",
-          purple: "#8b5cf6",
+          purple: {
+            DEFAULT: "#6941c6",
+            light: "#f4f3ff",
+          },
           cyan: "#06b6d4",
         },
       },

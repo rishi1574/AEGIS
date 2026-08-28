@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from pydantic import BaseModel
 from backend.services.data_service import data_service
 
@@ -13,15 +13,24 @@ class SimConfig(BaseModel):
 
 
 @router.post("/start")
-async def start(cfg: SimConfig):
-    return {"status": "started", "config": cfg.model_dump()}
+async def start(cfg: SimConfig, request: Request):
+    """Reset the live battle simulation state."""
+    # Reset active attack so the telemetry loop starts fresh
+    request.app.state.active_attack = None
+    return {
+        "status": "started",
+        "message": "Simulation state reset. Launch an attack to begin the battle.",
+        "config": cfg.model_dump(),
+        "data_loaded": data_service.is_loaded,
+        "transactions_available": len(data_service.transactions_df) if data_service.transactions_df is not None else 0,
+    }
 
 
 @router.get("/status")
 async def status():
     iterations = data_service.adversarial_results.get("iterations", [])
     total_txns = len(data_service.transactions_df) if data_service.transactions_df is not None else 0
-    
+
     return {
         "status": "completed" if data_service.is_loaded else "idle",
         "progress": 1.0 if data_service.is_loaded else 0.0,

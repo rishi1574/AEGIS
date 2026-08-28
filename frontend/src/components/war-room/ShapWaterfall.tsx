@@ -40,28 +40,28 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-1">
-        <p className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5">
-          <Brain className="w-3 h-3 text-aegis-blue" />
+        <p className="text-[10px] text-slate-800 font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <Brain className="w-3 h-3 text-slate-800" />
           SHAP EXPLANATION
         </p>
         <span className="text-[9px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200">
           {transactionId || "LIVE"}
         </span>
       </div>
-      <div className="flex-1 min-h-0 relative -ml-4">
+      <div className="flex-1 min-h-0 relative -ml-4 mt-2">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} layout="vertical" margin={{ left: 80, right: 10, top: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#eaebf0" horizontal={false} />
             <XAxis type="number" tick={{ fontSize: 9, fill: "#64748b" }} axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} />
             <YAxis type="category" dataKey="feature" tick={{ fontSize: 9, fill: "#64748b" }} width={80} axisLine={false} tickLine={false} />
             <Tooltip
-              cursor={{ fill: '#f1f5f9' }}
-              contentStyle={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, fontSize: 11, boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+              cursor={{ fill: '#f8fafc' }}
+              contentStyle={{ background: "#ffffff", border: "1px solid #eaebf0", borderRadius: 8, fontSize: 11, boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
               itemStyle={{ color: '#0f172a' }}
             />
             <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={12}>
               {data.map((entry, i) => (
-                <Cell key={i} fill={entry.value > 0 ? "#ef4444" : "#10b981"} />
+                <Cell key={i} fill={entry.value > 0 ? "#d92d20" : "#027a48"} />
               ))}
             </Bar>
           </BarChart>
