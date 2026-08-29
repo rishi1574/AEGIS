@@ -1,0 +1,2852 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "timestamp": "2026-08-29T10:16:49.015206",
+      "duration_seconds": 13.42,
+      "transactions_generated": 63514,
+      "fraud_count": 441,
+      "metrics": {
+        "accuracy": 0.9994,
+        "precision": 0.9926,
+        "recall": 0.9161,
+        "f1": 0.9528,
+        "auc": 0.9831,
+        "fpr": 0.0,
+        "true_positives": 404,
+        "false_positives": 3,
+        "true_negatives": 63070,
+        "false_negatives": 37
+      },
+      "bypass_rate": 0.0839,
+      "system_hardness": 0.9161,
+      "per_attack_rewards": {
+        "adversarial_document": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 2,
+          "missed_count": 0,
+          "total_count": 2,
+          "avg_risk_score": 0.9316
+        },
+        "api_exploit": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 20,
+          "missed_count": 0,
+          "total_count": 20,
+          "avg_risk_score": 0.9112
+        },
+        "backdoor_injection": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 1,
+          "missed_count": 0,
+          "total_count": 1,
+          "avg_risk_score": 0.9567
+        },
+        "boundary_probe": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 9,
+          "missed_count": 0,
+          "total_count": 9,
+          "avg_risk_score": 0.9306
+        },
+        "concept_drift": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 5,
+          "missed_count": 0,
+          "total_count": 5,
+          "avg_risk_score": 0.9427
+        },
+        "ctgan_mimicry": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 6,
+          "missed_count": 0,
+          "total_count": 6,
+          "avg_risk_score": 0.9163
+        },
+        "deepfake_ato": {
+          "reward": 0.4737,
+          "bypass_rate": 0.7368,
+          "caught_count": 5,
+          "missed_count": 14,
+          "total_count": 19,
+          "avg_risk_score": 0.2558
+        },
+        "digital_arrest": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 2,
+          "missed_count": 0,
+          "total_count": 2,
+          "avg_risk_score": 0.916
+        },
+        "ensemble_evasion": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 5,
+          "missed_count": 0,
+          "total_count": 5,
+          "avg_risk_score": 0.9479
+        },
+        "graph_poisoning": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 6,
+          "missed_count": 0,
+          "total_count": 6,
+          "avg_risk_score": 0.9409
+        },
+        "marl_collusion": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 5,
+          "missed_count": 0,
+          "total_count": 5,
+          "avg_risk_score": 0.9407
+        },
+        "merchant_collusion": {
+          "reward": -0.8333,
+          "bypass_rate": 0.0833,
+          "caught_count": 33,
+          "missed_count": 3,
+          "total_count": 36,
+          "avg_risk_score": 0.8625
+        },
+        "mislead_shap": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 5,
+          "missed_count": 0,
+          "total_count": 5,
+          "avg_risk_score": 0.9474
+        },
+        "nlp_payload": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 2,
+          "missed_count": 0,
+          "total_count": 2,
+          "avg_risk_score": 0.9586
+        },
+        "pig_butchering": {
+          "reward": 0.7391,
+          "bypass_rate": 0.8696,
+          "caught_count": 3,
+          "missed_count": 20,
+          "total_count": 23,
+          "avg_risk_score": 0.1192
+        },
+        "surrogate_evasion": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 12,
+          "missed_count": 0,
+          "total_count": 12,
+          "avg_risk_score": 0.9441
+        },
+        "synthetic_id_bustout": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 273,
+          "missed_count": 0,
+          "total_count": 273,
+          "avg_risk_score": 0.9481
+        },
+        "temporal_fuzzing": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 4,
+          "missed_count": 0,
+          "total_count": 4,
+          "avg_risk_score": 0.9496
+        },
+        "vishing": {
+          "reward": -1.0,
+          "bypass_rate": 0.0,
+          "caught_count": 6,
+          "missed_count": 0,
+          "total_count": 6,
+          "avg_risk_score": 0.9293
+        }
+      },
+      "mutations_applied": {
+        "adversarial_document": "aggressive",
+        "api_exploit": "aggressive",
+        "backdoor_injection": "aggressive",
+        "boundary_probe": "aggressive",
+        "concept_drift": "aggressive",
+        "ctgan_mimicry": "aggressive",
+        "deepfake_ato": "minimal",
+        "digital_arrest": "aggressive",
+        "ensemble_evasion": "aggressive",
+        "graph_poisoning": "aggressive",
+        "marl_collusion": "aggressive",
+        "merchant_collusion": "aggressive",
+        "mislead_shap": "aggressive",
+        "nlp_payload": "aggressive",
+        "pig_butchering": "minimal",
+        "surrogate_evasion": "aggressive",
+        "synthetic_id_bustout": "aggressive",
+        "temporal_fuzzing": "aggressive",
+        "vishing": "aggressive"
+      }
+    }
+  ],
+  "final_metrics": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 0.9986,
+    "f1": 0.9993,
+    "auc": 1.0,
+    "fpr": 0.0,
+    "true_positives": 717,
+    "false_positives": 0,
+    "true_negatives": 127083,
+    "false_negatives": 1,
+    "total_transactions": 127801,
+    "total_fraud": 718,
+    "fraud_types_seen": 21
+  },
+  "attack_taxonomy": {
+    "adversarial_document": {
+      "total_count": 5,
+      "caught": 5,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "api_exploit": {
+      "total_count": 46,
+      "caught": 46,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "backdoor_injection": {
+      "total_count": 2,
+      "caught": 2,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "boundary_probe": {
+      "total_count": 25,
+      "caught": 25,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "concept_drift": {
+      "total_count": 8,
+      "caught": 8,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "ctgan_mimicry": {
+      "total_count": 7,
+      "caught": 7,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "deepfake_ato": {
+      "total_count": 28,
+      "caught": 28,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "digital_arrest": {
+      "total_count": 6,
+      "caught": 6,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "ensemble_evasion": {
+      "total_count": 12,
+      "caught": 12,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "graph_poisoning": {
+      "total_count": 14,
+      "caught": 14,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "marl_collusion": {
+      "total_count": 9,
+      "caught": 9,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "merchant_collusion": {
+      "total_count": 78,
+      "caught": 78,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "mislead_shap": {
+      "total_count": 7,
+      "caught": 7,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "nlp_payload": {
+      "total_count": 4,
+      "caught": 4,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "pig_butchering": {
+      "total_count": 23,
+      "caught": 22,
+      "missed": 1,
+      "final_bypass_rate": 0.0435
+    },
+    "supply_chain_bec": {
+      "total_count": 1,
+      "caught": 1,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "surrogate_evasion": {
+      "total_count": 30,
+      "caught": 30,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "synthetic_id_bustout": {
+      "total_count": 386,
+      "caught": 386,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "temporal_fuzzing": {
+      "total_count": 12,
+      "caught": 12,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "txn_fuzzing": {
+      "total_count": 8,
+      "caught": 8,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    },
+    "vishing": {
+      "total_count": 7,
+      "caught": 7,
+      "missed": 0,
+      "final_bypass_rate": 0.0
+    }
+  },
+  "system_hardness_history": [
+    0.9161
+  ],
+  "initial_metrics": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "auc_roc": 1.0,
+    "false_positive_rate": 0.0,
+    "train_samples": 64287,
+    "fraud_rate": 0.0043,
+    "xgb_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc": 1.0,
+      "train_samples": 64287,
+      "fraud_rate": 0.0043
+    },
+    "meta_learner_weights": {
+      "xgb_weight": 11.4028,
+      "temporal_weight": 0.6201,
+      "graph_weight": -3.2555
+    }
+  },
+  "sample_shap_explanations": [
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 8.0231,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8841,
+          "feature_value": 13.9569,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.1988,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 8.0231,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8841,
+          "feature_value": 13.9569,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.1988,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.0268,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": 0.7876,
+          "feature_value": 3.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.5086,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2433,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.229,
+          "feature_value": 2386.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.121,
+          "feature_value": 69784.69,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0487,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0391,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": 0.0239,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0113,
+          "feature_value": -0.5,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0104,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0097,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0081,
+          "feature_value": 791.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.0081,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0076,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0056,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0031,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0006,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": -0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0002,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 13.9569,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +8.023) | \ud83d\udd34 Amount vs income ratio: 14.0 (increases risk, SHAP: +4.884) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.199)",
+      "transaction_id": "TXN_8837080198"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.9078,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.9338,
+          "feature_value": 24.3012,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.3849,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.9078,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.9338,
+          "feature_value": 24.3012,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.3849,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 1.8178,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": 0.9514,
+          "feature_value": 3.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.5567,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2435,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.0901,
+          "feature_value": 121505.88,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": -0.0788,
+          "feature_value": 10187.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0537,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0241,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": 0.0204,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0174,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0163,
+          "feature_value": -0.5,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0098,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0097,
+          "feature_value": 719.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0068,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0057,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0055,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": 0.0043,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0014,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 24.3012,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.908) | \ud83d\udd34 Amount vs income ratio: 24.3 (increases risk, SHAP: +4.934) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.385)",
+      "transaction_id": "TXN_6143920011"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.3979,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.3029,
+          "feature_value": 10.8269,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.8302,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.3979,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.3029,
+          "feature_value": 10.8269,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.8302,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.2574,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.4817,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2912,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.0832,
+          "feature_value": 54134.67,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": -0.0655,
+          "feature_value": 9580.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0483,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0333,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0231,
+          "feature_value": -0.5,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0166,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0164,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0099,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0096,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0071,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0067,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0057,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0053,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": -0.0043,
+          "feature_value": 12.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0021,
+          "feature_value": 750.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0004,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 10.8269,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.398) | \ud83d\udd34 Amount vs income ratio: 10.8 (increases risk, SHAP: +5.303) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.830)",
+      "transaction_id": "TXN_6400729383"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.6133,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2602,
+          "feature_value": 25.788,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.6043,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.6133,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2602,
+          "feature_value": 25.788,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.6043,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.1493,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.5677,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.3442,
+          "feature_value": 822.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2813,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.0622,
+          "feature_value": 128940.21,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0505,
+          "feature_value": -0.5,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0331,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0326,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0149,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0116,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0104,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0097,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.0081,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0075,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0067,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0035,
+          "feature_value": 749.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": -0.0022,
+          "feature_value": 15.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0002,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 25.788,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.613) | \ud83d\udd34 Amount vs income ratio: 25.8 (increases risk, SHAP: +5.260) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.604)",
+      "transaction_id": "TXN_2543587549"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.1442,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2113,
+          "feature_value": 13.8721,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 3.0976,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.1442,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2113,
+          "feature_value": 13.8721,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 3.0976,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.2378,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.8661,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.0714,
+          "feature_value": 69360.62,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": -0.0629,
+          "feature_value": 9580.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0446,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": -0.0213,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0166,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0162,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0104,
+          "feature_value": 54134.67,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0097,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.009,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.0083,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0082,
+          "feature_value": -0.5,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.007,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0057,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0056,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0036,
+          "feature_value": 12840.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": -0.0023,
+          "feature_value": 15.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0002,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0001,
+          "feature_value": 750.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 13.8721,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.144) | \ud83d\udd34 Amount vs income ratio: 13.9 (increases risk, SHAP: +5.211) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +3.098)",
+      "transaction_id": "TXN_5010137184"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.5857,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 4.0892,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.9318,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.5857,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 4.0892,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.9318,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.9417,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 0.4445,
+          "feature_value": 0.0345,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.1865,
+          "feature_value": 172.5029,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.1654,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.138,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.0596,
+          "feature_value": 6306.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0591,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0427,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0314,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0209,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": 0.0184,
+          "feature_value": 19.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0167,
+          "feature_value": 739.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0098,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.009,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0072,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0067,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": -0.0005,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 0.0345,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.586) | \ud83d\udd34 Transaction channel: 4.0 (increases risk, SHAP: +4.089) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.932)",
+      "transaction_id": "TXN_9621679354"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.8171,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8817,
+          "feature_value": 5.4943,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.327,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.8171,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8817,
+          "feature_value": 5.4943,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.327,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.1065,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": 0.9066,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.4548,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2451,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": 0.1256,
+          "feature_value": 23.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0648,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.052,
+          "feature_value": 27471.3721,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0318,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": -0.0259,
+          "feature_value": 8393.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0205,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0111,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0078,
+          "feature_value": 725.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0074,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0056,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0056,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": -0.0018,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": -0.0012,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": 0.0009,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 5.4943,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.817) | \ud83d\udd34 Amount vs income ratio: 5.5 (increases risk, SHAP: +4.882) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.327)",
+      "transaction_id": "TXN_6771505070"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 6.1403,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8349,
+          "feature_value": 3.1053,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.052,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 6.1403,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 4.8349,
+          "feature_value": 3.1053,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.052,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": 1.924,
+          "feature_value": 6.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 1.8514,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": 0.8196,
+          "feature_value": 3.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.6448,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.2686,
+          "feature_value": 872.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2308,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.2031,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.1605,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0693,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": -0.0644,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0396,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": 0.0162,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": -0.0153,
+          "feature_value": 15526.291,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0145,
+          "feature_value": 745.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0106,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0074,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0073,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0056,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": 0.0008,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": -0.0006,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 3.1053,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +6.140) | \ud83d\udd34 Amount vs income ratio: 3.1 (increases risk, SHAP: +4.835) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.052)",
+      "transaction_id": "TXN_4396934732"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.6058,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2545,
+          "feature_value": 4.9992,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.4564,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.6058,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 5.2545,
+          "feature_value": 4.9992,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.4564,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 2.3558,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.4864,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.3839,
+          "feature_value": 337.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.2801,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.0815,
+          "feature_value": 24996.1868,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.0616,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0518,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0227,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0135,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0104,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0104,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.0081,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.0077,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0068,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0046,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": -0.0035,
+          "feature_value": 11.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": -0.0014,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.001,
+          "feature_value": 714.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": -0.0006,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0002,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 4.9992,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.606) | \ud83d\udd34 Amount vs income ratio: 5.0 (increases risk, SHAP: +5.255) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.456)",
+      "transaction_id": "TXN_8523560063"
+    },
+    {
+      "features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.5731,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 4.0691,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.9768,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "sender_avg_monthly_txn_count",
+          "description": "Avg monthly transaction count",
+          "shap_value": 7.5731,
+          "feature_value": 10.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "channel_encoded",
+          "description": "Transaction channel",
+          "shap_value": 4.0691,
+          "feature_value": 4.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_avg_monthly_spend_inr",
+          "description": "Avg monthly spending",
+          "shap_value": 2.9768,
+          "feature_value": 5000.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "rail_encoded",
+          "description": "Payment channel type",
+          "shap_value": 0.9376,
+          "feature_value": 2.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_to_income_ratio",
+          "description": "Amount vs income ratio",
+          "shap_value": 0.4403,
+          "feature_value": 0.0362,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_inr",
+          "description": "Transaction amount",
+          "shap_value": 0.1839,
+          "feature_value": 181.2349,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_devices_last_7d",
+          "description": "Devices used in 7 days",
+          "shap_value": 0.1647,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "amount_zscore",
+          "description": "Amount deviation from normal",
+          "shap_value": 0.138,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_account_age_days",
+          "description": "Account age",
+          "shap_value": 0.0665,
+          "feature_value": 5907.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "mcc_risk_score",
+          "description": "Merchant category risk",
+          "shap_value": -0.0565,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_receiver",
+          "description": "First-time receiver",
+          "shap_value": 0.0408,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "sender_credit_score",
+          "description": "Credit score",
+          "shap_value": 0.0326,
+          "feature_value": 700.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_amount_last_24h",
+          "description": "Amount spent in last 24h",
+          "shap_value": 0.0315,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "hour_risk_bucket",
+          "description": "Time-of-day risk",
+          "shap_value": -0.0201,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_24h",
+          "description": "Transactions in last 24h",
+          "shap_value": -0.0098,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "time_since_last_txn_seconds",
+          "description": "Time since last transaction",
+          "shap_value": 0.009,
+          "feature_value": 86400.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "unique_receivers_last_24h",
+          "description": "Unique receivers in 24h",
+          "shap_value": 0.008,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "txn_velocity_ratio",
+          "description": "Transaction velocity anomaly",
+          "shap_value": -0.0072,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_new_device",
+          "description": "New device used",
+          "shap_value": -0.0067,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "hour_of_day",
+          "description": "Time of transaction",
+          "shap_value": -0.0053,
+          "feature_value": 14.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "day_of_week",
+          "description": "Day of week",
+          "shap_value": -0.0018,
+          "feature_value": 1.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "txn_count_last_1h",
+          "description": "Transactions in last hour",
+          "shap_value": -0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_round_amount",
+          "description": "Round amount flag",
+          "shap_value": 0.0003,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udd34",
+          "contribution": "increases risk"
+        },
+        {
+          "feature": "is_weekend",
+          "description": "Weekend transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_international",
+          "description": "International transaction",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "is_festival_period",
+          "description": "Festival season",
+          "shap_value": 0.0,
+          "feature_value": 0.0,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        },
+        {
+          "feature": "amount_to_avg_spend_ratio",
+          "description": "Amount vs avg spend ratio",
+          "shap_value": 0.0,
+          "feature_value": 0.0362,
+          "direction": "\ud83d\udfe2",
+          "contribution": "decreases risk"
+        }
+      ],
+      "explanation_text": "\ud83d\udd34 Avg monthly transaction count: 10.0 (increases risk, SHAP: +7.573) | \ud83d\udd34 Transaction channel: 4.0 (increases risk, SHAP: +4.069) | \ud83d\udd34 Avg monthly spending: 5000.0 (increases risk, SHAP: +2.977)",
+      "transaction_id": "TXN_5288295562"
+    }
+  ]
+}
