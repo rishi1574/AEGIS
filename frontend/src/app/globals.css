@@ -4,27 +4,27 @@
 @config "../../tailwind.config.ts";
 
 body {
-  background-color: theme('colors.vanguard.bg');
-  color: theme('colors.vanguard.text');
+  background-color: theme('colors.aegis.bg');
+  color: theme('colors.aegis.text');
 }
 
 /* Minimalist card */
 .glass-card {
   background: white;
-  border: 1px solid theme('colors.vanguard.border');
+  border: 1px solid theme('colors.aegis.border');
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 /* Accent borders */
 .glow-red { 
-  border-top: 3px solid theme('colors.vanguard.red');
+  border-top: 3px solid theme('colors.aegis.red');
 }
 .glow-blue { 
-  border-top: 3px solid theme('colors.vanguard.blue');
+  border-top: 3px solid theme('colors.aegis.blue');
 }
 .glow-green { 
-  border-top: 3px solid theme('colors.vanguard.green');
+  border-top: 3px solid theme('colors.aegis.green');
 }
 
 /* Scrollbar */
@@ -56,7 +56,7 @@ body {
 
 .attacking {
   animation: pulse-red 1.5s ease-in-out infinite;
-  border-color: theme('colors.vanguard.red');
+  border-color: theme('colors.aegis.red');
 }
 
 /* Gradient text */

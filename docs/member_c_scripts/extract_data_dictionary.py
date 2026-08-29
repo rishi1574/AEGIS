@@ -10,9 +10,9 @@ def generate_dictionary():
     with open(schema_path, "r") as f:
         schema = json.load(f)
         
-    md_content = f"""# VANGUARD Data Dictionary
+    md_content = f"""# AEGIS Data Dictionary
 
-**Description:** {schema.get('description', 'VANGUARD Transaction Schema')}
+**Description:** {schema.get('description', 'AEGIS Transaction Schema')}
 
 ## Features
 

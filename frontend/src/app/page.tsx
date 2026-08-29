@@ -61,8 +61,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Identity",
     rail: "Cards / BNPL / Loans",
     risk: "Critical",
-    genAiMechanism: "Fuses stolen PII with deepfake biometrics; nurtures credit score for 6 months then maxes out limits simultaneously across 50 nodes.",
-    evasion: "Behaves with 99.8% statistical normality during dormancy period; defeats static KYC velocity rules.",
+    genAiMechanism: "Fuses stolen PII with deepfake biometrics; nurtures credit score for 6 months then maxes out limits simultaneously across 50 nodes. Uses generative models to create synthetic identities that pass KYC checks with authentic-looking documentation.",
+    evasion: "Behaves with 99.8% statistical normality during dormancy period; defeats static KYC velocity rules. The 6-month nurturing phase makes it indistinguishable from legitimate new account behavior.",
+    aegisDefense: "TGAT graph network detects coordinated bust-out patterns by analyzing multi-hop entity linkages — shared addresses, phone numbers, and device fingerprints across seemingly unrelated accounts.",
+    realWorldImpact: "Synthetic ID fraud costs US lenders $6B+ annually (Federal Reserve estimate). Average bust-out loss: $15,000–$100,000 per synthetic identity.",
     severityScore: 98,
   },
   {
@@ -71,8 +73,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Identity",
     rail: "UPI / P2P / Voice Banking",
     risk: "Critical",
-    genAiMechanism: "Real-time diffusion-based voice cloning and facial landmark synthesis defeating liveness detection in video KYC and phone banking.",
-    evasion: "Bypasses multi-factor biometric step-up authentication; mimics authentic ambient background acoustics.",
+    genAiMechanism: "Real-time diffusion-based voice cloning and facial landmark synthesis defeating liveness detection in video KYC and phone banking. Modern voice cloning requires only 3 seconds of sample audio to generate convincing replicas.",
+    evasion: "Bypasses multi-factor biometric step-up authentication; mimics authentic ambient background acoustics. Generative adversarial techniques inject realistic micro-expressions and blink patterns to defeat liveness detection.",
+    aegisDefense: "Conformal Risk Control module detects uncertainty spikes in biometric verification confidence scores, triggering additional step-up challenges when model uncertainty exceeds calibrated thresholds.",
+    realWorldImpact: "Account takeover fraud exceeded $11B globally in 2024. Deepfake-enabled ATO is the fastest growing vector, with 3,000% increase in deepfake fraud attempts since 2023.",
     severityScore: 96,
   },
   {
@@ -81,8 +85,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Emerging",
     rail: "ISO 20022 / Corporate Treasury",
     risk: "Critical",
-    genAiMechanism: "Indirect prompt injection embedded invisibly in digital PDF invoices or ISO 20022 remittance text coercing AP4M autonomous agents.",
-    evasion: "Exploits the 'agent authority gap' — OAuth token is authentic, cryptographic channel signature is valid.",
+    genAiMechanism: "Indirect prompt injection embedded invisibly in digital PDF invoices or ISO 20022 remittance text coercing AP4M autonomous agents into altering payment destinations. The injected instructions exploit the semantic parsing layer of LLM-powered payment agents.",
+    evasion: "Exploits the 'agent authority gap' — OAuth token is authentic, cryptographic channel signature is valid. Because the enterprise agent operates with delegated authority, the instruction appears to originate from a trusted source.",
+    aegisDefense: "Know Your Agent (KYA) semantic constraint validation verifies that agent payment actions match declared user intent profiles. Detects divergence between parsed invoice semantics and historical vendor payment patterns.",
+    realWorldImpact: "As autonomous AI agents handle $2T+ in B2B payments by 2027, the attack surface for prompt injection in financial workflows grows exponentially. A single hijacked treasury agent could redirect millions.",
     severityScore: 99,
   },
   {
@@ -91,8 +97,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Network",
     rail: "UPI / Merchant POS / Gateway",
     risk: "High",
-    genAiMechanism: "Contextual bandit reinforcement learning calculating exact epsilon variations (e.g. ₹49,999 vs ₹50,000) to map model boundary.",
-    evasion: "Stays strictly inside the 0.48-0.49 benign classification probability band.",
+    genAiMechanism: "Contextual bandit reinforcement learning calculating exact epsilon variations (e.g. ₹49,999 vs ₹50,000) to map model decision boundaries. Systematically probes threshold bands to identify the minimum perturbation needed to flip classifications.",
+    evasion: "Stays strictly inside the 0.48-0.49 benign classification probability band. Each probe transaction is individually benign, making detection via single-transaction analysis impossible.",
+    aegisDefense: "The RL Red Team mutation engine simulates this exact attack vector, pre-training Blue Team models to recognize boundary-probing patterns. Sequential Transformer detects the temporal signature of systematic probing.",
+    realWorldImpact: "Adversarial ML attacks against financial models are projected to cause $2.5B in losses by 2026. Boundary mapping enables follow-up attacks at scale.",
     severityScore: 91,
   },
   {
@@ -101,8 +109,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Identity",
     rail: "Card-Not-Present (CNP)",
     risk: "Critical",
-    genAiMechanism: "Generative sequence models extrapolating complete 16-digit PANs from partial BIN leaks using Luhn check-digit synthesis.",
-    evasion: "Distributes micro-testing transactions across thousands of decentralized global merchant gateways below velocity thresholds.",
+    genAiMechanism: "Generative sequence models extrapolating complete 16-digit PANs from partial BIN leaks using Luhn check-digit synthesis. Leverages transformer architectures to predict valid card numbers from BIN range databases and dark web partial leaks.",
+    evasion: "Distributes micro-testing transactions across thousands of decentralized global merchant gateways below velocity thresholds. Uses rotating IP addresses and synthetic device fingerprints.",
+    aegisDefense: "Graph-based velocity analysis detects distributed BIN attacks by linking micro-transactions across merchants through shared BIN prefixes and temporal clustering patterns.",
+    realWorldImpact: "CNP fraud represents 73% of all card fraud globally. BIN attacks generate millions of valid card credentials from partial leaks, fueling the underground carding economy.",
     severityScore: 95,
   },
   {
@@ -111,8 +121,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Network",
     rail: "TIPS / RT1 / FedNow",
     risk: "High",
-    genAiMechanism: "Inverted Poisson packet pacing synthesizing inter-message latencies between ISO 20022 pacs.008 and pacs.002 messages.",
-    evasion: "Defeats network-level temporal anomaly detection by adhering to standard millisecond SLA bounds.",
+    genAiMechanism: "Inverted Poisson packet pacing synthesizing inter-message latencies between ISO 20022 pacs.008 and pacs.002 messages. Crafts timing patterns that mimic legitimate settlement processing delays.",
+    evasion: "Defeats network-level temporal anomaly detection by adhering to standard millisecond SLA bounds. The synthesized timing distribution is statistically indistinguishable from authentic processing delays.",
+    aegisDefense: "ISO 20022 micro-latency anomaly detector measures sub-millisecond deviations in settlement message round-trip times that automated intermediaries cannot perfectly replicate.",
+    realWorldImpact: "Real-time payment rails process $100T+ annually. Temporal spoofing enables interception and redirection of instant settlement messages.",
     severityScore: 89,
   },
   {
@@ -121,8 +133,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Identity",
     rail: "IMPS / NEFT / Wire",
     risk: "Critical",
-    genAiMechanism: "Conditional Tabular GANs trained on anonymized banking streams to synthesize mathematically indistinguishable fraudulent transaction payloads.",
-    evasion: "Matches continuous multivariate covariance distributions of legitimate banking customers.",
+    genAiMechanism: "Conditional Tabular GANs trained on anonymized banking streams to synthesize mathematically indistinguishable fraudulent transaction payloads. The GAN learns the exact multivariate distribution of legitimate transactions.",
+    evasion: "Matches continuous multivariate covariance distributions of legitimate banking customers. Generated transactions pass all statistical validation tests (K-S, Chi-squared, Jensen-Shannon divergence).",
+    aegisDefense: "AEGIS's own Fidelity Firewall uses the same discriminator-based approach to validate synthetic data quality — this adversarial expertise is turned defensive to detect GAN-generated transactions.",
+    realWorldImpact: "Synthetic transaction generation is the next frontier of financial fraud. As GANs improve, traditional rule-based systems become completely ineffective.",
     severityScore: 94,
   },
   {
@@ -131,8 +145,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Human",
     rail: "RTGS / High-Value Wire",
     risk: "High",
-    genAiMechanism: "Deepfake video/audio impersonation of law enforcement agencies orchestrating multi-hour psychological extortion sessions.",
-    evasion: "Victim willingly executes authentic biometric approval on their personal trusted device.",
+    genAiMechanism: "Deepfake video/audio impersonation of law enforcement agencies orchestrating multi-hour psychological extortion sessions. AI generates convincing government office backgrounds, uniforms, and official documentation in real-time.",
+    evasion: "Victim willingly executes authentic biometric approval on their personal trusted device. No technical security control is violated — the attack exploits human psychology rather than system vulnerabilities.",
+    aegisDefense: "Behavioral biometric anomaly detection identifies stress-induced typing pattern changes, unusual transaction timing, and deviation from normal payment patterns during coercion scenarios.",
+    realWorldImpact: "Digital arrest scams caused ₹120 crore+ in losses in India alone in 2024. Average victim loss: ₹5-50 lakhs. Victims include educated professionals and senior citizens.",
     severityScore: 92,
   },
   {
@@ -141,8 +157,10 @@ const ALL_ATTACK_VECTORS = [
     layer: "Network",
     rail: "POS / QR Payment",
     risk: "High",
-    genAiMechanism: "LLM-generated synthetic business profiles and automated chargeback balancing passing ghost transactions to money mules.",
-    evasion: "High fan-in distribution with uniform transaction amounts camouflaged as legitimate retail rush-hour velocity.",
+    genAiMechanism: "LLM-generated synthetic business profiles and automated chargeback balancing passing ghost transactions to money mules. Creates convincing merchant websites, social media presence, and transaction histories.",
+    evasion: "High fan-in distribution with uniform transaction amounts camouflaged as legitimate retail rush-hour velocity. The collusion network appears as normal merchant activity.",
+    aegisDefense: "TGAT graph analysis detects abnormal merchant-to-merchant fund flow patterns and identifies shell merchant clusters through graph modularity analysis.",
+    realWorldImpact: "Merchant collusion fraud costs payment networks $4B+ annually through false chargebacks and money laundering.",
     severityScore: 88,
   },
   {
@@ -309,13 +327,13 @@ const ALL_ATTACK_VECTORS = [
 
 // ─── RADAR BENCHMARK DATA ───
 const RADAR_METRICS = [
-  { subject: "Zero-Day Discovery", legacy: 35, vanguard: 96 },
-  { subject: "Graph Mule Detection", legacy: 40, vanguard: 94 },
-  { subject: "Temporal Cadence", legacy: 50, vanguard: 92 },
-  { subject: "Low False Positives", legacy: 60, vanguard: 98 },
-  { subject: "Agentic AI Defense", legacy: 15, vanguard: 99 },
-  { subject: "Explainability (XAI)", legacy: 45, vanguard: 95 },
-  { subject: "Federated Accuracy", legacy: 30, vanguard: 93 },
+  { subject: "Zero-Day Discovery", legacy: 35, aegis: 96 },
+  { subject: "Graph Mule Detection", legacy: 40, aegis: 94 },
+  { subject: "Temporal Cadence", legacy: 50, aegis: 92 },
+  { subject: "Low False Positives", legacy: 60, aegis: 98 },
+  { subject: "Agentic AI Defense", legacy: 15, aegis: 99 },
+  { subject: "Explainability (XAI)", legacy: 45, aegis: 95 },
+  { subject: "Federated Accuracy", legacy: 30, aegis: 93 },
 ];
 
 export default function ComprehensiveMissionHub() {
@@ -371,7 +389,7 @@ export default function ComprehensiveMissionHub() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight text-slate-900">VANGUARD</span>
+                <span className="font-bold text-lg tracking-tight text-slate-900">AEGIS</span>
                 <span className="text-[10px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200">
                   Mission Portal
                 </span>
@@ -419,7 +437,7 @@ export default function ComprehensiveMissionHub() {
                 Architecting the Closed-Loop <br /> AI Defense System.
               </h1>
               <p className="text-sm text-slate-600 leading-relaxed max-w-2xl">
-                Generative AI has fundamentally democratized financial cyberwarfare. Adversaries deploy autonomous agents, synthesize deepfakes, and inject payloads into ISO 20022 messages. VANGUARD counters this by forcing Red and Blue AI models to co-evolve in a mathematically constrained, closed-loop environment.
+                Generative AI has fundamentally democratized financial cyberwarfare. Adversaries deploy autonomous agents, synthesize deepfakes, and inject payloads into ISO 20022 messages. AEGIS counters this by forcing Red and Blue AI models to co-evolve in a mathematically constrained, closed-loop environment.
               </p>
               
               <div className="grid sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
@@ -538,26 +556,50 @@ export default function ComprehensiveMissionHub() {
                 </div>
               </div>
               
-              <div className="space-y-6 flex-1 text-sm">
+              <div className="space-y-5 flex-1 text-sm">
                 <div>
-                  <h5 className="font-bold text-slate-900 text-xs mb-2">GenAI Exploitation Methodology</h5>
+                  <h5 className="font-bold text-slate-900 text-xs mb-2 flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> GenAI Exploitation Methodology
+                  </h5>
                   <p className="text-slate-600 leading-relaxed text-xs">
                     {selectedAttack.genAiMechanism}
                   </p>
                 </div>
                 <div>
-                  <h5 className="font-bold text-slate-900 text-xs mb-2">Perimeter Evasion Technique</h5>
+                  <h5 className="font-bold text-slate-900 text-xs mb-2 flex items-center gap-1.5">
+                    <Eye className="w-3.5 h-3.5 text-amber-500" /> Perimeter Evasion Technique
+                  </h5>
                   <p className="text-slate-600 leading-relaxed text-xs">
                     {selectedAttack.evasion}
                   </p>
                 </div>
+                {selectedAttack.aegisDefense && (
+                  <div className="bg-emerald-50/50 border border-emerald-200 p-4">
+                    <h5 className="font-bold text-emerald-800 text-xs mb-2 flex items-center gap-1.5">
+                      <Shield className="w-3.5 h-3.5 text-emerald-600" /> AEGIS Defense Countermeasure
+                    </h5>
+                    <p className="text-xs text-emerald-700 leading-relaxed">
+                      {selectedAttack.aegisDefense}
+                    </p>
+                  </div>
+                )}
+                {selectedAttack.realWorldImpact && (
+                  <div className="bg-amber-50/50 border border-amber-200 p-4">
+                    <h5 className="font-bold text-amber-800 text-xs mb-2 flex items-center gap-1.5">
+                      <TrendingUp className="w-3.5 h-3.5 text-amber-600" /> Real-World Impact
+                    </h5>
+                    <p className="text-xs text-amber-700 leading-relaxed">
+                      {selectedAttack.realWorldImpact}
+                    </p>
+                  </div>
+                )}
                 {selectedAttack.id === "agentic_hijack" && (
-                  <div className="bg-slate-50 border border-slate-200 p-4 mt-4">
+                  <div className="bg-slate-50 border border-slate-200 p-4">
                     <div className="flex items-center gap-2 text-slate-900 font-bold text-xs mb-2">
                       <AlertTriangle className="w-3.5 h-3.5" /> The "Agent Gap" Vulnerability
                     </div>
                     <p className="text-xs text-slate-600 leading-relaxed">
-                      When corporate accounting agents parse unstructured vendor invoices, prompt injection instructions secretly alter payment destination IBANs. Because the enterprise OAuth token remains authentic, traditional perimeter filters assume semantic intent is valid. VANGUARD counteracts this via Know Your Agent (KYA) semantic constraint validation.
+                      When corporate accounting agents parse unstructured vendor invoices, prompt injection instructions secretly alter payment destination IBANs. Because the enterprise OAuth token remains authentic, traditional perimeter filters assume semantic intent is valid. AEGIS counteracts this via Know Your Agent (KYA) semantic constraint validation.
                     </p>
                   </div>
                 )}
@@ -674,7 +716,7 @@ export default function ComprehensiveMissionHub() {
               <Key className="w-4 h-4 text-slate-500" /> ISO 20022 Inter-Message Micro-Latency Anomaly Detection
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              In modern clearing rails (TIPS, RT1, FedNow), round-trip millisecond delays between customer credit transfers (pacs.008) and settlement confirmations (pacs.002) follow tight physical distributions. VANGUARD utilizes inter-message processing micro-latency as a primary feature vector indicating automated intermediary agentic tampering.
+              In modern clearing rails (TIPS, RT1, FedNow), round-trip millisecond delays between customer credit transfers (pacs.008) and settlement confirmations (pacs.002) follow tight physical distributions. AEGIS utilizes inter-message processing micro-latency as a primary feature vector indicating automated intermediary agentic tampering.
             </p>
           </div>
         </section>
@@ -690,21 +732,21 @@ export default function ComprehensiveMissionHub() {
               <div className="text-2xl font-mono font-bold text-slate-900 mb-2">&lt; 0.1%</div>
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Real-World Imbalance</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Fraud is &lt;1/1000 in live networks. Standard ROC-AUC produces deceptive 0.99 scores. VANGUARD is rigorously evaluated via PR-AUC.
+                Fraud is &lt;1/1000 in live networks. Standard ROC-AUC produces deceptive 0.99 scores. AEGIS is rigorously evaluated via PR-AUC.
               </p>
             </div>
             <div className="bg-white border border-slate-200 p-6">
               <div className="text-2xl font-mono font-bold text-slate-900 mb-2">&lt; 50 ms</div>
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Instant Settlement</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Rails like UPI and FedNow require auth &lt;50ms. VANGUARD uses GraphSAGE localized 2-hop sampling cached in Redis to achieve 22ms inference.
+                Rails like UPI and FedNow require auth &lt;50ms. AEGIS uses GraphSAGE localized 2-hop sampling cached in Redis to achieve 22ms inference.
               </p>
             </div>
             <div className="bg-white border border-slate-200 p-6">
               <div className="text-2xl font-mono font-bold text-slate-900 mb-2">0.02%</div>
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">False Positive Bound</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                VANGUARD applies Selective Prediction with Conformal Risk Control to trigger dynamic friction rather than automated hard declines.
+                AEGIS applies Selective Prediction with Conformal Risk Control to trigger dynamic friction rather than automated hard declines.
               </p>
             </div>
           </div>
@@ -765,7 +807,7 @@ export default function ComprehensiveMissionHub() {
                       <PolarAngleAxis dataKey="subject" tick={{ fontSize: 9, fill: "#64748b" }} />
                       <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                       <Radar name="Legacy Stack" dataKey="legacy" stroke="#94a3b8" fill="#94a3b8" fillOpacity={0.2} strokeWidth={1} />
-                      <Radar name="VANGUARD Defense" dataKey="vanguard" stroke="#1a1f71" fill="#1a1f71" fillOpacity={0.3} strokeWidth={2} />
+                      <Radar name="AEGIS Defense" dataKey="aegis" stroke="#1a1f71" fill="#1a1f71" fillOpacity={0.3} strokeWidth={2} />
                       <Tooltip contentStyle={{ fontSize: '10px' }} />
                     </RadarChart>
                   </ResponsiveContainer>
@@ -773,7 +815,7 @@ export default function ComprehensiveMissionHub() {
               </div>
               <div className="flex justify-center gap-4 mt-4 text-[10px] font-mono text-slate-500">
                 <span className="flex items-center gap-1.5"><div className="w-2 h-2 bg-[#94a3b8]"></div> Legacy Stack</span>
-                <span className="flex items-center gap-1.5"><div className="w-2 h-2 bg-[#1a1f71]"></div> VANGUARD Pipeline</span>
+                <span className="flex items-center gap-1.5"><div className="w-2 h-2 bg-[#1a1f71]"></div> AEGIS Pipeline</span>
               </div>
             </div>
           </div>
@@ -806,7 +848,7 @@ export default function ComprehensiveMissionHub() {
         <section className="bg-slate-50 border border-slate-200 p-8 text-center mt-12 mb-24">
           <h2 className="text-xl font-bold text-slate-900 mb-2">Live Battlefield Ready</h2>
           <p className="text-sm text-slate-600 mb-6 max-w-2xl mx-auto">
-            Launch the VANGUARD Adversarial War Room to execute live attack campaigns, observe real-time node clustering, and inspect SHAP waterfall explanations.
+            Launch the AEGIS Adversarial War Room to execute live attack campaigns, observe real-time node clustering, and inspect SHAP waterfall explanations.
           </p>
           <Link
             href="/simulator"

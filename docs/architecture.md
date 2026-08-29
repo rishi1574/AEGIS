@@ -1,4 +1,4 @@
-# VANGUARD Architecture
+# AEGIS Architecture
 
 ## Components
 1. **Red Team (Attack Simulator):** Uses `TransactionGenerator` seeded with Gymnasium RL environments to create novel zero-day attacks.

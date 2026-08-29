@@ -17,7 +17,7 @@ from datetime import datetime
 
 
 class DataService:
-    """Singleton data service for the VANGUARD backend."""
+    """Singleton data service for the AEGIS backend."""
 
     _instance = None
 

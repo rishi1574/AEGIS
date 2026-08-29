@@ -55,6 +55,11 @@ export default function ThreatIntelFeed({ liveData }: { liveData?: any }) {
  </motion.div>
  ))}
  </AnimatePresence>
+      {alerts.length === 0 && (
+        <div className="text-[10px] text-slate-400 text-center py-4 italic">
+          Threat intel feeds activate during attacks...
+        </div>
+      )}
  </div>
  </div>
  );

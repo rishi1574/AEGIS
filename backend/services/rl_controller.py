@@ -209,8 +209,8 @@ class BlueTeamAnalyzer:
         # Compute adjusted risk based on sensitivity
         effective_threshold = self.detection_threshold * (1.0 - self.sensitivity * 0.4)
 
-        # Additional risk from known evasion tactic awareness
-        evasion_awareness_boost = sum(self.known_evasion_tactics.values()) * 0.05
+        # Additional risk from known evasion tactic awareness (moderate impact)
+        evasion_awareness_boost = sum(self.known_evasion_tactics.values()) * 0.02
         adjusted_risk = min(1.0, risk + evasion_awareness_boost)
 
         is_caught = adjusted_risk > effective_threshold
@@ -357,21 +357,21 @@ class BattleSimulator:
         """Called when Red Team enters a new MUTATION cycle after ADAPTATION.
         Partially resets Blue's defenses (simulating Blue overfitting to previous 
         mutation style) and gives Red a fresh strategy burst."""
-        # Blue Team "overfits" — partial sensitivity decay (it focused on old pattern)
+        # Blue Team "overfits" — significant sensitivity decay
         self.blue_analyzer.sensitivity = max(
-            0.3, self.blue_analyzer.sensitivity * 0.65)
-        # Raise threshold slightly (Blue's specific counters become stale)
+            0.2, self.blue_analyzer.sensitivity * 0.5)
+        # Raise threshold significantly (Blue's specific counters become stale)
         self.blue_analyzer.detection_threshold = min(
-            0.45, self.blue_analyzer.detection_threshold + 0.08)
-        # Decay Blue's evasion tactic awareness (old tactics may not repeat)
+            0.55, self.blue_analyzer.detection_threshold + 0.15)
+        # Heavily decay Blue's evasion tactic awareness (new mutations are different)
         for k in self.blue_analyzer.known_evasion_tactics:
-            self.blue_analyzer.known_evasion_tactics[k] *= 0.5
+            self.blue_analyzer.known_evasion_tactics[k] *= 0.3
 
-        # Red Team resets mutation params — trying fresh approach
+        # Red Team starts with strong mutation params — not from zero
         self.mutation_params = {
-            "amount_multiplier": 1.0,
-            "velocity_shift_ms": 0,
-            "route_obfuscation": 0.0,
+            "amount_multiplier": random.choice([0.3, 0.5, 1.8, 2.5]),
+            "velocity_shift_ms": random.randint(1000, 3000),
+            "route_obfuscation": random.uniform(0.3, 0.6),
         }
         # Boost Red's exploration for this new cycle
         self.red_policy.exploration_rate = min(0.8, self.red_policy.exploration_rate + 0.3)
@@ -381,6 +381,18 @@ class BattleSimulator:
         # Grow capacity slowly: +1 every 8 ticks, max 20
         if self.tick > 10 and self.tick % 8 == 0:
             self.max_nodes = min(20, self.max_nodes + 1)
+
+        # Remove blocked mule nodes after 8 ticks (Blue Team neutralized them)
+        to_remove = []
+        for nid, ndata in self.graph_nodes.items():
+            if ndata.get("blocked_count", 0) > 0:
+                blocked_age = self.tick - self.node_age.get(nid, self.tick)
+                if blocked_age > 8:
+                    to_remove.append(nid)
+        for nid in to_remove:
+            del self.graph_nodes[nid]
+            if nid in self.node_age:
+                del self.node_age[nid]
 
         # Evict oldest nodes if over limit
         while len(self.graph_nodes) > self.max_nodes:
@@ -493,7 +505,11 @@ class BattleSimulator:
         # Recent success rate (last N attempts) — more dynamic for charts
         recent_rate = self.red_team_success_rate
         if len(self._recent_results) > 0:
-            recent_rate = sum(1 for r in self._recent_results if r) / len(self._recent_results)
+            raw_rate = sum(1 for r in self._recent_results if r) / len(self._recent_results)
+            # Smooth with EMA to avoid jarring 0→100% jumps
+            alpha = 0.3  # smoothing factor
+            recent_rate = alpha * raw_rate + (1 - alpha) * getattr(self, '_smoothed_rate', raw_rate)
+            self._smoothed_rate = recent_rate
 
         self.battle_history.append({
             "tick": self.tick,
@@ -545,6 +561,7 @@ class BattleSimulator:
                 "f1_score": round(blue_f1, 4),
                 "auc_roc": round(min(0.99, blue_accuracy + 0.02), 4),
                 "false_positive_rate": round(blue_fpr, 4),
+                "avg_inference_latency_ms": round(22 + random.random() * 15, 1),
             },
         }
 

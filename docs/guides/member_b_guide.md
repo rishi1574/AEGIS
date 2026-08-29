@@ -1,6 +1,6 @@
 # 🎨 Member B — Full-Stack Lead: Complete Coding Guide
 
-> **Role:** Build the VANGUARD War Room dashboard (frontend) + Docker infrastructure  
+> **Role:** Build the AEGIS War Room dashboard (frontend) + Docker infrastructure  
 > **Your directories:** `frontend/`, `docker-compose.yml`  
 > **Do NOT touch:** `red_team/`, `blue_team/`, `docs/walkthrough*`, `data/`  
 > **Stack:** Next.js 14 (App Router) + TypeScript + Tailwind CSS + Recharts + react-force-graph  
@@ -10,7 +10,7 @@
 ## SETUP (Day 1 Morning)
 
 ```bash
-cd /Users/swarup/Mastercard_Innovation_Challenge_2026/vanguard
+cd /Users/swarup/Mastercard_Innovation_Challenge_2026/aegis
 
 # Scaffold Next.js 14 app
 npx -y create-next-app@latest frontend \
@@ -49,7 +49,7 @@ const config: Config = {
     extend: {
       colors: {
         // Cybersecurity dark theme palette
-        vanguard: {
+        aegis: {
           bg: "#0a0e17",
           surface: "#111827",
           card: "#1a2235",
@@ -194,14 +194,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VANGUARD — AI Defense Lab | Mastercard Innovation Challenge 2026",
+  title: "AEGIS — AI Defense Lab | Mastercard Innovation Challenge 2026",
   description: "Adversarial Evolution & Generative Intelligence Shield — Red Team/Blue Team AI system for payment fraud defense",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-vanguard-bg text-vanguard-text antialiased">
+      <body className="min-h-screen bg-aegis-bg text-aegis-text antialiased">
         {children}
       </body>
     </html>
@@ -356,7 +356,7 @@ export default function WarRoom() {
   };
 
   return (
-    <div className="min-h-screen bg-vanguard-bg grid-bg">
+    <div className="min-h-screen bg-aegis-bg grid-bg">
       <Header connected={connected} />
 
       {/* Main 3-Column Layout */}
@@ -406,30 +406,30 @@ import { Shield, Wifi, WifiOff } from "lucide-react";
 
 export default function Header({ connected }: { connected: boolean }) {
   return (
-    <header className="flex items-center justify-between px-4 py-2 border-b border-vanguard-border bg-vanguard-surface/80 backdrop-blur-md">
+    <header className="flex items-center justify-between px-4 py-2 border-b border-aegis-border bg-aegis-surface/80 backdrop-blur-md">
       <div className="flex items-center gap-3">
         <div className="relative">
-          <Shield className="w-8 h-8 text-vanguard-blue" />
-          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-vanguard-green rounded-full animate-pulse" />
+          <Shield className="w-8 h-8 text-aegis-blue" />
+          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-aegis-green rounded-full animate-pulse" />
         </div>
         <div>
           <h1 className="text-lg font-bold tracking-tight">
-            <span className="text-vanguard-blue">VANGUARD</span>
-            <span className="text-vanguard-text-muted font-normal ml-2">— Adversarial War Room</span>
+            <span className="text-aegis-blue">AEGIS</span>
+            <span className="text-aegis-text-muted font-normal ml-2">— Adversarial War Room</span>
           </h1>
-          <p className="text-xs text-vanguard-text-muted">Mastercard Innovation Challenge 2026</p>
+          <p className="text-xs text-aegis-text-muted">Mastercard Innovation Challenge 2026</p>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-xs">
           {connected ? (
-            <><Wifi className="w-4 h-4 text-vanguard-green" /><span className="text-vanguard-green">LIVE</span></>
+            <><Wifi className="w-4 h-4 text-aegis-green" /><span className="text-aegis-green">LIVE</span></>
           ) : (
-            <><WifiOff className="w-4 h-4 text-vanguard-red" /><span className="text-vanguard-red">OFFLINE</span></>
+            <><WifiOff className="w-4 h-4 text-aegis-red" /><span className="text-aegis-red">OFFLINE</span></>
           )}
         </div>
-        <div className="text-xs text-vanguard-text-muted font-mono">
+        <div className="text-xs text-aegis-text-muted font-mono">
           {new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
         </div>
       </div>
@@ -485,10 +485,10 @@ export default function RedTeamConsole({ attacks, onLaunch, messages }: Props) {
   return (
     <div className="glass-card glow-red h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-vanguard-border">
-        <Crosshair className="w-5 h-5 text-vanguard-red" />
-        <h2 className="text-sm font-semibold text-vanguard-red uppercase tracking-wider">Red Team</h2>
-        <span className="ml-auto text-xs text-vanguard-text-muted">{attacks.length} vectors</span>
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+        <Crosshair className="w-5 h-5 text-aegis-red" />
+        <h2 className="text-sm font-semibold text-aegis-red uppercase tracking-wider">Red Team</h2>
+        <span className="ml-auto text-xs text-aegis-text-muted">{attacks.length} vectors</span>
       </div>
 
       {/* Attack List */}
@@ -502,19 +502,19 @@ export default function RedTeamConsole({ attacks, onLaunch, messages }: Props) {
             disabled={launching === atk.id}
             className={`w-full text-left p-2.5 rounded-lg border transition-all group
               ${launching === atk.id
-                ? "border-vanguard-red bg-vanguard-red/10 animate-pulse"
-                : "border-vanguard-border hover:border-vanguard-red/50 hover:bg-vanguard-red/5"}`}
+                ? "border-aegis-red bg-aegis-red/10 animate-pulse"
+                : "border-aegis-border hover:border-aegis-red/50 hover:bg-aegis-red/5"}`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-vanguard-text">{atk.name}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-vanguard-text-muted group-hover:text-vanguard-red transition-colors" />
+              <span className="text-xs font-medium text-aegis-text">{atk.name}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-aegis-text-muted group-hover:text-aegis-red transition-colors" />
             </div>
             <div className="flex items-center gap-2 mt-1">
               <span className={`text-[10px] px-1.5 py-0.5 rounded border ${LAYER_COLORS[atk.layer] || ""}`}>
                 {atk.layer}
               </span>
               {atk.risk === "critical" && (
-                <span className="text-[10px] text-vanguard-red flex items-center gap-0.5">
+                <span className="text-[10px] text-aegis-red flex items-center gap-0.5">
                   <AlertTriangle className="w-3 h-3" /> CRITICAL
                 </span>
               )}
@@ -524,8 +524,8 @@ export default function RedTeamConsole({ attacks, onLaunch, messages }: Props) {
       </div>
 
       {/* Agent Thought Stream (Log) */}
-      <div className="border-t border-vanguard-border p-2 max-h-32 overflow-y-auto">
-        <p className="text-[10px] text-vanguard-text-muted uppercase tracking-wider mb-1">Agent Log</p>
+      <div className="border-t border-aegis-border p-2 max-h-32 overflow-y-auto">
+        <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider mb-1">Agent Log</p>
         <div className="space-y-0.5 font-mono text-[11px]">
           <AnimatePresence>
             {log.slice(-8).map((entry, i) => (
@@ -533,14 +533,14 @@ export default function RedTeamConsole({ attacks, onLaunch, messages }: Props) {
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-vanguard-text-muted"
+                className="text-aegis-text-muted"
               >
                 {entry}
               </motion.div>
             ))}
           </AnimatePresence>
           {log.length === 0 && (
-            <span className="text-vanguard-text-muted/50">Awaiting orders...</span>
+            <span className="text-aegis-text-muted/50">Awaiting orders...</span>
           )}
         </div>
       </div>
@@ -584,10 +584,10 @@ export default function BlueTeamConsole({ metrics }: { metrics: Metrics | null }
 
   return (
     <div className="glass-card glow-blue h-full flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-vanguard-border">
-        <Shield className="w-5 h-5 text-vanguard-blue" />
-        <h2 className="text-sm font-semibold text-vanguard-blue uppercase tracking-wider">Blue Team</h2>
-        <span className="ml-auto text-xs font-mono text-vanguard-text-muted">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+        <Shield className="w-5 h-5 text-aegis-blue" />
+        <h2 className="text-sm font-semibold text-aegis-blue uppercase tracking-wider">Blue Team</h2>
+        <span className="ml-auto text-xs font-mono text-aegis-text-muted">
           Iter #{m.adversarial_iteration}
         </span>
       </div>
@@ -597,12 +597,12 @@ export default function BlueTeamConsole({ metrics }: { metrics: Metrics | null }
         {bars.map((b) => (
           <div key={b.label}>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-vanguard-text-muted">{b.label}</span>
-              <span className="font-mono font-semibold text-vanguard-text">
+              <span className="text-aegis-text-muted">{b.label}</span>
+              <span className="font-mono font-semibold text-aegis-text">
                 {(b.value * 100).toFixed(1)}%
               </span>
             </div>
-            <div className="w-full h-2 bg-vanguard-border rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-aegis-border rounded-full overflow-hidden">
               <div
                 className={`h-full ${b.color} rounded-full transition-all duration-1000`}
                 style={{ width: `${b.value * 100}%` }}
@@ -613,15 +613,15 @@ export default function BlueTeamConsole({ metrics }: { metrics: Metrics | null }
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <div className="bg-vanguard-surface rounded-lg p-3 border border-vanguard-border">
-            <p className="text-[10px] text-vanguard-text-muted uppercase">Latency</p>
-            <p className="text-lg font-bold font-mono text-vanguard-green">
+          <div className="bg-aegis-surface rounded-lg p-3 border border-aegis-border">
+            <p className="text-[10px] text-aegis-text-muted uppercase">Latency</p>
+            <p className="text-lg font-bold font-mono text-aegis-green">
               {m.avg_inference_latency_ms.toFixed(0)}ms
             </p>
           </div>
-          <div className="bg-vanguard-surface rounded-lg p-3 border border-vanguard-border">
-            <p className="text-[10px] text-vanguard-text-muted uppercase">FPR</p>
-            <p className="text-lg font-bold font-mono text-vanguard-amber">
+          <div className="bg-aegis-surface rounded-lg p-3 border border-aegis-border">
+            <p className="text-[10px] text-aegis-text-muted uppercase">FPR</p>
+            <p className="text-lg font-bold font-mono text-aegis-amber">
               {(m.false_positive_rate * 100).toFixed(2)}%
             </p>
           </div>
@@ -629,12 +629,12 @@ export default function BlueTeamConsole({ metrics }: { metrics: Metrics | null }
       </div>
 
       {/* Interception Log Placeholder */}
-      <div className="border-t border-vanguard-border p-3">
+      <div className="border-t border-aegis-border p-3">
         <div className="flex items-center gap-2 mb-2">
-          <Eye className="w-4 h-4 text-vanguard-blue" />
-          <p className="text-[10px] text-vanguard-text-muted uppercase tracking-wider">Recent Interceptions</p>
+          <Eye className="w-4 h-4 text-aegis-blue" />
+          <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider">Recent Interceptions</p>
         </div>
-        <div className="text-xs text-vanguard-text-muted/50 font-mono text-center py-2">
+        <div className="text-xs text-aegis-text-muted/50 font-mono text-center py-2">
           Awaiting live data...
         </div>
       </div>
@@ -769,9 +769,9 @@ export default function BattlefieldGraph({ messages }: { messages: any[] }) {
 
   return (
     <div className="glass-card h-full flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-vanguard-border">
-        <Network className="w-5 h-5 text-vanguard-amber" />
-        <h2 className="text-sm font-semibold text-vanguard-amber uppercase tracking-wider">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+        <Network className="w-5 h-5 text-aegis-amber" />
+        <h2 className="text-sm font-semibold text-aegis-amber uppercase tracking-wider">
           Transaction Network
         </h2>
         <div className="ml-auto flex items-center gap-3 text-[10px]">
@@ -813,12 +813,12 @@ export default function ConceptDriftChart() {
 
   return (
     <div className="glass-card h-full flex flex-col">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-vanguard-border">
-        <Activity className="w-5 h-5 text-vanguard-amber" />
-        <h2 className="text-sm font-semibold text-vanguard-amber uppercase tracking-wider">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+        <Activity className="w-5 h-5 text-aegis-amber" />
+        <h2 className="text-sm font-semibold text-aegis-amber uppercase tracking-wider">
           Adversarial Co-Evolution
         </h2>
-        <span className="ml-auto text-[10px] text-vanguard-text-muted font-mono">
+        <span className="ml-auto text-[10px] text-aegis-text-muted font-mono">
           {data.length} iterations
         </span>
       </div>
@@ -893,9 +893,9 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
 
   return (
     <div className="glass-card glow-green h-full flex flex-col">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-vanguard-border">
-        <Globe className="w-5 h-5 text-vanguard-green" />
-        <h2 className="text-sm font-semibold text-vanguard-green uppercase tracking-wider">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-aegis-border">
+        <Globe className="w-5 h-5 text-aegis-green" />
+        <h2 className="text-sm font-semibold text-aegis-green uppercase tracking-wider">
           Federated Intelligence
         </h2>
       </div>
@@ -903,8 +903,8 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
         {/* Individual Banks */}
         {d.banks.map((bank, i) => (
           <div key={bank.name} className="flex items-center gap-3">
-            <span className="text-xs text-vanguard-text-muted w-14 shrink-0">{bank.name}</span>
-            <div className="flex-1 h-5 bg-vanguard-border rounded-full overflow-hidden relative">
+            <span className="text-xs text-aegis-text-muted w-14 shrink-0">{bank.name}</span>
+            <div className="flex-1 h-5 bg-aegis-border rounded-full overflow-hidden relative">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${bank.f1 * 100}%` }}
@@ -917,12 +917,12 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
         ))}
 
         {/* Divider */}
-        <div className="border-t border-dashed border-vanguard-border my-2" />
+        <div className="border-t border-dashed border-aegis-border my-2" />
 
         {/* Federated Result */}
         <div className="flex items-center gap-3">
-          <span className="text-xs text-vanguard-green font-semibold w-14 shrink-0">🌐 Fed.</span>
-          <div className="flex-1 h-6 bg-vanguard-border rounded-full overflow-hidden relative">
+          <span className="text-xs text-aegis-green font-semibold w-14 shrink-0">🌐 Fed.</span>
+          <div className="flex-1 h-6 bg-aegis-border rounded-full overflow-hidden relative">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${d.federated.f1 * 100}%` }}
@@ -930,7 +930,7 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
               className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full"
             />
           </div>
-          <span className="text-sm font-mono font-bold text-vanguard-green w-12 text-right">
+          <span className="text-sm font-mono font-bold text-aegis-green w-12 text-right">
             {(d.federated.f1 * 100).toFixed(1)}%
           </span>
         </div>
@@ -940,15 +940,15 @@ export default function FederatedComparison({ data }: { data: FederatedData | nu
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.5 }}
-          className="flex items-center justify-center gap-2 mt-3 py-2 px-3 rounded-lg bg-vanguard-green/10 border border-vanguard-green/30"
+          className="flex items-center justify-center gap-2 mt-3 py-2 px-3 rounded-lg bg-aegis-green/10 border border-aegis-green/30"
         >
-          <ArrowUp className="w-4 h-4 text-vanguard-green" />
-          <span className="text-sm font-semibold text-vanguard-green">
+          <ArrowUp className="w-4 h-4 text-aegis-green" />
+          <span className="text-sm font-semibold text-aegis-green">
             {d.federated.improvement} Network Intelligence Advantage
           </span>
         </motion.div>
 
-        <p className="text-[10px] text-vanguard-text-muted text-center mt-1">
+        <p className="text-[10px] text-aegis-text-muted text-center mt-1">
           Cross-bank mule chains only detectable with federated model
         </p>
       </div>
@@ -973,17 +973,17 @@ export default function StatsBar({ metrics, connected }: { metrics: any; connect
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-vanguard-surface/90 backdrop-blur-md border-t border-vanguard-border px-4 py-1.5">
+    <div className="fixed bottom-0 left-0 right-0 bg-aegis-surface/90 backdrop-blur-md border-t border-aegis-border px-4 py-1.5">
       <div className="flex items-center justify-center gap-6">
         {stats.map((s) => (
           <div key={s.label} className="flex items-center gap-1.5 text-xs">
-            <span className="text-vanguard-text-muted">{s.label}:</span>
-            <span className="font-mono font-semibold text-vanguard-text">{s.value}</span>
+            <span className="text-aegis-text-muted">{s.label}:</span>
+            <span className="font-mono font-semibold text-aegis-text">{s.value}</span>
           </div>
         ))}
         <div className="flex items-center gap-1.5 text-xs">
           <span className={`status-dot ${connected ? "active" : "danger"}`} />
-          <span className="text-vanguard-text-muted">{connected ? "Connected" : "Disconnected"}</span>
+          <span className="text-aegis-text-muted">{connected ? "Connected" : "Disconnected"}</span>
         </div>
       </div>
     </div>
@@ -1009,7 +1009,7 @@ interface Props {
 export default function ShapWaterfall({ shapValues, transactionId }: Props) {
   if (!shapValues) {
     return (
-      <div className="text-xs text-vanguard-text-muted text-center py-6">
+      <div className="text-xs text-aegis-text-muted text-center py-6">
         Click a transaction to see SHAP explanation
       </div>
     );
@@ -1025,7 +1025,7 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
 
   return (
     <div>
-      <p className="text-[10px] text-vanguard-text-muted mb-2 font-mono">
+      <p className="text-[10px] text-aegis-text-muted mb-2 font-mono">
         SHAP — {transactionId || "Transaction"}
       </p>
       <ResponsiveContainer width="100%" height={150}>
@@ -1110,8 +1110,8 @@ export default function ThreatIntelFeed() {
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2 mb-2">
-        <Globe className="w-4 h-4 text-vanguard-purple" />
-        <p className="text-[10px] text-vanguard-text-muted uppercase tracking-wider">Threat Intel (Recorded Future)</p>
+        <Globe className="w-4 h-4 text-aegis-purple" />
+        <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider">Threat Intel (Recorded Future)</p>
       </div>
       <AnimatePresence>
         {DEMO_ALERTS.map((alert, i) => (
@@ -1120,16 +1120,16 @@ export default function ThreatIntelFeed() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.15 }}
-            className="flex items-start gap-2 p-2 rounded-lg bg-vanguard-surface border border-vanguard-border"
+            className="flex items-start gap-2 p-2 rounded-lg bg-aegis-surface border border-aegis-border"
           >
-            <ShieldAlert className="w-3.5 h-3.5 mt-0.5 text-vanguard-amber shrink-0" />
+            <ShieldAlert className="w-3.5 h-3.5 mt-0.5 text-aegis-amber shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] text-vanguard-text leading-tight">{alert.message}</p>
+              <p className="text-[11px] text-aegis-text leading-tight">{alert.message}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className={`text-[9px] px-1.5 py-0.5 rounded ${severityColor[alert.severity]}`}>
                   {alert.severity.toUpperCase()}
                 </span>
-                <span className="text-[9px] text-vanguard-text-muted">{alert.time}</span>
+                <span className="text-[9px] text-aegis-text-muted">{alert.time}</span>
               </div>
             </div>
           </motion.div>
@@ -1158,8 +1158,8 @@ export default function KYAMonitor() {
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2 mb-2">
-        <Bot className="w-4 h-4 text-vanguard-purple" />
-        <p className="text-[10px] text-vanguard-text-muted uppercase tracking-wider">Know Your Agent (AP4M)</p>
+        <Bot className="w-4 h-4 text-aegis-purple" />
+        <p className="text-[10px] text-aegis-text-muted uppercase tracking-wider">Know Your Agent (AP4M)</p>
       </div>
       {DEMO_EVENTS.map((evt, i) => (
         <motion.div
@@ -1174,15 +1174,15 @@ export default function KYAMonitor() {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="font-mono font-semibold text-vanguard-text">{evt.agent}</span>
+            <span className="font-mono font-semibold text-aegis-text">{evt.agent}</span>
             {evt.status === "blocked" ? (
               <ShieldX className="w-3.5 h-3.5 text-red-400" />
             ) : (
               <ShieldCheck className="w-3.5 h-3.5 text-green-400" />
             )}
           </div>
-          <p className="text-vanguard-text-muted mt-0.5">{evt.action}</p>
-          <p className="text-[9px] text-vanguard-text-muted/70 mt-0.5 italic">{evt.reason}</p>
+          <p className="text-aegis-text-muted mt-0.5">{evt.action}</p>
+          <p className="text-[9px] text-aegis-text-muted/70 mt-0.5 italic">{evt.reason}</p>
         </motion.div>
       ))}
     </div>
@@ -1194,7 +1194,7 @@ export default function KYAMonitor() {
 
 ## DAY 8 — Docker Compose
 
-### File 19: `docker-compose.yml` (in `vanguard/` root)
+### File 19: `docker-compose.yml` (in `aegis/` root)
 
 ```yaml
 version: "3.9"

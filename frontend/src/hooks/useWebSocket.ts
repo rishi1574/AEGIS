@@ -15,10 +15,16 @@ export function useWebSocket(path: string = "/ws/live-feed") {
   const [messages, setMessages] = useState<WSMessage[]>([]);
 
   useEffect(() => {
-    // Dynamically get the current host (works in Cloud IDEs)
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const host = window.location.hostname;
-    const url = `${protocol}//${host}:8000${path}`;
+    // Support deployment: use env var if set, otherwise fall back to localhost:8000
+    const wsBase = process.env.NEXT_PUBLIC_WS_URL;
+    let url: string;
+    if (wsBase) {
+      url = `${wsBase}${path}`;
+    } else {
+      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const host = window.location.hostname;
+      url = `${protocol}//${host}:8000${path}`;
+    }
     
     const socket = new WebSocket(url);
     socket.onopen = () => setConnected(true);

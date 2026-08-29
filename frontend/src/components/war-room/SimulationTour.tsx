@@ -98,7 +98,7 @@ export default function SimulationTour() {
               className="bg-white shadow-xl border border-slate-200 p-6 max-w-md w-full mx-4"
             >
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-bold text-slate-800">Welcome to VANGUARD Simulator</h3>
+                <h3 className="text-lg font-bold text-slate-800">Welcome to AEGIS Simulator</h3>
                 <button
                   onClick={() => setShowPrompt(false)}
                   className="p-1 hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"

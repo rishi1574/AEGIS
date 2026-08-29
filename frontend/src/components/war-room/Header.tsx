@@ -15,7 +15,7 @@ export default function Header({ connected }: { connected: boolean }) {
  }, []);
 
  return (
- <header className="flex items-center justify-between px-6 py-3 border-b border-vanguard-border bg-white shadow-sm z-50 relative">
+ <header className="flex items-center justify-between px-6 py-3 border-b border-aegis-border bg-white shadow-sm z-50 relative">
  <div className="flex items-center gap-4">
         {/* Logo container with Mastercard colors */}
         <div className="flex -space-x-2 items-center">
@@ -24,7 +24,7 @@ export default function Header({ connected }: { connected: boolean }) {
         </div>
  <div>
  <h1 className="text-xl font-bold tracking-tight text-slate-900">
- VANGUARD <span className="font-medium text-slate-500 ml-1">Command Center</span>
+ AEGIS <span className="font-medium text-slate-500 ml-1">Command Center</span>
  </h1>
  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">
  Mastercard Innovation Challenge 2026

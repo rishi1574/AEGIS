@@ -53,6 +53,11 @@ export default function KYAMonitor({ liveData }: { liveData?: any }) {
  </motion.div>
  ))}
  </AnimatePresence>
+ {events.length === 0 && (
+   <div className="col-span-2 text-[10px] text-slate-400 text-center py-4 italic">
+     Agent activity events appear during attacks...
+   </div>
+ )}
  </div>
  </div>
  </div>

@@ -117,7 +117,7 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
  const n2 = nodes[j];
  const dx = n2.x - n1.x;
  const dy = n2.y - n1.y;
- let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+ const dist = Math.sqrt(dx * dx + dy * dy) || 1;
  const f = repel / (dist * dist);
  n1.vx -= (dx / dist) * f;
  n1.vy -= (dy / dist) * f;
@@ -133,7 +133,7 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
  if (!n1 || !n2) return;
  const dx = n2.x - n1.x;
  const dy = n2.y - n1.y;
- let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+ const dist = Math.sqrt(dx * dx + dy * dy) || 1;
  const diff = dist - 120; // Longer target edge length for spacing
  const f = diff * attract;
  n1.vx += (dx / dist) * f;

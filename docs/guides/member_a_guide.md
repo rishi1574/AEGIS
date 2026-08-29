@@ -11,7 +11,7 @@
 ## SETUP (Run Once on Day 1 Morning)
 
 ```bash
-cd /Users/swarup/Mastercard_Innovation_Challenge_2026/vanguard
+cd /Users/swarup/Mastercard_Innovation_Challenge_2026/aegis
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -49,7 +49,7 @@ REDIS_URL=redis://localhost:6379
 
 ```json
 {
-  "description": "VANGUARD Transaction Schema — Single Source of Truth",
+  "description": "AEGIS Transaction Schema — Single Source of Truth",
   "numeric_features": [
     "amount_inr", "hour_of_day", "day_of_week",
     "sender_account_age_days", "sender_avg_monthly_txn_count",
@@ -88,7 +88,7 @@ REDIS_URL=redis://localhost:6379
 ### File 2: `red_team/simulator/india_specific_config.py`
 
 ```python
-"""India-specific configuration for the VANGUARD payment simulator."""
+"""India-specific configuration for the AEGIS payment simulator."""
 import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple
@@ -223,7 +223,7 @@ def is_festival(month, day):
 ### File 3: `red_team/agents/base_agent.py`
 
 ```python
-"""Base classes for all VANGUARD simulation agents."""
+"""Base classes for all AEGIS simulation agents."""
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any
@@ -349,14 +349,14 @@ class Config:
 ### File 5: `backend/main.py`
 
 ```python
-"""VANGUARD Backend — FastAPI + WebSocket."""
+"""AEGIS Backend — FastAPI + WebSocket."""
 import json
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from backend.config import Config
 from backend.routers import red_team, blue_team, simulation
 
-app = FastAPI(title="VANGUARD API", version="1.0.0")
+app = FastAPI(title="AEGIS API", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=Config.CORS_ORIGINS,
                    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(red_team.router, prefix="/api/red-team", tags=["Red Team"])
@@ -387,7 +387,7 @@ async def ws_endpoint(ws: WebSocket):
     except WebSocketDisconnect: manager.disconnect(ws)
 
 @app.get("/api/health")
-async def health(): return {"status": "healthy", "service": "vanguard-backend"}
+async def health(): return {"status": "healthy", "service": "aegis-backend"}
 
 app.state.ws_manager = manager
 ```
@@ -678,7 +678,7 @@ if __name__ == "__main__":
 
 **Test Day 2:**
 ```bash
-cd /Users/swarup/Mastercard_Innovation_Challenge_2026/vanguard
+cd /Users/swarup/Mastercard_Innovation_Challenge_2026/aegis
 source .venv/bin/activate
 python -m red_team.simulator.transaction_generator
 # Should create data/generated/test_txns.csv with ~30K+ rows

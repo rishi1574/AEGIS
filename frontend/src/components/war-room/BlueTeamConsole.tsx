@@ -108,18 +108,18 @@ export default function BlueTeamConsole({
  <div className="grid grid-cols-2 gap-2 mt-3">
  <div className="bg-white p-2.5 border border-slate-200 shadow-sm">
  <p className="text-[9px] text-slate-500 uppercase flex items-center gap-1">
- <Activity className="w-3 h-3 text-vanguard-green" /> Latency
+ <Activity className="w-3 h-3 text-aegis-green" /> Latency
  </p>
- <p className="text-lg font-bold font-mono text-vanguard-green">
+ <p className="text-lg font-bold font-mono text-aegis-green">
  {(displayM.avg_inference_latency_ms + (liveData ? Math.random() * 5 - 2.5 : 0)).toFixed(0)}
  <span className="text-xs font-normal text-slate-500 ml-0.5">ms</span>
  </p>
  </div>
  <div className="bg-white p-2.5 border border-slate-200 shadow-sm">
  <p className="text-[9px] text-slate-500 uppercase flex items-center gap-1">
- <TrendingDown className="w-3 h-3 text-vanguard-amber" /> FPR
+ <TrendingDown className="w-3 h-3 text-aegis-amber" /> FPR
  </p>
- <p className="text-lg font-bold font-mono text-vanguard-amber">
+ <p className="text-lg font-bold font-mono text-aegis-amber">
  {((displayM.false_positive_rate + Math.abs(jitter / 2)) * 100).toFixed(2)}
  <span className="text-xs font-normal text-slate-500 ml-0.5">%</span>
  </p>
@@ -127,34 +127,49 @@ export default function BlueTeamConsole({
  </div>
  </div>
 
- {/* Interception Log */}
- <div className="border-t border-slate-200 p-2.5">
- <div className="flex items-center gap-2 mb-1.5">
- <p className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
- Live Interceptions
- </p>
- </div>
- <div className="space-y-0.5 font-mono text-[10px]">
- <AnimatePresence>
- {log.map((entry, i) => (
- <motion.div
- key={`blue-${i}`}
- initial={{ opacity: 0, x: 10 }}
- animate={{ opacity: 1, x: 0 }}
- className="text-slate-600"
- >
- {entry}
- </motion.div>
- ))}
- </AnimatePresence>
- {log.length === 0 && (
- <div className="text-xs text-slate-500/50 font-mono text-center py-2">
- Awaiting live data...
- </div>
- )}
- </div>
- </div>
+      {/* Interception Log */}
+      <div className="border-t border-slate-200 p-2.5">
+        <div className="flex items-center gap-2 mb-1.5">
+          <p className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
+            Live Interceptions
+          </p>
+          {log.length > 0 && (
+            <span className="text-[9px] font-mono text-slate-400 ml-auto">{log.length} events</span>
+          )}
+        </div>
+        <div className="space-y-1 max-h-[120px] overflow-y-auto">
+          <AnimatePresence>
+            {log.map((entry, i) => {
+              const isBlocked = entry.toLowerCase().includes("block") || entry.toLowerCase().includes("intercept") || entry.toLowerCase().includes("caught");
+              const isDetect = entry.toLowerCase().includes("detect") || entry.toLowerCase().includes("classif") || entry.toLowerCase().includes("monitor");
+              return (
+                <motion.div
+                  key={`blue-${i}`}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className={`flex items-start gap-1.5 p-1.5 text-[10px] border-l-2 ${
+                    isBlocked ? "border-red-400 bg-red-50/50" :
+                    isDetect ? "border-amber-400 bg-amber-50/50" :
+                    "border-blue-400 bg-blue-50/50"
+                  }`}
+                >
+                  <span className={`text-[8px] font-mono shrink-0 mt-0.5 ${
+                    isBlocked ? "text-red-500" : isDetect ? "text-amber-500" : "text-blue-500"
+                  }`}>
+                    {isBlocked ? "🛡️" : isDetect ? "🔍" : "📡"}
+                  </span>
+                  <span className="text-slate-600 leading-tight">{entry}</span>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+          {log.length === 0 && (
+            <div className="text-[10px] text-slate-400 text-center py-3 italic">
+              Launch an attack to see live interceptions...
+            </div>
+          )}
+        </div>
+      </div>
  </div>
  );
 }
-

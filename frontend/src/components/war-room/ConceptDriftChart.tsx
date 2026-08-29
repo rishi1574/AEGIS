@@ -38,7 +38,7 @@ export default function ConceptDriftChart({ liveData }: { liveData?: any }) {
  Adversarial Co-Evolution
  </h2>
  <span className="ml-auto text-[10px] text-slate-500 font-mono bg-slate-50 px-2 py-1 border border-slate-200">
- {data.length} ITERATIONS
+        {data.length} BATTLE TICKS
  </span>
  </div>
  <div className="flex-1 p-3">

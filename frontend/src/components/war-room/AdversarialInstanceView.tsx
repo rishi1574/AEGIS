@@ -126,16 +126,16 @@ export default function AdversarialInstanceView({ liveData }: { liveData?: any }
  <td className="px-2 py-1.5">
  <div className="flex justify-center">
  {inst.attackVector ==="Normal Traffic" ? (
- <span className="text-[8px] font-bold text-vanguard-green bg-vanguard-green-light/30 px-1.5 py-0.5 border border-vanguard-green/20">
+ <span className="text-[8px] font-bold text-aegis-green bg-aegis-green-light/30 px-1.5 py-0.5 border border-aegis-green/20">
  CLEAN
  </span>
  ) : inst.isEvaded ? (
- <span className="flex items-center gap-0.5 text-[8px] font-bold text-red-500 bg-red-500-light/30 px-1.5 py-0.5 border border-vanguard-red/20">
- <ShieldX className="w-2.5 h-2.5" /> EVADED
+              <span className="flex items-center gap-0.5 text-[8px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 border border-red-200">
+                <ShieldX className="w-2.5 h-2.5" /> EVADED
  </span>
  ) : (
- <span className="flex items-center gap-0.5 text-[8px] font-bold text-blue-500 bg-blue-500-light/30 px-1.5 py-0.5 border border-vanguard-blue/20">
- <ShieldCheck className="w-2.5 h-2.5" /> BLOCKED
+              <span className="flex items-center gap-0.5 text-[8px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 border border-blue-200">
+                <ShieldCheck className="w-2.5 h-2.5" /> BLOCKED
  </span>
  )}
  </div>

@@ -7,7 +7,7 @@ const config: Config = {
     extend: {
       colors: {
         // Elite Enterprise Light Theme Palette
-        vanguard: {
+        aegis: {
           bg: "#fafafb", // Ultra light gray/blue tint
           surface: "#ffffff",
           card: "#ffffff",

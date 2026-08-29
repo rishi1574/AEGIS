@@ -37,10 +37,10 @@ export default function WarRoom() {
  get("/api/blue-team/interception-log").then((d) => setInterceptions(d?.interceptions || []));
  get("/api/blue-team/shap-explanations").then((d) => setShapData(d?.explanations?.[0] || null));
 
- // Poll federated endpoint for live animation
+ // Poll federated endpoint for live animation (slower to avoid excessive round increments)
  const fedInterval = setInterval(() => {
  get("/api/blue-team/federated-comparison").then(setFederated);
- }, 3000);
+ }, 10000);
 
  return () => clearInterval(fedInterval);
  }, [get]);
@@ -66,7 +66,7 @@ export default function WarRoom() {
  };
 
  return (
- <div className="h-screen bg-vanguard-bg grid-bg flex flex-col overflow-hidden">
+ <div className="h-screen bg-aegis-bg grid-bg flex flex-col overflow-hidden">
  <Header connected={connected} />
 
  {/* Main Content Area */}

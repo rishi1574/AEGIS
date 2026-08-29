@@ -48,7 +48,8 @@ class FederatedCoordinator:
     def aggregate_weights(self, current_bypass_rate: float = 0.0):
         """Aggregate federated weights. Uses the live bypass rate to create
         realistic variation — when attacks succeed, bank accuracy drops."""
-        self.round += 1
+        # Cap rounds at reasonable number (resets each simulation)
+        self.round = min(self.round + 1, 30)
 
         # Global accuracy is derived from how well the system is doing
         # If bypass_rate is high (Red winning), accuracy drops
