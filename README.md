@@ -73,7 +73,7 @@ All generated data is saved in `data/generated/`.
 
 ## 🧠 System Architecture
 
-*   **`backend/`**: FastAPI server handling REST endpoints and real-time WebSocket telemetry for the dashboard.
+*   **`backend/`**: FastAPI server handling REST endpoints and per-session WebSocket telemetry. Each connected user gets an independent battle simulation instance for full multi-user isolation.
 *   **`frontend/`**: Next.js (React) application serving the Adversarial War Room dashboard. Proxies traffic to the backend to avoid CORS/port issues.
 *   **`red_team/`**: Contains the `transaction_generator.py` and RL environment used to simulate sophisticated AI fraud.
 *   **`blue_team/`**: Contains the defense models (`xgboost_baseline.py`) and SHAP explainability components.

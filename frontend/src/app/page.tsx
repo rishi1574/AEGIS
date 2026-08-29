@@ -346,6 +346,8 @@ export default function ComprehensiveMissionHub() {
   const [systemHardness, setSystemHardness] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
 
+  const [activeSection, setActiveSection] = useState("mission-briefing");
+
   useEffect(() => {
     setMounted(true);
     get("/api/blue-team/metrics").then((data) => {
@@ -376,7 +378,6 @@ export default function ComprehensiveMissionHub() {
     return () => observer.disconnect();
   }, [get]);
 
-  const [activeSection, setActiveSection] = useState("mission-briefing");
 
   const filteredAttacks = ALL_ATTACK_VECTORS.filter((atk) => {
     const matchesLayer = selectedLayer === "All" || atk.layer === selectedLayer;

@@ -351,10 +351,13 @@ class Config:
 ```python
 """AEGIS Backend — FastAPI + WebSocket."""
 import json
+import uuid
+from typing import Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from backend.config import Config
 from backend.routers import red_team, blue_team, simulation
+from backend.services.rl_controller import BattleSimulator
 
 app = FastAPI(title="AEGIS API", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=Config.CORS_ORIGINS,
@@ -363,28 +366,47 @@ app.include_router(red_team.router, prefix="/api/red-team", tags=["Red Team"])
 app.include_router(blue_team.router, prefix="/api/blue-team", tags=["Blue Team"])
 app.include_router(simulation.router, prefix="/api/simulation", tags=["Simulation"])
 
+class SessionState:
+    """Per-session state for each WebSocket connection."""
+    def __init__(self, ws: WebSocket):
+        self.ws = ws
+        self.active_attack: Optional[str] = None
+        self.battle_simulator = BattleSimulator()
+
 class WSManager:
-    def __init__(self): self.connections: list[WebSocket] = []
-    async def connect(self, ws: WebSocket):
-        await ws.accept(); self.connections.append(ws)
-    def disconnect(self, ws): self.connections.remove(ws)
-    async def broadcast(self, msg: dict):
-        for c in list(self.connections):
-            try: await c.send_json(msg)
-            except: self.connections.remove(c)
+    """Manages per-session WebSocket connections and their independent state."""
+    def __init__(self):
+        self.sessions: dict[str, SessionState] = {}
+    async def connect(self, ws: WebSocket) -> str:
+        await ws.accept()
+        session_id = str(uuid.uuid4())
+        self.sessions[session_id] = SessionState(ws)
+        await ws.send_json({"type": "session_init", "session_id": session_id})
+        return session_id
+    def disconnect(self, session_id: str):
+        self.sessions.pop(session_id, None)
+    async def send_to_session(self, session_id: str, msg: dict):
+        session = self.sessions.get(session_id)
+        if session and session.ws:
+            try: await session.ws.send_json(msg)
+            except: self.sessions.pop(session_id, None)
 
 manager = WSManager()
 
 @app.websocket("/ws/live-feed")
 async def ws_endpoint(ws: WebSocket):
-    await manager.connect(ws)
+    session_id = await manager.connect(ws)
     try:
         while True:
             data = await ws.receive_text()
             msg = json.loads(data)
             if msg.get("type") == "launch_attack":
+                session = manager.get_session(session_id)
+                if session:
+                    session.active_attack = msg.get("attack_type")
+                    session.battle_simulator.reset(msg.get("attack_type"))
                 await ws.send_json({"type":"ack","message":f"Attack {msg.get('attack_type')} initiated"})
-    except WebSocketDisconnect: manager.disconnect(ws)
+    except WebSocketDisconnect: manager.disconnect(session_id)
 
 @app.get("/api/health")
 async def health(): return {"status": "healthy", "service": "aegis-backend"}

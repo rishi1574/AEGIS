@@ -64,13 +64,9 @@ class LaunchReq(BaseModel):
     params: Optional[Dict[str, Any]] = None
 
 
-from fastapi import Request
-
 @router.post("/launch")
-async def launch(req: LaunchReq, request: Request):
-    request.app.state.active_attack = req.attack_type
-    
-    # Get stats for this attack type from taxonomy
+async def launch(req: LaunchReq):
+    # Attack state is managed per-session via WebSocket; this just returns stats
     taxonomy = data_service.get_attack_taxonomy()
     attack_stats = taxonomy.get(req.attack_type, {})
     
@@ -85,10 +81,9 @@ async def launch(req: LaunchReq, request: Request):
 
 
 @router.post("/stop")
-async def stop(request: Request):
-    attack_type = request.app.state.active_attack
-    request.app.state.active_attack = None
-    return {"status": "stopped", "attack_type": attack_type}
+async def stop():
+    # Attack state is managed per-session via WebSocket
+    return {"status": "stopped", "attack_type": None}
 
 
 @router.get("/attacks")

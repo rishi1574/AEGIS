@@ -15,10 +15,10 @@ This is our Adversarial War Room engine. We built a Transaction Generator seeded
 Our defense is a meta ensemble model that does not rely on just one signal. It combines XGBoost for tabular features, Temporal Transformers for sequence anomalies, and Heterogeneous Graph Neural Networks to detect mule accounts. When the Red Team finds a bypass, the Blue Team analyzes the SHAP explainability metrics and adapts its weights.
 
 ### 3. The Backend Engine
-We chose FastAPI for the backend because we needed extreme performance. It orchestrates the entire simulation loop and serves model inferences in real time via WebSockets. It handles the heavy lifting of processing 30,000 plus generated transactions seamlessly.
+We chose FastAPI for the backend because we needed extreme performance. It orchestrates the entire simulation loop and serves model inferences in real time via per-session WebSocket connections. Each user gets their own isolated battle session with an independent BattleSimulator instance, meaning multiple judges or users can simultaneously run different attack scenarios without interfering with each other. It handles the heavy lifting of processing 30,000 plus generated transactions seamlessly.
 
 ### 4. The War Room Frontend
-Built on Next.js and React, the frontend is our mission control dashboard. It ingests the WebSocket telemetry from the FastAPI backend to visualize the adversarial loop live. Judges can literally watch the Red Team and Blue Team fight in real time.
+Built on Next.js and React, the frontend is our mission control dashboard. It ingests per-session WebSocket telemetry from the FastAPI backend to visualize the adversarial loop live. Judges can literally watch the Red Team and Blue Team fight in real time, and each judge sees only their own independent battle state.
 
 ## How To Run The Simulation
 

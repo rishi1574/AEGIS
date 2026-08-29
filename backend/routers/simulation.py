@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from pydantic import BaseModel
 from backend.services.data_service import data_service
 
@@ -13,10 +13,9 @@ class SimConfig(BaseModel):
 
 
 @router.post("/start")
-async def start(cfg: SimConfig, request: Request):
+async def start(cfg: SimConfig):
     """Reset the live battle simulation state."""
-    # Reset active attack so the telemetry loop starts fresh
-    request.app.state.active_attack = None
+    # Per-session attack state is managed via WebSocket connections
     return {
         "status": "started",
         "message": "Simulation state reset. Launch an attack to begin the battle.",
