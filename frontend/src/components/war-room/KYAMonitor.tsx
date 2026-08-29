@@ -29,28 +29,31 @@ export default function KYAMonitor({ liveData }: { liveData?: any }) {
  <div className="grid grid-cols-2 gap-2">
  <AnimatePresence>
  {events.map((evt, i) => (
- <motion.div
- key={evt.id +"-" + i}
- initial={{ opacity: 0, y: 5 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: i * 0.05 }}
- className={`p-2 border text-[11px] shadow-sm ${
- evt.status ==="blocked"
- ?"border-red-200 bg-red-50"
- :"border-green-200 bg-green-50"
- }`}
- >
- <div className="flex items-center justify-between">
- <span className="font-mono font-bold text-slate-700 truncate">{evt.agent}</span>
- {evt.status ==="blocked" ? (
- <ShieldX className="w-3.5 h-3.5 text-red-600 shrink-0 ml-1" />
- ) : (
- <ShieldCheck className="w-3.5 h-3.5 text-green-600 shrink-0 ml-1" />
- )}
- </div>
- <p className="text-slate-700 mt-1 leading-tight line-clamp-2">{evt.action}</p>
- <p className="text-[9px] text-slate-500 mt-1 italic line-clamp-1">{evt.reason}</p>
- </motion.div>
+            <motion.div
+              key={evt.id + "-" + i}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className={`p-1.5 border-l-2 text-[11px] shadow-sm flex flex-col ${
+                evt.status === "blocked"
+                  ? "border-red-400 bg-red-50/50"
+                  : "border-emerald-400 bg-emerald-50/50"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-0.5">
+                <span className="font-mono font-bold text-slate-700 truncate flex items-center gap-1">
+                  <span className="text-[10px]">{evt.status === "blocked" ? "🛡️" : "✅"}</span>
+                  {evt.agent}
+                </span>
+                {evt.status === "blocked" ? (
+                  <ShieldX className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                ) : (
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                )}
+              </div>
+              <p className="text-slate-700 leading-tight line-clamp-2 pl-4 text-[10px]">{evt.action}</p>
+              <p className="text-[9px] text-slate-500 mt-1 italic line-clamp-1 pl-4">{evt.reason}</p>
+            </motion.div>
  ))}
  </AnimatePresence>
  {events.length === 0 && (
