@@ -184,9 +184,7 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
  ctx.stroke();
  ctx.setLineDash([]);
  
- ctx.fillStyle ="#f97316";
- ctx.font ="bold 10px sans-serif";
- ctx.fillText("RL Policy Blocked", sx + (tx - sx) / 2 - 40, sy - 45);
+ ctx.setLineDash([]);
  } else {
  ctx.strokeStyle = e.isFraud ?"#fca5a5" :"#e2e8f0";
  ctx.lineWidth = 1.5;
@@ -345,11 +343,13 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
  <Tooltip content="Live topology mapping tracking multi-agent adversarial feedback loops. Nodes represent actors (accounts, merchants, mules), and edges represent financial transactions. Anomalies and RL policy interventions are highlighted in real-time.">
  <Info className="w-4 h-4 text-slate-400 ml-1 hover:text-slate-600 transition-colors cursor-pointer" />
  </Tooltip>
- <div className="ml-auto flex items-center gap-4 text-[10px] text-slate-600">
- <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-300" /> Account</span>
- <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-300 border border-blue-500" /> Merchant</span>
- <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-300 border border-red-500" /> Mule</span>
- </div>
+  <div className="ml-auto flex items-center gap-3 text-[9px] font-mono text-slate-600">
+    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-200 border border-slate-300" /> Account</span>
+    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-300 border border-blue-500" /> Merchant</span>
+    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-300 border border-red-500" /> Mule</span>
+    <span className="flex items-center gap-1"><div className="w-3 border-t-[1.5px] border-dashed border-orange-500" /> RL Intervention</span>
+    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full border border-red-600 bg-transparent opacity-80" /> Blocked</span>
+  </div>
  </div>
 
  <div className="flex-1 relative bg-[#fafafa]">
@@ -395,7 +395,6 @@ export default function BattlefieldGraph({ liveData }: { liveData?: any }) {
             </div>
           </div>
         )}
-
  <canvas 
  ref={canvasRef} 
  className="w-full h-full cursor-pointer" 

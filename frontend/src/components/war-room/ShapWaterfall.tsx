@@ -17,32 +17,54 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
  }
 
  const featureMap: Record<string, string> = {
- amount:"Transaction Velocity Z-Score",
- distance:"Geospatial Anomaly (haversine)",
- time_delta:"Temporal Frequency Spike",
- mcc_risk:"Merchant Category Risk Index",
- device_id:"Device Fingerprint Entropy",
- ip_risk:"IP Subnet Risk Probability",
- velocity_24h:"24h Velocity Z-Score Spike",
- graph_centrality:"Network Mule Centrality",
- amount_log:"Log-Transformed Volume Anomaly",
- time_of_day:"Temporal Behavioral Deviation",
+ amount:"Velocity Z-Score",
+ distance:"Geo Anomaly",
+ time_delta:"Time Freq Spike",
+ mcc_risk:"Merchant Risk",
+ device_id:"Device Entropy",
+ ip_risk:"IP Risk Prob",
+ velocity_24h:"24h Vol Spike",
+ graph_centrality:"Mule Centrality",
+ amount_log:"Volume Anomaly",
+ time_of_day:"Time Deviation",
  // Custom shorter mappings for long feature names
- avg_monthly_transaction_count:"Avg Monthly Txns",
- avg_monthlytransactioncount:"Avg Monthly Txns",
- amount_vs_income_ratio:"Amount/Income Ratio",
- amount_vsincome_ratio:"Amount/Income Ratio",
- transactionchannel:"Transaction Channel",
- transaction_channel:"Transaction Channel",
+ "avg monthly transaction count":"Avg M. Txns",
+ "amount vs income ratio":"Amt/Inc Ratio",
+ "avg monthly spending":"Avg M. Spend",
+ "amount deviation from normal":"Amt Deviation",
+ "amount spent in last 24h":"24h Spend Amt",
+ "amount vs avg spend ratio":"Amt/Avg Spend",
+ "devices used in 7 days":"7d Devices",
+ "first-time receiver":"New Receiver",
+ "international transaction":"Intl Txn",
+ "merchant category risk":"Merchant Risk",
+ "payment channel type":"Channel Type",
+ "round amount flag":"Round Amount",
+ "time since last transaction":"Time Since Txn",
+ "transaction velocity anomaly":"Txn Vel Spike",
+ "transactions in last 24h":"24h Txns",
+ "transactions in last hour":"1h Txns",
+ "unique receivers in 24h":"24h Receivers",
+ // Legacy backups
+ avg_monthly_transaction_count:"Avg M. Txns",
+ amount_vs_income_ratio:"Amt/Inc Ratio",
+ transactionchannel:"Txn Channel",
+ transaction_channel:"Txn Channel",
  };
 
  const data = Object.entries(shapValues)
  .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
  .slice(0, 6)
- .map(([feature, value]) => ({
- feature: featureMap[feature.toLowerCase()] || feature.replace(/_/g,"").replace(/enc$/,"").toUpperCase(),
- value: Number(value.toFixed(4)),
- }));
+ .map(([feature, value]) => {
+   // Strip trailing enc or _enc before lookup
+   const cleanKey = feature.toLowerCase().replace(/_?enc$/i,"");
+   let label = featureMap[cleanKey];
+   if (!label) {
+     label = feature.replace(/_/g," ").replace(/_?enc$/i,"").toUpperCase();
+     if (label.length > 13) label = label.slice(0, 11) + "..";
+   }
+   return { feature: label, value: Number(value.toFixed(4)) };
+ });
 
  return (
  <div className="h-full flex flex-col">
@@ -54,12 +76,12 @@ export default function ShapWaterfall({ shapValues, transactionId }: Props) {
  {transactionId ||"LIVE"}
  </span>
  </div>
- <div className="flex-1 min-h-0 relative -ml-4 mt-2">
+ <div className="flex-1 min-h-0 relative -ml-8 mt-2">
  <ResponsiveContainer width="100%" height="100%">
- <BarChart data={data} layout="vertical" margin={{ left: 110, right: 10, top: 0, bottom: 0 }}>
+ <BarChart data={data} layout="vertical" margin={{ left: 85, right: 10, top: 0, bottom: 0 }}>
  <CartesianGrid strokeDasharray="3 3" stroke="#eaebf0" horizontal={false} />
  <XAxis type="number" tick={{ fontSize: 9, fill:"#64748b" }} axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} />
- <YAxis type="category" dataKey="feature" tick={{ fontSize: 9, fill:"#64748b" }} width={110} axisLine={false} tickLine={false} />
+ <YAxis type="category" dataKey="feature" tick={{ fontSize: 9, fill:"#64748b" }} width={85} axisLine={false} tickLine={false} />
  <Tooltip
  cursor={{ fill: '#f8fafc' }}
  contentStyle={{ background:"#ffffff", border:"1px solid #eaebf0", borderRadius: 8, fontSize: 11, boxShadow:"0 4px 6px -1px rgb(0 0 0 / 0.1)" }}

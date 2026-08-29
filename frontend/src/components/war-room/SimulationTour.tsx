@@ -167,7 +167,9 @@ export default function SimulationTour() {
               transition={{ delay: 0.1 }}
               className="absolute pointer-events-auto bg-white shadow-xl border border-slate-200 p-5 w-80"
               style={{
-                top: Math.min(targetRect.bottom + 16, window.innerHeight - 240),
+                top: targetRect.bottom + 260 > window.innerHeight 
+                  ? Math.max(16, targetRect.top - 240) 
+                  : targetRect.bottom + 16,
                 left: Math.max(16, Math.min(targetRect.left + targetRect.width / 2 - 160, window.innerWidth - 340)),
               }}
             >

@@ -357,7 +357,26 @@ export default function ComprehensiveMissionHub() {
     get("/api/simulation/system-hardness").then((data) => {
       if (data) setSystemHardness(data);
     });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-20% 0px -80% 0px" }
+    );
+    
+    document.querySelectorAll("section[id]").forEach((section) => {
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
   }, [get]);
+
+  const [activeSection, setActiveSection] = useState("mission-briefing");
 
   const filteredAttacks = ALL_ATTACK_VECTORS.filter((atk) => {
     const matchesLayer = selectedLayer === "All" || atk.layer === selectedLayer;
@@ -410,16 +429,36 @@ export default function ComprehensiveMissionHub() {
             </Link>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 flex items-center gap-4 overflow-x-auto py-2 scrollbar-none border-t border-slate-100 text-[11px] font-medium text-slate-500">
-          <span className="text-slate-400 font-bold uppercase text-[9px] tracking-wider">Index:</span>
-          <a href="#mission-briefing" className="hover:text-slate-900 transition-colors whitespace-nowrap">01. Briefing</a>
-          <a href="#attack-taxonomy" className="hover:text-slate-900 transition-colors whitespace-nowrap">02. Taxonomy (Identify)</a>
-          <a href="#simulation-engine" className="hover:text-slate-900 transition-colors whitespace-nowrap">03. Generator</a>
-          <a href="#rl-red-team" className="hover:text-slate-900 transition-colors whitespace-nowrap">04. Adapt</a>
-          <a href="#defense-ensemble" className="hover:text-slate-900 transition-colors whitespace-nowrap">05. Defend</a>
-          <a href="#reality-check" className="hover:text-slate-900 transition-colors whitespace-nowrap">06. Reality Check</a>
-          <a href="#live-benchmarks" className="hover:text-slate-900 transition-colors whitespace-nowrap">07. Evidence</a>
-          <a href="#methodology" className="hover:text-slate-900 transition-colors whitespace-nowrap">08. Methodology</a>
+        <div className="max-w-7xl mx-auto px-6 flex items-center gap-2 overflow-x-auto py-3 scrollbar-none text-[11px] font-medium text-slate-500 bg-slate-50/50 backdrop-blur shadow-[inset_0_1px_0_0_rgba(0,0,0,0.05)]">
+          <span className="text-slate-400 font-bold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 mr-2">
+            <Compass className="w-3 h-3" /> Navigation:
+          </span>
+          {[
+            { id: "mission-briefing", label: "01. Briefing" },
+            { id: "attack-taxonomy", label: "02. Taxonomy (Identify)" },
+            { id: "simulation-engine", label: "03. Generator" },
+            { id: "rl-red-team", label: "04. Adapt" },
+            { id: "defense-ensemble", label: "05. Defend" },
+            { id: "reality-check", label: "06. Reality Check" },
+            { id: "live-benchmarks", label: "07. Evidence" },
+            { id: "methodology", label: "08. Methodology" },
+          ].map((item, index, arr) => (
+            <React.Fragment key={item.id}>
+              <a
+                href={`#${item.id}`}
+                className={`whitespace-nowrap px-3 py-1.5 rounded-full transition-all duration-200 ${
+                  activeSection === item.id 
+                    ? "bg-[#1a1f71] text-white shadow-sm font-semibold" 
+                    : "text-slate-600 hover:bg-slate-200/60 hover:text-slate-900"
+                }`}
+              >
+                {item.label}
+              </a>
+              {index < arr.length - 1 && (
+                <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+              )}
+            </React.Fragment>
+          ))}
         </div>
       </header>
 
@@ -506,15 +545,18 @@ export default function ComprehensiveMissionHub() {
                   className="pl-8 pr-3 py-1.5 text-xs bg-white border border-slate-200 focus:outline-none focus:border-[#1a1f71] w-48 transition-colors"
                 />
               </div>
-              <select 
-                value={selectedLayer}
-                onChange={(e) => setSelectedLayer(e.target.value)}
-                className="py-1.5 px-3 text-xs bg-white border border-slate-200 focus:outline-none focus:border-[#1a1f71] cursor-pointer"
-              >
-                {["All", "Identity", "Network", "Human", "Emerging"].map(l => (
-                  <option key={l} value={l}>{l}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <select 
+                  value={selectedLayer}
+                  onChange={(e) => setSelectedLayer(e.target.value)}
+                  className="py-1.5 pl-3 pr-8 text-xs bg-white border border-slate-200 focus:outline-none focus:border-[#1a1f71] cursor-pointer appearance-none rounded-md"
+                >
+                  {["All", "Identity", "Network", "Human", "Emerging"].map(l => (
+                    <option key={l} value={l}>{l}</option>
+                  ))}
+                </select>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 rotate-90 pointer-events-none" />
+              </div>
             </div>
           </div>
 
@@ -558,16 +600,16 @@ export default function ComprehensiveMissionHub() {
               
               <div className="space-y-5 flex-1 text-sm">
                 <div>
-                  <h5 className="font-bold text-slate-900 text-xs mb-2 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> GenAI Exploitation Methodology
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">
+                    GenAI Exploitation Methodology
                   </h5>
                   <p className="text-slate-600 leading-relaxed text-xs">
                     {selectedAttack.genAiMechanism}
                   </p>
                 </div>
                 <div>
-                  <h5 className="font-bold text-slate-900 text-xs mb-2 flex items-center gap-1.5">
-                    <Eye className="w-3.5 h-3.5 text-amber-500" /> Perimeter Evasion Technique
+                  <h5 className="font-bold text-slate-900 text-xs mb-1">
+                    Perimeter Evasion Technique
                   </h5>
                   <p className="text-slate-600 leading-relaxed text-xs">
                     {selectedAttack.evasion}
@@ -575,8 +617,8 @@ export default function ComprehensiveMissionHub() {
                 </div>
                 {selectedAttack.aegisDefense && (
                   <div className="bg-emerald-50/50 border border-emerald-200 p-4">
-                    <h5 className="font-bold text-emerald-800 text-xs mb-2 flex items-center gap-1.5">
-                      <Shield className="w-3.5 h-3.5 text-emerald-600" /> AEGIS Defense Countermeasure
+                    <h5 className="font-bold text-emerald-800 text-xs mb-1">
+                      AEGIS Defense Countermeasure
                     </h5>
                     <p className="text-xs text-emerald-700 leading-relaxed">
                       {selectedAttack.aegisDefense}
@@ -585,8 +627,8 @@ export default function ComprehensiveMissionHub() {
                 )}
                 {selectedAttack.realWorldImpact && (
                   <div className="bg-amber-50/50 border border-amber-200 p-4">
-                    <h5 className="font-bold text-amber-800 text-xs mb-2 flex items-center gap-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-amber-600" /> Real-World Impact
+                    <h5 className="font-bold text-amber-800 text-xs mb-1">
+                      Real-World Impact
                     </h5>
                     <p className="text-xs text-amber-700 leading-relaxed">
                       {selectedAttack.realWorldImpact}
