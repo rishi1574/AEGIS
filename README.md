@@ -80,12 +80,6 @@ All generated data is saved in `data/generated/`.
 *   **`scripts/`**: Utilities to quickly bootstrap the environment and run the adversarial loop.
 *   **`docs/`**: Member guides, architectural plans, and the final Pitch Deck (`docs/assets/Project_AEGIS_Pitch.pptx`).
 
-## 🐳 Docker Deployment
-For easy deployment, you can spin up the entire system using Docker Compose:
-```bash
-docker-compose up --build
-```
-This will automatically build and link the frontend and backend containers.
 
 ---
 *Built for the Mastercard Innovation Challenge 2026.*
